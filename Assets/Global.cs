@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Global : MonoBehaviour {
     public static Global S;
+
+    public string P1Character;
+    public string P2Character;
 	// Use this for initialization
 	void Awake () {
         S = this;
