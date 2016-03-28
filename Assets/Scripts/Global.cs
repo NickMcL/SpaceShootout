@@ -5,8 +5,8 @@ public class Global : MonoBehaviour
 {
     public static Global S;
 
-    public string P1Character;
-    public string P2Character;
+    public string BlueP1, BlueP2;
+    public string RedP1, RedP2;
 
 
     public Sprite dogsprite, bearsprite, fishprite, hawksprite, baboonsprite, foxsprite;
@@ -34,23 +34,23 @@ public class Global : MonoBehaviour
             SpriteRenderer sr = g[c].GetComponent<SpriteRenderer>();
             if(p.my_number == 1)
             {
-                if (P1Character == "Bear")
+                if (BlueP1 == "Bear")
                 {
                     sr.sprite = bearsprite;
                 }
-                else if (P1Character == "Fish")
+                else if (BlueP1 == "Fish")
                 {
                     sr.sprite = fishprite;
                 }
-                else if (P1Character == "Hawk")
+                else if (BlueP1 == "Hawk")
                 {
                     sr.sprite = hawksprite;
                 }
-                else if (P1Character == "Baboon")
+                else if (BlueP1 == "Baboon")
                 {
                     sr.sprite = baboonsprite;
                 }
-                else if (P1Character == "Fox")
+                else if (BlueP1 == "Fox")
                 {
                     sr.sprite = foxsprite;
                 }
@@ -60,23 +60,23 @@ public class Global : MonoBehaviour
                 }
             } else
             {
-                if (P2Character == "Bear")
+                if (BlueP2 == "Bear")
                 {
                     sr.sprite = bearsprite;
                 }
-                else if (P2Character == "Fish")
+                else if (BlueP2 == "Fish")
                 {
                     sr.sprite = fishprite;
                 }
-                else if (P2Character == "Hawk")
+                else if (BlueP2 == "Hawk")
                 {
                     sr.sprite = hawksprite;
                 }
-                else if (P2Character == "Baboon")
+                else if (BlueP2 == "Baboon")
                 {
                     sr.sprite = baboonsprite;
                 }
-                else if (P2Character == "Fox")
+                else if (BlueP2 == "Fox")
                 {
                     sr.sprite = foxsprite;
                 }
