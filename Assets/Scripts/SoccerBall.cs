@@ -8,6 +8,8 @@ public class SoccerBall : MonoBehaviour {
     public static GameObject Ball;
     Vector3 WayToGo;
 
+    
+
     public bool BlueBall = false;
 
     // Use this for initialization
@@ -21,8 +23,15 @@ public class SoccerBall : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        WayToGo.x = rb.velocity.y;
-        WayToGo.y = -rb.velocity.x;
+        if (transform.parent != null)
+        {
+            WayToGo.x = parentrb.velocity.y;
+            WayToGo.y = -parentrb.velocity.x;
+        }
+        else {
+            WayToGo.x = rb.velocity.y;
+            WayToGo.y = -rb.velocity.x;
+        }
         ballrb.angularVelocity = WayToGo;
     }
 
@@ -32,7 +41,7 @@ public class SoccerBall : MonoBehaviour {
             rb.velocity *= 0.99f;
         }
     }
-
+    Rigidbody2D parentrb;
     void OnCollisionEnter2D(Collision2D coll) {
         if (coll.gameObject.tag == "Player" && HUD.S.GameStarted) {
             if ((coll.gameObject.GetComponent<Player>().RedTeam && BlueBall) || (!coll.gameObject.GetComponent<Player>().RedTeam && !BlueBall))
@@ -40,6 +49,7 @@ public class SoccerBall : MonoBehaviour {
                 HUD.S.SuccessfulBlock();
             }
             if (transform.parent != null) {
+            
                 transform.parent.gameObject.GetComponent<Player>().loseControlOfBall();
             }
             coll.gameObject.GetComponent<Player>().gainControlOfBall();
@@ -50,6 +60,7 @@ public class SoccerBall : MonoBehaviour {
             {
                 BlueBall = true;
             }
+            parentrb = coll.gameObject.GetComponent<Rigidbody2D>();
         }
     }
 }
