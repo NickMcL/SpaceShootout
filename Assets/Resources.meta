@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources.meta
 guid: a0fe59e8af82849449589e495414c791
 folderAsset: yes
 timeCreated: 1459118837
+=======
+guid: 21de52f8e6317c149ad1f85ff087c59e
+folderAsset: yes
+timeCreated: 1459133582
+>>>>>>> 35a365194e71d2508590f01347a4c362e96f4ae1:Assets/Resources.meta
 licenseType: Free
 DefaultImporter:
   userData: 

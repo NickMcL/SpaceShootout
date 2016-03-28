@@ -8,8 +8,13 @@ public class TitleScreen : MonoBehaviour {
     public Image flash;
     public GameObject inputModule, inputModule2;
 
+    public Image spriteP1, spriteP2;
+
     public Dictionary<string, string> Descriptions = new Dictionary<string, string>();
 
+    public Sprite dogsprite, bearsprite, fishprite, hawksprite, baboonsprite, foxsprite;
+
+    public string nextSceneName;
 
     Color flashcolor;
 	// Use this for initialization
@@ -20,7 +25,7 @@ public class TitleScreen : MonoBehaviour {
         Descriptions["Hawk"] = "High Speed, temporary speed boost comes up more often.";
         Descriptions["Baboon"] = "Can stun the other player at close range.";
         Descriptions["Fox"] = "Balanced chracter, slightly increased kicking power and speed.";
-        Descriptions["Elephant"] = "Larger size, less bouncy.";
+        Descriptions["Dog"] = "No noticable abilities but get to play as doge.";
         flashcolor = flash.color;
         flashcolor.a = 0f;
         flash.color = flashcolor;
@@ -37,10 +42,52 @@ public class TitleScreen : MonoBehaviour {
         {
             P1CharName.text = Character;
             P1CharDescrip.text = Descriptions[Character];
+            if(Character == "Bear")
+            {
+                spriteP1.sprite = bearsprite;
+            } else if (Character == "Fish")
+            {
+                spriteP1.sprite = fishprite;
+            } else if (Character == "Hawk")
+            {
+                spriteP1.sprite = hawksprite;
+            } else if (Character == "Baboon")
+            {
+                spriteP1.sprite = baboonsprite;
+            } else if (Character == "Fox")
+            {
+                spriteP1.sprite = foxsprite;
+            } else
+            {
+                spriteP1.sprite = dogsprite;
+            }
         } else
         {
             P2CharName.text = Character;
-            P2CharDescrip.text = Descriptions[Character];
+            P2CharDescrip.text = Descriptions[Character]; if (Character == "Bear")
+            {
+                spriteP2.sprite = bearsprite;
+            }
+            else if (Character == "Fish")
+            {
+                spriteP2.sprite = fishprite;
+            }
+            else if (Character == "Hawk")
+            {
+                spriteP2.sprite = hawksprite;
+            }
+            else if (Character == "Baboon")
+            {
+                spriteP2.sprite = baboonsprite;
+            }
+            else if (Character == "Fox")
+            {
+                spriteP2.sprite = foxsprite;
+            }
+            else
+            {
+                spriteP2.sprite = dogsprite;
+            }
         }
     }
 
@@ -65,6 +112,9 @@ public class TitleScreen : MonoBehaviour {
         if(PlayerSelecting == 2)
         {
             Global.S.P2Character = HoveredChar;
+
+            Application.LoadLevel(nextSceneName);
+
             // load next level
         } else
         {
