@@ -2,30 +2,43 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
+    float DRIBBLE_MAGNITUDE_THRESHOLD = 0.8f;
+
     struct controls {
         public string up, vert, hor,R_vert, R_hor;
         public string skate, Shoot, special;
     };
-    controls my_inputs;
+
     public int my_number = 1;
-    Rigidbody2D rigid;
+    public float ball_offset_scale;
+    public bool has_ball = false;
+    public bool is_goalie = false;
+
     float max_speed = 5;
     float acceleration = 30;
     float dash_delay_time = 0.3f;
     float dash_delay = 0;
     float slow_delay_time = 1f;
     float slow_delay = 0;
+    Vector2 current_ball_angle;
+
     int slowed = 0;
     float fatigue = 0;
     bool dash = false;
-    public bool has_ball = false;
-    public bool is_goalie = false;
+
     GameObject ball;
     Rigidbody2D ball_rb;
+    controls my_inputs;
+    Rigidbody2D rigid;
+    CircleCollider2D player_collider;
+    CircleCollider2D ball_collider;
 
     void Start() {
         ball = SoccerBall.Ball;
         ball_rb = ball.GetComponent<Rigidbody2D>();
+        player_collider = GetComponent<CircleCollider2D>();
+        ball_collider = ball.GetComponent<CircleCollider2D>();
+
         my_inputs.vert = string.Format("Vertical{0}", my_number);
         my_inputs.hor = string.Format("Horizontal{0}", my_number);
         my_inputs.R_hor = string.Format("R_Horizontal{0}", my_number);
@@ -34,6 +47,8 @@ public class Player : MonoBehaviour {
         my_inputs.Shoot = string.Format("Shoot{0}", my_number);
         my_inputs.special = string.Format("Special{0}", my_number);
         rigid = gameObject.GetComponent<Rigidbody2D>();
+
+        gainControlOfBall();
     }
 
     void Update() {
@@ -45,7 +60,6 @@ public class Player : MonoBehaviour {
         if (getInputFire()&& has_ball) {
             shoot();
         }
-
     }
 
     void updateMovement() {
@@ -64,9 +78,23 @@ public class Player : MonoBehaviour {
         if (rigid.velocity.magnitude > max_speed && dash_delay < dash_delay_time * 0.8f) {
             rigid.velocity *= 0.97f;
         }
-
     }
 
+    public void gainControlOfBall() {
+        ball.transform.parent = transform;
+        has_ball = true;
+        current_ball_angle = Vector2.zero;
+        ball_rb.isKinematic = true;
+        ball.transform.localPosition = Vector2.up * ball_offset_scale;
+        Physics2D.IgnoreCollision(player_collider, ball_collider, true);
+    }
+
+    public void loseControlOfBall() {
+        ball.transform.parent = null;
+        has_ball = false;
+        ball_rb.isKinematic = false;
+        Physics2D.IgnoreCollision(player_collider, ball_collider, false);
+    }
 
     Vector2 getInputMovementVector() {
         Vector2 move_vector = Vector2.zero;
@@ -76,9 +104,16 @@ public class Player : MonoBehaviour {
         return move_vector;
     }
 
+    Vector2 getInputDribbleVector() {
+        Vector2 dribble_vector = Vector2.zero;
+        dribble_vector.x += Input.GetAxis(my_inputs.R_hor);
+        dribble_vector.y += Input.GetAxis(my_inputs.R_vert);
+
+        return dribble_vector;
+    }
+
     bool getInputFire() {
         return Input.GetAxis(my_inputs.Shoot) > 0;
-
     }
 
     void checkDash() {
@@ -102,11 +137,17 @@ public class Player : MonoBehaviour {
             }
         }
     }
+    
     void dribble() {
-        Rigidbody2D ball_rb = ball.GetComponent<Rigidbody2D>();
 
-
+        Vector2 dribble_vector = getInputDribbleVector();
+        if (dribble_vector.magnitude <= DRIBBLE_MAGNITUDE_THRESHOLD) {
+            return;
+        }
+        ball.transform.localPosition = dribble_vector.normalized * ball_offset_scale;
+        current_ball_angle = dribble_vector.normalized;
     }
+
     void shoot() {
         Vector2 shot = ball.transform.position-transform.position;
         Vector3.Normalize(shot);
@@ -115,6 +156,7 @@ public class Player : MonoBehaviour {
         ball_rb.isKinematic = false;
         has_ball = false;
     }
+
     bool getInputPower() {
         return Input.GetAxis(my_inputs.special) > 0;
     }
