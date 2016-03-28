@@ -4,6 +4,7 @@ using System.Collections;
 public class SoccerBallAnimator : MonoBehaviour {
     Rigidbody2D rb;
     Rigidbody ballrb;
+    float max_speed = 50;
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
@@ -21,6 +22,9 @@ public class SoccerBallAnimator : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+        while (rb.velocity.magnitude > max_speed) {
+            rb.velocity *= 0.99f;
+        }
+            
 	}
 }
