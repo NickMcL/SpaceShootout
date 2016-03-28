@@ -16,7 +16,7 @@ public class HUD : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        PlaySound("Spacearray", 1f);
+        PlaySound("LaserMillenium", 1f);
         StartCoroutine(Count_Down());
 	}
 
