@@ -27,9 +27,9 @@ public class Player : MonoBehaviour {
         ball = SoccerBall.Ball;
         ball_rb = ball.GetComponent<Rigidbody2D>();
         my_inputs.vert = string.Format("Vertical{0}", my_number);
-        my_inputs.R_hor = string.Format("Horizontal{0}", my_number);
-        my_inputs.R_vert = string.Format("Vertical{0}", my_number);
         my_inputs.hor = string.Format("Horizontal{0}", my_number);
+        my_inputs.R_hor = string.Format("R_Horizontal{0}", my_number);
+        my_inputs.R_vert = string.Format("R_Vertical{0}", my_number);
         my_inputs.skate = string.Format("Skate{0}", my_number);
         my_inputs.Shoot = string.Format("Shoot{0}", my_number);
         my_inputs.special = string.Format("Special{0}", my_number);
