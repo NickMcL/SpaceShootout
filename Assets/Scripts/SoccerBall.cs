@@ -37,7 +37,6 @@ public class SoccerBall : MonoBehaviour {
             if (transform.parent != null) {
                 transform.parent.gameObject.GetComponent<Player>().loseControlOfBall();
             }
-            coll.gameObject.GetComponent<Player>().gainControlOfBall();
         }
     }
 }

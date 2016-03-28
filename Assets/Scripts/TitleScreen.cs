@@ -4,6 +4,9 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class TitleScreen : MonoBehaviour {
+    Color PLAYER_1_COLOR = new Color(1f, 0.7f, 0.7f);
+    Color PLAYER_2_COLOR = new Color(0.7f, 0.7f, 1f);
+
     public Text P1CharName, P1CharDescrip, P2CharName, P2CharDescrip, TitleText;
     public Image flash;
     public GameObject inputModule, inputModule2;
@@ -17,8 +20,8 @@ public class TitleScreen : MonoBehaviour {
     public string nextSceneName;
 
     Color flashcolor;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         PlaySound("Spacearray", 1f);
         inputModule2.SetActive(false);
         Descriptions["Bear"] = "Increased kicking power.";
@@ -30,76 +33,56 @@ public class TitleScreen : MonoBehaviour {
         flashcolor = flash.color;
         flashcolor.a = 0f;
         flash.color = flashcolor;
-	}
+    }
 
     public int PlayerSelecting = 1;
 
     public string HoveredChar = "";
 
-    public void HoverOverCharacter(string Character)
-    {
+    public void HoverOverCharacter(string Character) {
         HoveredChar = Character;
-        if(PlayerSelecting == 1)
-        {
+        if (PlayerSelecting == 1) {
             P1CharName.text = Character;
             P1CharDescrip.text = Descriptions[Character];
-            if(Character == "Bear")
-            {
+            if (Character == "Bear") {
                 spriteP1.sprite = bearsprite;
-            } else if (Character == "Fish")
-            {
+            } else if (Character == "Fish") {
                 spriteP1.sprite = fishprite;
-            } else if (Character == "Hawk")
-            {
+            } else if (Character == "Hawk") {
                 spriteP1.sprite = hawksprite;
-            } else if (Character == "Baboon")
-            {
+            } else if (Character == "Baboon") {
                 spriteP1.sprite = baboonsprite;
-            } else if (Character == "Fox")
-            {
+            } else if (Character == "Fox") {
                 spriteP1.sprite = foxsprite;
-            } else
-            {
+            } else {
                 spriteP1.sprite = dogsprite;
             }
-        } else
-        {
+            spriteP1.color = PLAYER_1_COLOR;
+        } else {
             P2CharName.text = Character;
-            P2CharDescrip.text = Descriptions[Character]; if (Character == "Bear")
-            {
+            P2CharDescrip.text = Descriptions[Character]; if (Character == "Bear") {
                 spriteP2.sprite = bearsprite;
-            }
-            else if (Character == "Fish")
-            {
+            } else if (Character == "Fish") {
                 spriteP2.sprite = fishprite;
-            }
-            else if (Character == "Hawk")
-            {
+            } else if (Character == "Hawk") {
                 spriteP2.sprite = hawksprite;
-            }
-            else if (Character == "Baboon")
-            {
+            } else if (Character == "Baboon") {
                 spriteP2.sprite = baboonsprite;
-            }
-            else if (Character == "Fox")
-            {
+            } else if (Character == "Fox") {
                 spriteP2.sprite = foxsprite;
-            }
-            else
-            {
+            } else {
                 spriteP2.sprite = dogsprite;
             }
+            spriteP2.color = PLAYER_2_COLOR;
         }
     }
 
-    IEnumerator Flash()
-    {
+    IEnumerator Flash() {
         PlaySound("select01", 1f);
 
         flashcolor.a = 1f;
         flash.color = flashcolor;
-        for(int c = 0; c < 5; ++c)
-        {
+        for (int c = 0; c < 5; ++c) {
             yield return new WaitForSeconds(0.1f);
             flashcolor.a -= .2f;
             flash.color = flashcolor;
@@ -109,18 +92,15 @@ public class TitleScreen : MonoBehaviour {
         flash.color = flashcolor;
     }
 
-    public void ChooseCharacter()
-    {
+    public void ChooseCharacter() {
         StartCoroutine(Flash());
-        if(PlayerSelecting == 2)
-        {
+        if (PlayerSelecting == 2) {
             Global.S.P2Character = HoveredChar;
+            inputModule2.SetActive(false);
+            TitleText.text = "Get ready for the game!";
+            Invoke("startGame", 2.0f);
 
-            Application.LoadLevel(nextSceneName);
-
-            // load next level
-        } else
-        {
+        } else {
             Global.S.P1Character = HoveredChar;
             ++PlayerSelecting;
             TitleText.text = "Player 2: Choose Your Character!";
@@ -129,8 +109,7 @@ public class TitleScreen : MonoBehaviour {
         }
     }
 
-    public void PlaySound(string name, float volume = 1f)
-    {
+    public void PlaySound(string name, float volume = 1f) {
         GameObject g = new GameObject();
         AudioSource adsrc = g.AddComponent<AudioSource>();
         g.transform.position = Camera.main.transform.position;
@@ -142,8 +121,12 @@ public class TitleScreen : MonoBehaviour {
         Destroy(g, ac.length);
     }
 
+    void startGame() {
+        Application.LoadLevel(nextSceneName);
+    }
+
     // Update is called once per frame
-    void Update () {
-	
-	}
+    void Update() {
+
+    }
 }

@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
     float DRIBBLE_MAGNITUDE_THRESHOLD = 0.8f;
-    Color PLAYER_1_COLOR = Color.red;
-    Color PLAYER_2_COLOR = Color.blue;
+    Color PLAYER_1_COLOR = new Color(1f, 0.7f, 0.7f);
+    Color PLAYER_2_COLOR = new Color(0.7f, 0.7f, 1f);
 
     struct controls {
         public string up, vert, hor,R_vert, R_hor;
