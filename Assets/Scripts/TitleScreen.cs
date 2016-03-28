@@ -13,6 +13,9 @@ public class TitleScreen : MonoBehaviour {
     public Dictionary<string, string> Descriptions = new Dictionary<string, string>();
 
     public Sprite dogsprite, bearsprite, fishprite, hawksprite, baboonsprite, foxsprite;
+
+    public string nextSceneName;
+
     Color flashcolor;
 	// Use this for initialization
 	void Start () {
@@ -109,6 +112,9 @@ public class TitleScreen : MonoBehaviour {
         if(PlayerSelecting == 2)
         {
             Global.S.P2Character = HoveredChar;
+
+            Application.LoadLevel(nextSceneName);
+
             // load next level
         } else
         {
