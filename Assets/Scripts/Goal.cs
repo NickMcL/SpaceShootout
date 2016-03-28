@@ -18,7 +18,7 @@ public class Goal : MonoBehaviour {
 	void Update () {
         float u = (Time.time - lerp_start) / lerp_time;
         if (u > 1f) {
-            u -= 1f;
+            u = 0f;
             lerp_start = Time.time;
             Array.Reverse(lerp_points);
         }
