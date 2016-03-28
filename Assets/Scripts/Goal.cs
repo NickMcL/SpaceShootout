@@ -13,9 +13,9 @@ public class Goal : MonoBehaviour {
 	void Start () {
         lerp_start = 0f;	
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         float u = (Time.time - lerp_start) / lerp_time;
         if (u > 1f) {
             u = 0f;
@@ -23,5 +23,11 @@ public class Goal : MonoBehaviour {
             Array.Reverse(lerp_points);
         }
         this.transform.position = Util.lerp(lerp_points, u);
-	}
+    }
+
+    void OnTriggerEnter2D(Collider2D coll) {
+        if (coll.gameObject.tag == "Ball") {
+            Global.S.score();
+        }
+    }
 }

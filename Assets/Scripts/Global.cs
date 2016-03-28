@@ -16,4 +16,9 @@ public class Global : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void score() {
+        CameraShaker.S.DoShake(0.08f, 0.15f);
+        HUD.S.Player1Scored();
+    }
 }
