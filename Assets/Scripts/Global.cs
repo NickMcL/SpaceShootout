@@ -34,7 +34,7 @@ public class Global : MonoBehaviour
             SpriteRenderer sr = g[c].GetComponent<SpriteRenderer>();
             if(p.my_number == 1)
             {
-
+                p.RedTeam = false;
                 sr.color = BlueColor;
                 if (BlueP1 == "Bear")
                 {
@@ -62,6 +62,7 @@ public class Global : MonoBehaviour
                 }
             } else if(p.my_number == 2)
             {
+                p.RedTeam = false;
 
                 sr.color = BlueColor;
                 if (BlueP2 == "Bear")
@@ -91,6 +92,7 @@ public class Global : MonoBehaviour
             }
             else if (p.my_number == 3)
             {
+                p.RedTeam = true;
                 sr.color = RedColor;
                 if (RedP1 == "Bear")
                 {
@@ -120,6 +122,7 @@ public class Global : MonoBehaviour
             else
             {
 
+                p.RedTeam = true;
                 sr.color = RedColor;
                 if (RedP2 == "Bear")
                 {
