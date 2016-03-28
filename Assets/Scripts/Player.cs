@@ -58,6 +58,7 @@ public class Player : MonoBehaviour {
         if (!is_goalie) {
             gainControlOfBall();
         }
+        current_ball_angle = Vector2.zero;
     }
 
     void Update() {
@@ -93,7 +94,6 @@ public class Player : MonoBehaviour {
         ball.transform.parent = transform;
         has_ball = true;
         current_ball_angle = Vector2.zero;
-        ball_rb.isKinematic = true;
         ball.transform.localPosition = Vector2.up * ball_offset_scale;
         Physics2D.IgnoreCollision(player_collider, ball_collider, true);
     }
@@ -101,7 +101,6 @@ public class Player : MonoBehaviour {
     public void loseControlOfBall() {
         ball.transform.parent = null;
         has_ball = false;
-        ball_rb.isKinematic = false;
         Invoke("allowBallCollsion", 0.5f);
     }
 
@@ -149,11 +148,12 @@ public class Player : MonoBehaviour {
     
     void dribble() {
         Vector2 dribble_vector = getInputDribbleVector();
-        if (dribble_vector.magnitude <= DRIBBLE_MAGNITUDE_THRESHOLD) {
-            return;
+        if (dribble_vector.magnitude > DRIBBLE_MAGNITUDE_THRESHOLD) {
+            current_ball_angle = dribble_vector.normalized;
         }
-        ball.transform.localPosition = dribble_vector.normalized * ball_offset_scale;
-        current_ball_angle = dribble_vector.normalized;
+        if (current_ball_angle != Vector2.zero) {
+            ball.transform.localPosition = current_ball_angle * ball_offset_scale;
+        }
     }
 
     void shoot() {
