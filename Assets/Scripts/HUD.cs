@@ -128,7 +128,6 @@ public class HUD : MonoBehaviour {
     IEnumerator GameReset(bool BlueScored)
     {
         GameStarted = false;
-        round_time += 3f;
         yield return new WaitForSeconds(1f);
         if (secondhalf)
         {
