@@ -211,7 +211,7 @@ public class HUD : MonoBehaviour {
     public Vector3 BallStartPosBlueAdvantage, BallStartPosRedAdvantage;
 
     public void SuccessfulBlock() {
-        middleText.text = "Nice Block!";
+        middleText.text = "Nice!";
         CameraShaker.S.DoShake(0.04f, 0.15f);
         StartCoroutine(erasetextin(0.2f));
     }
