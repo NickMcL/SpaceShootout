@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class Goal : MonoBehaviour {
     public static Goal S;
+    public bool redGoal = true;
 
     public float lerp_time;
     public GameObject[] lerp_points;
@@ -44,7 +45,13 @@ public class Goal : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Ball" && HUD.S.GameStarted) {
-            Global.S.score();
+            if(redGoal)
+            {
+                Global.S.score(false);
+            }  else
+            {
+                Global.S.score(true);
+            }
         }
     }
 

@@ -4,9 +4,12 @@ using System.Collections;
 public class SoccerBall : MonoBehaviour {
     Rigidbody2D rb;
     Rigidbody ballrb;
+    Rigidbody2D parentrb;
     float max_speed = 50;
     public static GameObject Ball;
     Vector3 WayToGo;
+
+    public bool BlueBall = false;
 
     // Use this for initialization
     void Awake() {
@@ -19,8 +22,13 @@ public class SoccerBall : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        WayToGo.x = rb.velocity.y;
-        WayToGo.y = -rb.velocity.x;
+        if (transform.parent != null) {
+            WayToGo.x = parentrb.velocity.y;
+            WayToGo.y = -parentrb.velocity.x;
+        } else {
+            WayToGo.x = rb.velocity.y;
+            WayToGo.y = -rb.velocity.x;
+        }
         ballrb.angularVelocity = WayToGo;
     }
 
@@ -32,11 +40,27 @@ public class SoccerBall : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D coll) {
-        if (coll.gameObject.tag == "Player" && coll.gameObject.GetComponent<Player>().is_goalie && HUD.S.GameStarted) {
-            HUD.S.SuccessfulBlock();
+        if (coll.gameObject.tag == "Player" && HUD.S.GameStarted) {
+            if ((coll.gameObject.GetComponent<Player>().RedTeam && BlueBall) || (!coll.gameObject.GetComponent<Player>().RedTeam && !BlueBall)) {
+                HUD.S.SuccessfulBlock();
+            }
             if (transform.parent != null) {
                 transform.parent.gameObject.GetComponent<Player>().loseControlOfBall();
             }
+
+            coll.gameObject.GetComponent<Player>().gainControlOfBall();
+            if (coll.gameObject.GetComponent<Player>().RedTeam) {
+                BlueBall = false;
+            } else {
+                BlueBall = true;
+            }
+            parentrb = coll.gameObject.GetComponent<Rigidbody2D>();
+        }
+        if (coll.gameObject.tag == "LevelBounds") {
+            HUD.S.PlaySound("boing", Random.Range(.5f, 1f));
+        }
+        if (coll.gameObject.tag == "Asteroid") {
+            HUD.S.PlaySound("objecthit2", Random.Range(.5f, 1f));
         }
     }
 }

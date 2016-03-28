@@ -6,6 +6,7 @@ public class Player : MonoBehaviour {
     Color PLAYER_1_COLOR = new Color(1f, 0.7f, 0.7f);
     Color PLAYER_2_COLOR = new Color(0.7f, 0.7f, 1f);
 
+    public bool RedTeam = true;
     struct controls {
         public string up, vert, hor,R_vert, R_hor;
         public string skate, Shoot, special;
@@ -53,16 +54,11 @@ public class Player : MonoBehaviour {
         rigid = gameObject.GetComponent<Rigidbody2D>();
 
         if (my_number == 1) {
-            is_goalie = false;
             GetComponent<SpriteRenderer>().color = PLAYER_1_COLOR;
         } else {
-            is_goalie = true;
             GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR;
         }
-
-        if (!is_goalie) {
-            gainControlOfBall();
-        }
+        
         default_color = GetComponent<Renderer>().material.color;
     }
 
@@ -97,6 +93,7 @@ public class Player : MonoBehaviour {
         move_vector *= acceleration;
 
         if (dash == true) {
+            HUD.S.PlaySound("woosh", Random.Range(.5f, 1f));
             move_vector *= 20;
             dash = false;
         }/*
@@ -111,6 +108,7 @@ public class Player : MonoBehaviour {
     }
 
     public void gainControlOfBall() {
+        HUD.S.PlaySound("dribble", Random.Range(.5f,1f));
         ball.transform.parent = transform;
         has_ball = true;
         current_ball_angle = (ball.transform.position - transform.position).normalized;
@@ -184,6 +182,7 @@ public class Player : MonoBehaviour {
     }
 
     void shoot() {
+        HUD.S.PlaySound("kick", Random.Range(.5f,1f));
         loseControlOfBall();
         Vector2 shot = ball.transform.position-transform.position;
         Vector3.Normalize(shot);
