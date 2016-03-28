@@ -33,6 +33,7 @@ public class Player : MonoBehaviour {
     Rigidbody2D rigid;
     CircleCollider2D player_collider;
     CircleCollider2D ball_collider;
+    Color default_color;
 
     void Start() {
         ball = SoccerBall.Ball;
@@ -48,13 +49,23 @@ public class Player : MonoBehaviour {
         my_inputs.Shoot = string.Format("Shoot{0}", my_number);
         my_inputs.special = string.Format("Special{0}", my_number);
         rigid = gameObject.GetComponent<Rigidbody2D>();
-
+        default_color = GetComponent<Renderer>().material.color;
         gainControlOfBall();
     }
 
     void Update() {
         checkDash();
         updateMovement();
+        if (slowed == 0) {
+            GetComponent<Renderer>().material.color = default_color;
+        } else if(slowed == 1) {
+            GetComponent<Renderer>().material.color = Color.yellow;
+        } else if (slowed == 2) {
+            GetComponent<Renderer>().material.color = Color.yellow/2+Color.red/2;
+        }else if(slowed == 3) {
+            GetComponent<Renderer>().material.color = Color.red;
+        }
+       
         if (has_ball == true) {
             dribble();
         }
