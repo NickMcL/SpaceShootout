@@ -16,6 +16,7 @@ public class HUD : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        PlaySound("Spacearray", 1f);
         StartCoroutine(Count_Down());
 	}
 
@@ -54,19 +55,36 @@ public class HUD : MonoBehaviour {
     IEnumerator Count_Down()
     {
         middleText.text = "3";
+        PlaySound("close02", 1f);
         yield return new WaitForSeconds(1f);
         middleText.text = "2";
+        PlaySound("close02", 1f);
         yield return new WaitForSeconds(1f);
         middleText.text = "1";
+        PlaySound("close02", 1f);
         yield return new WaitForSeconds(1f);
         CameraShaker.S.DoShake(0.05f, 0.15f);
         middleText.text = "Go!";
+        PlaySound("select01", 1f);
         yield return new WaitForSeconds(0.4f);
         middleText.text = "";
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    public void PlaySound(string name, float volume = 1f)
+    {
+        GameObject g = new GameObject();
+        AudioSource adsrc = g.AddComponent<AudioSource>();
+        g.transform.position = Camera.main.transform.position;
+        adsrc.spatialBlend = 0;
+        AudioClip ac = Resources.Load("Sound/" + name) as AudioClip;
+        adsrc.clip = ac;
+        adsrc.volume = volume;
+        adsrc.Play();
+        Destroy(g, ac.length);
+    }
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 }
