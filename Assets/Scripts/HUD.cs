@@ -17,69 +17,59 @@ public class HUD : MonoBehaviour {
     public static HUD S;
 
     public float TimeLeft = 15;
+    public float end_round_delay = 3f;
 
-    void Awake()
-    {
+    void Awake() {
         S = this;
     }
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         PlaySound("LaserMillenium", 1f);
         StartCoroutine(Count_Down());
         GameObject[] g = GameObject.FindGameObjectsWithTag("Player");
-        for(int c = 0; c < g.Length; ++c)
-        {
+        for (int c = 0; c < g.Length; ++c) {
             Player p = g[c].GetComponent<Player>();
-            if(p.my_number == 1)
-            {
+            if (p.my_number == 1) {
                 player1 = p;
-            } else
-            {
+            } else {
                 player2 = p;
             }
         }
         ball = GameObject.FindGameObjectWithTag("Ball");
-	}
+    }
 
     public int P1Score = 0;
     public int P2Score = 0;
 
-    public void UpdateScores()
-    {
+    public void UpdateScores() {
         p1scoretext.text = P1Score.ToString();
         p2scoretext.text = P2Score.ToString();
     }
 
-    public void Player1Scored()
-    {
+    public void Player1Scored() {
         ++P1Score;
         middleText.text = "Player 1 Scores!";
-        StartCoroutine(erasetext(1f));
         UpdateScores();
 
-        PlayaSwap();
+        PlayerSwap();
     }
 
-    public void Player2Scored()
-    {
+    public void Player2Scored() {
         ++P2Score;
         middleText.text = "Player 2 Scores!";
-        StartCoroutine(erasetext(1f));
 
         UpdateScores();
 
-        PlayaSwap();
+        PlayerSwap();
     }
 
-    IEnumerator erasetext(float time)
-    {
-        yield return new WaitForSeconds(time);
+    void erasetext() {
         middleText.text = "";
     }
+
     public bool GameStarted = false;
-    IEnumerator Count_Down()
-    {
+    IEnumerator Count_Down() {
         middleText.text = "3";
         PlaySound("close02", 1f);
         yield return new WaitForSeconds(1f);
@@ -97,8 +87,7 @@ public class HUD : MonoBehaviour {
         GameStarted = true;
     }
 
-    public void PlaySound(string name, float volume = 1f)
-    {
+    public void PlaySound(string name, float volume = 1f) {
         GameObject g = new GameObject();
         AudioSource adsrc = g.AddComponent<AudioSource>();
         g.transform.position = Camera.main.transform.position;
@@ -111,61 +100,56 @@ public class HUD : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-	
-	}
+    void Update() {
+
+    }
 
     public Vector3 GoalieStartPos;
     public Vector3 ShooterStartPos;
-    public Vector3 BallStartPos;
 
-    public void PlayaSwap()
-    {
-        if (player2isGoalie)
-        {
+    public void PlayerSwap() {
+        Invoke("PlayerSwapReal", end_round_delay);
+    }
+
+    public void PlayerSwapReal() {
+        GameStarted = false;
+        erasetext();
+        StartCoroutine(Count_Down());
+        if (player2isGoalie) {
             player2isGoalie = false;
             player1.is_goalie = true;
             player2.is_goalie = false;
             player1.transform.position = GoalieStartPos;
             player2.transform.position = ShooterStartPos;
-        } else
-        {
+            player2.gainControlOfBall();
+        } else {
             player2isGoalie = true;
             player1.is_goalie = false;
             player2.is_goalie = true;
             player1.transform.position = ShooterStartPos;
             player2.transform.position = GoalieStartPos;
+            player1.gainControlOfBall();
         }
-        ball.transform.position = BallStartPos;
+        TimeLeft = 15f;
     }
 
-    IEnumerator block()
-    {
+    public void SuccessfulBlock() {
         middleText.text = "Nice Block!";
-        yield return new WaitForSeconds(1f);
-        middleText.text = "";
-        PlayaSwap();
+        PlayerSwap();
     }
 
-    public void SuccessfulBlock()
-    {
-        StartCoroutine(block());
-    }
-
-    void FixedUpdate()
-    {
-        if (!GameStarted)
-        {
+    void FixedUpdate() {
+        if (!GameStarted) {
             return;
         }
-        TimeLeft -= Time.deltaTime;
-        countdown.text = TimeLeft.ToString("F2");
-        if(TimeLeft <= 0)
-        {
-            middleText.text = "Out of Time!";
-            StartCoroutine(erasetext(1f));
-            TimeLeft = 15f;
-            PlayaSwap();
+        if (TimeLeft > 0f) {
+            TimeLeft -= Time.deltaTime;
+            if (TimeLeft <= 0f) {
+                middleText.text = "Out of Time!";
+                PlayerSwap();
+                TimeLeft = 0f;
+            }
         }
+        countdown.text = TimeLeft.ToString("F2");
     }
 }

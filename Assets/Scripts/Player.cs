@@ -67,6 +67,9 @@ public class Player : MonoBehaviour {
     }
 
     void Update() {
+        if (!HUD.S.GameStarted) {
+            return;
+        }
         checkDash();
         updateMovement();
         /*
@@ -110,14 +113,14 @@ public class Player : MonoBehaviour {
     public void gainControlOfBall() {
         ball.transform.parent = transform;
         has_ball = true;
-        current_ball_angle = Vector2.up;
+        current_ball_angle = ball.transform.position - transform.position;
         Physics2D.IgnoreCollision(player_collider, ball_collider, true);
     }
 
     public void loseControlOfBall() {
         ball.transform.parent = null;
         has_ball = false;
-        Invoke("allowBallCollsion", 0.5f);
+        Invoke("allowBallCollision", 0.5f);
     }
 
     Vector2 getInputMovementVector() {
@@ -173,7 +176,7 @@ public class Player : MonoBehaviour {
     }
 
     void shoot() {
-       loseControlOfBall();
+        loseControlOfBall();
         Vector2 shot = ball.transform.position-transform.position;
         Vector3.Normalize(shot);
         shot *= shot_force;
@@ -187,7 +190,7 @@ public class Player : MonoBehaviour {
         return Input.GetAxis(my_inputs.special) > 0;
     }
 
-    void allowBallCollsion() {
+    void allowBallCollision() {
         Physics2D.IgnoreCollision(player_collider, ball_collider, false);
     }
 
