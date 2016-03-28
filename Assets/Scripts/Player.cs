@@ -59,7 +59,6 @@ public class Player : MonoBehaviour {
         if (!is_goalie) {
             gainControlOfBall();
         }
-        current_ball_angle = Vector2.zero;
         default_color = GetComponent<Renderer>().material.color;
     }
 
@@ -105,8 +104,7 @@ public class Player : MonoBehaviour {
     public void gainControlOfBall() {
         ball.transform.parent = transform;
         has_ball = true;
-        current_ball_angle = Vector2.zero;
-        ball.transform.localPosition = Vector2.up * ball_offset_scale;
+        current_ball_angle = Vector2.up;
         Physics2D.IgnoreCollision(player_collider, ball_collider, true);
     }
 
