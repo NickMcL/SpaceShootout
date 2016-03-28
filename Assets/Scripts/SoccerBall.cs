@@ -8,6 +8,8 @@ public class SoccerBall : MonoBehaviour {
     public static GameObject Ball;
     Vector3 WayToGo;
 
+    public bool BlueBall = false;
+
     // Use this for initialization
     void Awake() {
         Ball = gameObject;
@@ -33,11 +35,21 @@ public class SoccerBall : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll) {
         if (coll.gameObject.tag == "Player" && HUD.S.GameStarted) {
-            HUD.S.SuccessfulBlock();
+            if ((coll.gameObject.GetComponent<Player>().RedTeam && BlueBall) || (!coll.gameObject.GetComponent<Player>().RedTeam && !BlueBall))
+            {
+                HUD.S.SuccessfulBlock();
+            }
             if (transform.parent != null) {
                 transform.parent.gameObject.GetComponent<Player>().loseControlOfBall();
             }
             coll.gameObject.GetComponent<Player>().gainControlOfBall();
+            if (coll.gameObject.GetComponent<Player>().RedTeam)
+            {
+                BlueBall = false;
+            } else
+            {
+                BlueBall = true;
+            }
         }
     }
 }

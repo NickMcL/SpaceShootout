@@ -5,7 +5,7 @@ public class Player : MonoBehaviour {
     float DRIBBLE_MAGNITUDE_THRESHOLD = 0.8f;
     Color PLAYER_1_COLOR = Color.red;
     Color PLAYER_2_COLOR = Color.blue;
-
+    public bool RedTeam = true;
     struct controls {
         public string up, vert, hor,R_vert, R_hor;
         public string skate, Shoot, special;
