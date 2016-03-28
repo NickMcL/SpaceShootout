@@ -19,6 +19,7 @@ public class TitleScreen : MonoBehaviour {
     Color flashcolor;
 	// Use this for initialization
 	void Start () {
+        PlaySound("Spacearray", 1f);
         inputModule2.SetActive(false);
         Descriptions["Bear"] = "Increased kicking power.";
         Descriptions["Fish"] = "Shoots bubble projectile that can move the ball.";
@@ -93,6 +94,8 @@ public class TitleScreen : MonoBehaviour {
 
     IEnumerator Flash()
     {
+        PlaySound("select01", 1f);
+
         flashcolor.a = 1f;
         flash.color = flashcolor;
         for(int c = 0; c < 5; ++c)
@@ -125,9 +128,22 @@ public class TitleScreen : MonoBehaviour {
             inputModule2.SetActive(true);
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    public void PlaySound(string name, float volume = 1f)
+    {
+        GameObject g = new GameObject();
+        AudioSource adsrc = g.AddComponent<AudioSource>();
+        g.transform.position = Camera.main.transform.position;
+        adsrc.spatialBlend = 0;
+        AudioClip ac = Resources.Load("Sound/" + name) as AudioClip;
+        adsrc.clip = ac;
+        adsrc.volume = volume;
+        adsrc.Play();
+        Destroy(g, ac.length);
+    }
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 }
