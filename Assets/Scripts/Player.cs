@@ -33,6 +33,7 @@ public class Player : MonoBehaviour {
     Rigidbody2D rigid;
     CircleCollider2D player_collider;
     CircleCollider2D ball_collider;
+    Color default_color;
 
     void Start() {
         ball = SoccerBall.Ball;
@@ -59,11 +60,22 @@ public class Player : MonoBehaviour {
             gainControlOfBall();
         }
         current_ball_angle = Vector2.zero;
+        default_color = GetComponent<Renderer>().material.color;
     }
 
     void Update() {
         checkDash();
         updateMovement();
+        if (slowed == 0) {
+            GetComponent<Renderer>().material.color = default_color;
+        } else if(slowed == 1) {
+            GetComponent<Renderer>().material.color = Color.yellow;
+        } else if (slowed == 2) {
+            GetComponent<Renderer>().material.color = Color.yellow/2+Color.red/2;
+        }else if(slowed == 3) {
+            GetComponent<Renderer>().material.color = Color.red;
+        }
+       
         if (has_ball == true) {
             dribble();
         }
