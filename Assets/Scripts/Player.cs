@@ -176,7 +176,7 @@ public class Player : MonoBehaviour {
     }
 
     void finishShot() {
-        if (Input.GetAxis(my_inputs.Shoot) == 0 && shooting == true) {
+        if (!ControlManager.fireButtonPressed(my_number) && shooting == true) {
             actuallyShoot();
         } else {
             charge_timer += Time.deltaTime;
