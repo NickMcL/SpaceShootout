@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
     float dash_delay = 0;
     float slow_delay_time = 1f;
     float slow_delay = 0;
-   public float shot_force = 1000f;
+    public float shot_force = 1000f;
     Vector2 current_ball_angle;
 
     int slowed = 0;
@@ -43,17 +43,9 @@ public class Player : MonoBehaviour {
         ball_rb = ball.GetComponent<Rigidbody2D>();
         player_collider = GetComponent<CircleCollider2D>();
         ball_collider = ball.GetComponent<CircleCollider2D>();
-
-        my_inputs.vert = string.Format("Vertical{0}", my_number);
-        my_inputs.hor = string.Format("Horizontal{0}", my_number);
-        my_inputs.R_hor = string.Format("R_Horizontal{0}", my_number);
-        my_inputs.R_vert = string.Format("R_Vertical{0}", my_number);
-        my_inputs.skate = string.Format("Skate{0}", my_number);
-        my_inputs.Shoot = string.Format("Shoot{0}", my_number);
-        my_inputs.special = string.Format("Special{0}", my_number);
         rigid = gameObject.GetComponent<Rigidbody2D>();
 
-        if (my_number == 1) {
+        if (my_number == 1 || my_number == 2) {
             GetComponent<SpriteRenderer>().color = PLAYER_1_COLOR;
         } else {
             GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR;
@@ -83,13 +75,13 @@ public class Player : MonoBehaviour {
         if (has_ball == true) {
             dribble();
         }
-        if (getInputFire() && has_ball) {
+        if (ControlManager.fireButtonPressed(my_number) && has_ball) {
             shoot();
         }
     }
 
     void updateMovement() {
-        Vector2 move_vector = getInputMovementVector();
+        Vector2 move_vector = ControlManager.getMovementVector(my_number);
         move_vector *= acceleration;
 
         if (dash == true) {
@@ -129,26 +121,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-    Vector2 getInputMovementVector() {
-        Vector2 move_vector = Vector2.zero;
-        move_vector.x += Input.GetAxis(my_inputs.hor);
-        move_vector.y += Input.GetAxis(my_inputs.vert);
-
-        return move_vector;
-    }
-
-    Vector2 getInputDribbleVector() {
-        Vector2 dribble_vector = Vector2.zero;
-        dribble_vector.x += Input.GetAxis(my_inputs.R_hor);
-        dribble_vector.y += Input.GetAxis(my_inputs.R_vert);
-
-        return dribble_vector;
-    }
-
-    bool getInputFire() {
-        return Input.GetAxis(my_inputs.Shoot) > 0;
-    }
-
     void checkDash() {
         if (slow_delay > 0) {
             slow_delay -= Time.deltaTime;
@@ -159,7 +131,7 @@ public class Player : MonoBehaviour {
             }
         }
 
-        if (Input.GetAxis(my_inputs.skate) > 0 && dash_delay <= 0 && slowed < 3) {
+        if (ControlManager.boostButtonPressed(my_number) && dash_delay <= 0 && slowed < 3) {
             dash = true;
             dash_delay = dash_delay_time;
         } else if (dash_delay > 0) {
@@ -172,7 +144,7 @@ public class Player : MonoBehaviour {
     }
     
     void dribble() {
-        Vector2 dribble_vector = getInputDribbleVector();
+        Vector2 dribble_vector = ControlManager.getDribbleVector(my_number);
         if (dribble_vector.magnitude > DRIBBLE_MAGNITUDE_THRESHOLD) {
             current_ball_angle = dribble_vector.normalized;
         }
@@ -190,11 +162,6 @@ public class Player : MonoBehaviour {
         ball_rb.AddForce(shot);
         ball_rb.isKinematic = false;
         has_ball = false;
-        
-    }
-
-    bool getInputPower() {
-        return Input.GetAxis(my_inputs.special) > 0;
     }
 
     void allowBallCollision() {
