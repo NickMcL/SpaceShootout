@@ -15,12 +15,12 @@ public class TitleScreen : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         inputModule2.SetActive(false);
-        Descriptions["Madoka"] = "Magical Girl, can cast ranged spell every 5 seconds";
-        Descriptions["Goku"] = "High Strength, can gain temporary buff to kick speed";
-        Descriptions["Freeza"] = "High Speed, temporary speed boost comes up more often.";
-        Descriptions["Prince"] = "Good at singing, can stun the enemy goalie with his singing for 2 seconds";
-        Descriptions["Cage"] = "Balanced Character, all around bit higher than average speed and power";
-        Descriptions["Doge"] = "No bonuses but can play as doge";
+        Descriptions["Bear"] = "Increased kicking power.";
+        Descriptions["Fish"] = "Shoots bubble projectile that can move the ball.";
+        Descriptions["Hawk"] = "High Speed, temporary speed boost comes up more often.";
+        Descriptions["Baboon"] = "Can stun the other player at close range.";
+        Descriptions["Fox"] = "Balanced chracter, slightly increased kicking power and speed.";
+        Descriptions["Elephant"] = "Larger size, less bouncy.";
         flashcolor = flash.color;
         flashcolor.a = 0f;
         flash.color = flashcolor;
