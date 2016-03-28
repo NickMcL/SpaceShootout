@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     float dash_delay = 0;
     float slow_delay_time = 1f;
     float slow_delay = 0;
+   public float shot_force = 1000f;
     Vector2 current_ball_angle;
 
     int slowed = 0;
@@ -149,12 +150,14 @@ public class Player : MonoBehaviour {
     }
 
     void shoot() {
+       loseControlOfBall();
         Vector2 shot = ball.transform.position-transform.position;
         Vector3.Normalize(shot);
-        shot *= 1000f;
+        shot *= shot_force;
         ball_rb.AddForce(shot);
         ball_rb.isKinematic = false;
         has_ball = false;
+        
     }
 
     bool getInputPower() {
