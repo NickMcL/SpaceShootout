@@ -54,12 +54,7 @@ public class Player : MonoBehaviour {
         my_inputs.Shoot = string.Format("Shoot{0}", my_number);
         my_inputs.special = string.Format("Special{0}", my_number);
         rigid = gameObject.GetComponent<Rigidbody2D>();
-
-        if (my_number == 1) {
-            GetComponent<SpriteRenderer>().color = PLAYER_1_COLOR;
-        } else {
-            GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR;
-        }
+        
 
         default_color = GetComponent<Renderer>().material.color;
     }

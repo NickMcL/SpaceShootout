@@ -10,7 +10,7 @@ public class Global : MonoBehaviour
 
 
     public Sprite dogsprite, bearsprite, fishprite, hawksprite, baboonsprite, foxsprite;
-
+    public Color BlueColor, RedColor;
 
     // Use this for initialization
     void Awake()
@@ -34,6 +34,8 @@ public class Global : MonoBehaviour
             SpriteRenderer sr = g[c].GetComponent<SpriteRenderer>();
             if(p.my_number == 1)
             {
+
+                sr.color = BlueColor;
                 if (BlueP1 == "Bear")
                 {
                     sr.sprite = bearsprite;
@@ -58,8 +60,10 @@ public class Global : MonoBehaviour
                 {
                     sr.sprite = dogsprite;
                 }
-            } else
+            } else if(p.my_number == 2)
             {
+
+                sr.color = BlueColor;
                 if (BlueP2 == "Bear")
                 {
                     sr.sprite = bearsprite;
@@ -77,6 +81,63 @@ public class Global : MonoBehaviour
                     sr.sprite = baboonsprite;
                 }
                 else if (BlueP2 == "Fox")
+                {
+                    sr.sprite = foxsprite;
+                }
+                else
+                {
+                    sr.sprite = dogsprite;
+                }
+            }
+            else if (p.my_number == 3)
+            {
+                sr.color = RedColor;
+                if (RedP1 == "Bear")
+                {
+                    sr.sprite = bearsprite;
+                }
+                else if (RedP1 == "Fish")
+                {
+                    sr.sprite = fishprite;
+                }
+                else if (RedP1 == "Hawk")
+                {
+                    sr.sprite = hawksprite;
+                }
+                else if (RedP1 == "Baboon")
+                {
+                    sr.sprite = baboonsprite;
+                }
+                else if (RedP1 == "Fox")
+                {
+                    sr.sprite = foxsprite;
+                }
+                else
+                {
+                    sr.sprite = dogsprite;
+                }
+            }
+            else
+            {
+
+                sr.color = RedColor;
+                if (RedP2 == "Bear")
+                {
+                    sr.sprite = bearsprite;
+                }
+                else if (RedP2 == "Fish")
+                {
+                    sr.sprite = fishprite;
+                }
+                else if (RedP2 == "Hawk")
+                {
+                    sr.sprite = hawksprite;
+                }
+                else if (RedP2 == "Baboon")
+                {
+                    sr.sprite = baboonsprite;
+                }
+                else if (RedP2 == "Fox")
                 {
                     sr.sprite = foxsprite;
                 }
