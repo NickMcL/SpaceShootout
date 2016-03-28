@@ -163,6 +163,7 @@ public class HUD : MonoBehaviour {
     {
         GameStarted = false;
         middleText.text = "Half Time!";
+        secondhalf = true;
         yield return new WaitForSeconds(1f);
 
         player1red.transform.position = BlueTeamStartPos1;
@@ -259,9 +260,10 @@ public class HUD : MonoBehaviour {
                     TimeLeft = float.MaxValue;
                     countdown.text = "";
                 }
-                else {
+                else
+                {
+                    TimeLeft = round_time;
                     StartCoroutine(Halftime());
-                    TimeLeft = round_time + 5f;
                 }
             }
         }
