@@ -16,7 +16,8 @@ public class HUD : MonoBehaviour {
 
     public static HUD S;
 
-    public float TimeLeft = 15;
+    public float round_time = 10f;
+    public float TimeLeft;
     public float end_round_delay = 3f;
 
     void Awake() {
@@ -25,6 +26,7 @@ public class HUD : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        TimeLeft = round_time;
         PlaySound("LaserMillenium", 1f);
         StartCoroutine(Count_Down());
         GameObject[] g = GameObject.FindGameObjectsWithTag("Player");
@@ -108,13 +110,16 @@ public class HUD : MonoBehaviour {
     public Vector3 ShooterStartPos;
 
     public void PlayerSwap() {
+        GameStarted = false;
         Invoke("PlayerSwapReal", end_round_delay);
     }
 
     public void PlayerSwapReal() {
-        GameStarted = false;
         erasetext();
-        StartCoroutine(Count_Down());
+        Goal.S.resetGoal();
+        TimeLeft = round_time;
+        player1.loseControlOfBall();
+        player2.loseControlOfBall();
         if (player2isGoalie) {
             player2isGoalie = false;
             player1.is_goalie = true;
@@ -130,7 +135,7 @@ public class HUD : MonoBehaviour {
             player2.transform.position = GoalieStartPos;
             player1.gainControlOfBall();
         }
-        TimeLeft = 15f;
+        StartCoroutine(Count_Down());
     }
 
     public void SuccessfulBlock() {
@@ -139,6 +144,7 @@ public class HUD : MonoBehaviour {
     }
 
     void FixedUpdate() {
+        countdown.text = TimeLeft.ToString("F2");
         if (!GameStarted) {
             return;
         }
@@ -150,6 +156,5 @@ public class HUD : MonoBehaviour {
                 TimeLeft = 0f;
             }
         }
-        countdown.text = TimeLeft.ToString("F2");
     }
 }

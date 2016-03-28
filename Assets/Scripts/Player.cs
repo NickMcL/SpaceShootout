@@ -113,14 +113,22 @@ public class Player : MonoBehaviour {
     public void gainControlOfBall() {
         ball.transform.parent = transform;
         has_ball = true;
-        current_ball_angle = ball.transform.position - transform.position;
+        current_ball_angle = (ball.transform.position - transform.position).normalized;
+        dribble();
+        ball_rb.velocity = Vector2.zero;
         Physics2D.IgnoreCollision(player_collider, ball_collider, true);
     }
 
     public void loseControlOfBall() {
-        ball.transform.parent = null;
-        has_ball = false;
-        Invoke("allowBallCollision", 0.5f);
+        if (ball.transform.parent == transform) {
+            ball.transform.parent = null;
+            has_ball = false;
+            if (HUD.S.GameStarted) {
+                Invoke("allowBallCollision", 0.5f);
+            } else {
+                Physics2D.IgnoreCollision(player_collider, ball_collider, false);
+            }
+        }
     }
 
     Vector2 getInputMovementVector() {

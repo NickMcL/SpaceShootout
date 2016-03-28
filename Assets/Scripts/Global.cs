@@ -91,6 +91,10 @@ public class Global : MonoBehaviour
     public void score()
     {
         CameraShaker.S.DoShake(0.08f, 0.15f);
-        HUD.S.Player1Scored();
+        if (HUD.S.player2isGoalie) {
+            HUD.S.Player1Scored();
+        } else {
+            HUD.S.Player2Scored();
+        }
     }
 }
