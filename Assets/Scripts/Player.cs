@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
     float DRIBBLE_MAGNITUDE_THRESHOLD = 0.8f;
+    Color PLAYER_1_COLOR = Color.red;
+    Color PLAYER_2_COLOR = Color.blue;
 
     struct controls {
         public string up, vert, hor,R_vert, R_hor;
@@ -52,8 +54,10 @@ public class Player : MonoBehaviour {
 
         if (my_number == 1) {
             is_goalie = false;
+            GetComponent<SpriteRenderer>().color = PLAYER_1_COLOR;
         } else {
             is_goalie = true;
+            GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR;
         }
 
         if (!is_goalie) {
@@ -65,6 +69,7 @@ public class Player : MonoBehaviour {
     void Update() {
         checkDash();
         updateMovement();
+        /*
         if (slowed == 0) {
             GetComponent<Renderer>().material.color = default_color;
         } else if(slowed == 1) {
@@ -74,6 +79,7 @@ public class Player : MonoBehaviour {
         }else if(slowed == 3) {
             GetComponent<Renderer>().material.color = Color.red;
         }
+        */
        
         if (has_ball == true) {
             dribble();
