@@ -6,16 +6,17 @@ public class SoccerBall : MonoBehaviour {
     Rigidbody ballrb;
     float max_speed = 50;
     public static GameObject Ball;
+    Vector3 WayToGo;
+
     // Use this for initialization
     void Awake() {
         Ball = gameObject;
     }
+
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         ballrb = transform.GetChild(0).gameObject.GetComponent<Rigidbody>();
     }
-
-    Vector3 WayToGo;
 
     void FixedUpdate() {
         WayToGo.x = rb.velocity.y;
@@ -28,6 +29,5 @@ public class SoccerBall : MonoBehaviour {
         while (rb.velocity.magnitude > max_speed) {
             rb.velocity *= 0.99f;
         }
-
     }
 }
