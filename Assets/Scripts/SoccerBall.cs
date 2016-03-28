@@ -40,6 +40,7 @@ public class SoccerBall : MonoBehaviour {
         while (rb.velocity.magnitude > max_speed) {
             rb.velocity *= 0.99f;
         }
+        GetComponent<ParticleSystem>().Emit((int)( rb.velocity.magnitude/2));
     }
     Rigidbody2D parentrb;
     void OnCollisionEnter2D(Collision2D coll) {
