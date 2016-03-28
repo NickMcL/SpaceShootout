@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
     struct controls {
-        public string up, vert, hor;
+        public string up, vert, hor,R_vert, R_hor;
         public string skate, Shoot, special;
     };
     controls my_inputs;
@@ -27,6 +27,8 @@ public class Player : MonoBehaviour {
         ball = SoccerBall.Ball;
         ball_rb = ball.GetComponent<Rigidbody2D>();
         my_inputs.vert = string.Format("Vertical{0}", my_number);
+        my_inputs.R_hor = string.Format("Horizontal{0}", my_number);
+        my_inputs.R_vert = string.Format("Vertical{0}", my_number);
         my_inputs.hor = string.Format("Horizontal{0}", my_number);
         my_inputs.skate = string.Format("Skate{0}", my_number);
         my_inputs.Shoot = string.Format("Shoot{0}", my_number);
@@ -40,7 +42,7 @@ public class Player : MonoBehaviour {
         if (has_ball == true) {
             dribble();
         }
-        if (getInputFire()) {
+        if (getInputFire()&& has_ball) {
             shoot();
         }
 
@@ -109,8 +111,9 @@ public class Player : MonoBehaviour {
     void shoot() {
         Vector2 shot = ball.transform.position-transform.position;
         Vector3.Normalize(shot);
-        shot *= 10f;
+        shot *= 100f;
         ball_rb.AddForce(shot);
+        has_ball = false;
     }
     bool getInputPower() {
         return Input.GetAxis(my_inputs.special) > 0;
