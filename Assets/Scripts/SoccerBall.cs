@@ -70,6 +70,10 @@ public class SoccerBall : MonoBehaviour {
         if (coll.gameObject.tag == "Asteroid")
         {
             HUD.S.PlaySound("objecthit2", Random.Range(.5f,1f));
+            if (rb.velocity.magnitude > 10f)
+            {
+                coll.gameObject.GetComponent<Asteriod>().Destroy();
+            }
         }
     }
 }

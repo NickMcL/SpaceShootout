@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Asteriod : MonoBehaviour {
+    public List<GameObject> asteroid_list;
+
     public float move_speed;
     public float min_lerp_offset;
     public float max_lerp_offset;
@@ -32,4 +35,17 @@ public class Asteriod : MonoBehaviour {
         }
         this.transform.position = Util.lerp(lerp_points, u);
 	}
+
+    public void Destroy()
+    {
+        CameraShaker.S.DoShake(.1f, 0f);
+        foreach (GameObject obj in asteroid_list)
+        {
+            GameObject astroid = Instantiate(obj, UnityEngine.Random.insideUnitCircle  + new Vector2(transform.position.x, transform.position.y), Quaternion.identity) as GameObject;
+        }
+        if (asteroid_list.Count != 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }
