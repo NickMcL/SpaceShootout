@@ -92,6 +92,7 @@ public class Player : MonoBehaviour {
         move_vector *= acceleration;
 
         if (dash == true) {
+            HUD.S.PlaySound("woosh", Random.Range(.5f, 1f));
             move_vector *= 20;
             dash = false;
         }/*
@@ -106,6 +107,7 @@ public class Player : MonoBehaviour {
     }
 
     public void gainControlOfBall() {
+        HUD.S.PlaySound("dribble", Random.Range(.5f,1f));
         ball.transform.parent = transform;
         has_ball = true;
         current_ball_angle = (ball.transform.position - transform.position).normalized;
@@ -179,6 +181,7 @@ public class Player : MonoBehaviour {
     }
 
     void shoot() {
+        HUD.S.PlaySound("kick", Random.Range(.5f,1f));
         loseControlOfBall();
         Vector2 shot = ball.transform.position-transform.position;
         Vector3.Normalize(shot);
