@@ -62,5 +62,13 @@ public class SoccerBall : MonoBehaviour {
             }
             parentrb = coll.gameObject.GetComponent<Rigidbody2D>();
         }
+        if(coll.gameObject.tag == "LevelBounds")
+        {
+            HUD.S.PlaySound("boing", Random.Range(.5f,1f));
+        }
+        if (coll.gameObject.tag == "Asteroid")
+        {
+            HUD.S.PlaySound("objecthit2", Random.Range(.5f,1f));
+        }
     }
 }

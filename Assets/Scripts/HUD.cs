@@ -32,7 +32,7 @@ public class HUD : MonoBehaviour {
     // Use this for initialization
     void Start() {
         TimeLeft = round_time;
-        PlaySound("LaserMillenium", 1f);
+        PlaySound("LaserMillenium", .25f);
         StartCoroutine(Count_Down());
         GameObject[] g = GameObject.FindGameObjectsWithTag("Player");
         for (int c = 0; c < g.Length; ++c) {
