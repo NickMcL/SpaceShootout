@@ -30,7 +30,7 @@ public class Player : MonoBehaviour {
     bool dash = false;
     bool shooting = true;
     float charge_timer = 0;
-    float max_charge_time = 10;
+    float max_charge_time = 5;
 
     GameObject ball;
     Rigidbody2D ball_rb;
@@ -201,7 +201,7 @@ public class Player : MonoBehaviour {
             charge_timer += Time.deltaTime;
             ball.GetComponent<ParticleSystem>().Emit((int)(charge_timer));
             ball.GetComponent<ParticleSystem>().startSpeed = charge_timer*3;
-            while (charge_timer - 2 > slowed) {
+            while (charge_timer/2 - 1 > slowed) {
                 slowed++;
             }
             if (charge_timer > max_charge_time) {
