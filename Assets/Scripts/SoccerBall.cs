@@ -30,4 +30,11 @@ public class SoccerBall : MonoBehaviour {
             rb.velocity *= 0.99f;
         }
     }
+
+    void OnCollisionEnter2D(Collision2D coll) {
+        if (coll.gameObject.tag == "Player" && transform.parent != null &&
+                    coll.gameObject.GetComponent<Player>().is_goalie) {
+            transform.parent.gameObject.GetComponent<Player>().loseControlOfBall();
+        }
+    }
 }

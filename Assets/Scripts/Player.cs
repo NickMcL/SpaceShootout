@@ -49,7 +49,15 @@ public class Player : MonoBehaviour {
         my_inputs.special = string.Format("Special{0}", my_number);
         rigid = gameObject.GetComponent<Rigidbody2D>();
 
-        gainControlOfBall();
+        if (my_number == 1) {
+            is_goalie = false;
+        } else {
+            is_goalie = true;
+        }
+
+        if (!is_goalie) {
+            gainControlOfBall();
+        }
     }
 
     void Update() {
@@ -58,7 +66,7 @@ public class Player : MonoBehaviour {
         if (has_ball == true) {
             dribble();
         }
-        if (getInputFire()&& has_ball) {
+        if (getInputFire() && has_ball) {
             shoot();
         }
     }
@@ -94,7 +102,7 @@ public class Player : MonoBehaviour {
         ball.transform.parent = null;
         has_ball = false;
         ball_rb.isKinematic = false;
-        Physics2D.IgnoreCollision(player_collider, ball_collider, false);
+        Invoke("allowBallCollsion", 0.5f);
     }
 
     Vector2 getInputMovementVector() {
@@ -140,7 +148,6 @@ public class Player : MonoBehaviour {
     }
     
     void dribble() {
-
         Vector2 dribble_vector = getInputDribbleVector();
         if (dribble_vector.magnitude <= DRIBBLE_MAGNITUDE_THRESHOLD) {
             return;
@@ -164,5 +171,13 @@ public class Player : MonoBehaviour {
         return Input.GetAxis(my_inputs.special) > 0;
     }
 
-    
+    void allowBallCollsion() {
+        Physics2D.IgnoreCollision(player_collider, ball_collider, false);
+    }
+
+    void OnCollisionEnter2D(Collision2D coll) {
+        if (!is_goalie && coll.gameObject.tag == "Ball") {
+            gainControlOfBall();
+        }
+    }
 }
