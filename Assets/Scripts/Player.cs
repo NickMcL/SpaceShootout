@@ -84,7 +84,7 @@ public class Player : MonoBehaviour {
             shoot();
         }
         if (shooting && has_ball) {
-            finish_shot();
+            finishShot();
         }
     }
 
@@ -189,34 +189,34 @@ public class Player : MonoBehaviour {
 
     }
 
-    void finish_shot() {
+    void finishShot() {
         if (Input.GetAxis(my_inputs.Shoot) == 0 && shooting == true) {
-            actually_shoot();
+            actuallyShoot();
         } else {
             charge_timer += Time.deltaTime;
             ball.GetComponent<ParticleSystem>().Emit((int)(charge_timer));
-            ball.GetComponent<ParticleSystem>().startSpeed = charge_timer*3;
-            while (charge_timer/2 - 1 > slowed) {
+            ball.GetComponent<ParticleSystem>().startSpeed = charge_timer * 3;
+            while (charge_timer / 2 - 1 > slowed) {
                 slowed++;
             }
             if (charge_timer > max_charge_time) {
                 charge_timer = max_charge_time;
-                actually_shoot();
+                actuallyShoot();
             }
 
         }
     }
-    void actually_shoot() {
- HUD.S.PlaySound("kick", Random.Range(.5f, 1f));
-            loseControlOfBall();
-            Vector2 shot = ball.transform.position - transform.position;
-            Vector3.Normalize(shot);
-            shot *= shot_force*charge_timer*1.5f;
-            ball_rb.AddForce(shot);
-            ball_rb.isKinematic = false;
-            has_ball = false;
-            shooting = false;
-            ball.GetComponent<ParticleSystem>().startSpeed = 10;
+    void actuallyShoot() {
+        HUD.S.PlaySound("kick", Random.Range(.5f, 1f));
+        loseControlOfBall();
+        Vector2 shot = ball.transform.position - transform.position;
+        Vector3.Normalize(shot);
+        shot *= shot_force * charge_timer * 1.5f;
+        ball_rb.AddForce(shot);
+        ball_rb.isKinematic = false;
+        has_ball = false;
+        shooting = false;
+        ball.GetComponent<ParticleSystem>().startSpeed = 10;
     }
     bool getInputPower() {
         return Input.GetAxis(my_inputs.special) > 0;
