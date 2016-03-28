@@ -4,12 +4,11 @@ using System.Collections;
 public class Global : MonoBehaviour {
     public static Global S;
 
-    public string P1Character;
-    public string P2Character;
-
+    public string BlueP1, BlueP2;
+    public string RedP1, RedP2;
 
     public Sprite dogsprite, bearsprite, fishprite, hawksprite, baboonsprite, foxsprite;
-
+    public Color BlueColor, RedColor;
 
     // Use this for initialization
     void Awake() {
@@ -30,29 +29,66 @@ public class Global : MonoBehaviour {
             Player p = g[c].GetComponent<Player>();
             SpriteRenderer sr = g[c].GetComponent<SpriteRenderer>();
             if (p.my_number == 1) {
-                if (P1Character == "Bear") {
+                p.RedTeam = false;
+                sr.color = BlueColor;
+                if (BlueP1 == "Bear") {
                     sr.sprite = bearsprite;
-                } else if (P1Character == "Fish") {
+                } else if (BlueP1 == "Fish") {
                     sr.sprite = fishprite;
-                } else if (P1Character == "Hawk") {
+                } else if (BlueP1 == "Hawk") {
                     sr.sprite = hawksprite;
-                } else if (P1Character == "Baboon") {
+                } else if (BlueP1 == "Baboon") {
                     sr.sprite = baboonsprite;
-                } else if (P1Character == "Fox") {
+                } else if (BlueP1 == "Fox") {
+                    sr.sprite = foxsprite;
+                } else {
+                    sr.sprite = dogsprite;
+                }
+            } else if (p.my_number == 2) {
+                p.RedTeam = false;
+
+                sr.color = BlueColor;
+                if (BlueP2 == "Bear") {
+                    sr.sprite = bearsprite;
+                } else if (BlueP2 == "Fish") {
+                    sr.sprite = fishprite;
+                } else if (BlueP2 == "Hawk") {
+                    sr.sprite = hawksprite;
+                } else if (BlueP2 == "Baboon") {
+                    sr.sprite = baboonsprite;
+                } else if (BlueP2 == "Fox") {
+                    sr.sprite = foxsprite;
+                } else {
+                    sr.sprite = dogsprite;
+                }
+            } else if (p.my_number == 3) {
+                p.RedTeam = true;
+                sr.color = RedColor;
+                if (RedP1 == "Bear") {
+                    sr.sprite = bearsprite;
+                } else if (RedP1 == "Fish") {
+                    sr.sprite = fishprite;
+                } else if (RedP1 == "Hawk") {
+                    sr.sprite = hawksprite;
+                } else if (RedP1 == "Baboon") {
+                    sr.sprite = baboonsprite;
+                } else if (RedP1 == "Fox") {
                     sr.sprite = foxsprite;
                 } else {
                     sr.sprite = dogsprite;
                 }
             } else {
-                if (P2Character == "Bear") {
+                p.RedTeam = true;
+                sr.color = RedColor;
+                if (RedP2 == "Bear") {
                     sr.sprite = bearsprite;
-                } else if (P2Character == "Fish") {
+                } else if (RedP2 == "Fish") {
                     sr.sprite = fishprite;
-                } else if (P2Character == "Hawk") {
+                } else if (RedP2 == "Hawk") {
                     sr.sprite = hawksprite;
-                } else if (P2Character == "Baboon") {
+                } else if (RedP2 == "Baboon") {
                     sr.sprite = baboonsprite;
-                } else if (P2Character == "Fox") {
+                } else if (RedP2 == "Fox") {
                     sr.sprite = foxsprite;
                 } else {
                     sr.sprite = dogsprite;

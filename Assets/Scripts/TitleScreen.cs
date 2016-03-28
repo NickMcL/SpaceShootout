@@ -7,11 +7,11 @@ public class TitleScreen : MonoBehaviour {
     Color PLAYER_1_COLOR = new Color(1f, 0.7f, 0.7f);
     Color PLAYER_2_COLOR = new Color(0.7f, 0.7f, 1f);
 
-    public Text P1CharName, P1CharDescrip, P2CharName, P2CharDescrip, TitleText;
+    public Text P1CharName, P1CharDescrip, P2CharName, P2CharDescrip, TitleText, P3CharName, P3CharDescrip, P4CharName, P4CharDescrip;
     public Image flash;
-    public GameObject inputModule, inputModule2;
+    public GameObject inputModule, inputModule2, inputModule3, inputModule4;
 
-    public Image spriteP1, spriteP2;
+    public Image spriteP1, spriteP2, spriteP3, spriteP4;
 
     public Dictionary<string, string> Descriptions = new Dictionary<string, string>();
 
@@ -24,11 +24,11 @@ public class TitleScreen : MonoBehaviour {
     void Start() {
         PlaySound("Spacearray", 1f);
         inputModule2.SetActive(false);
-        Descriptions["Bear"] = "Increased kicking power.";
+        Descriptions["Bear"] = "Can push some obstacles out of the way.";
         Descriptions["Fish"] = "Shoots bubble projectile that can move the ball.";
         Descriptions["Hawk"] = "High Speed, temporary speed boost comes up more often.";
-        Descriptions["Baboon"] = "Can stun the other player at close range.";
-        Descriptions["Fox"] = "Balanced chracter, slightly increased kicking power and speed.";
+        Descriptions["Baboon"] = "High kicking power.";
+        Descriptions["Fox"] = "Can shoot curveballs.";
         Descriptions["Dog"] = "No noticable abilities but get to play as doge.";
         flashcolor = flash.color;
         flashcolor.a = 0f;
@@ -58,9 +58,10 @@ public class TitleScreen : MonoBehaviour {
                 spriteP1.sprite = dogsprite;
             }
             spriteP1.color = PLAYER_1_COLOR;
-        } else {
+        } else if (PlayerSelecting == 2) {
             P2CharName.text = Character;
-            P2CharDescrip.text = Descriptions[Character]; if (Character == "Bear") {
+            P2CharDescrip.text = Descriptions[Character];
+            if (Character == "Bear") {
                 spriteP2.sprite = bearsprite;
             } else if (Character == "Fish") {
                 spriteP2.sprite = fishprite;
@@ -74,6 +75,42 @@ public class TitleScreen : MonoBehaviour {
                 spriteP2.sprite = dogsprite;
             }
             spriteP2.color = PLAYER_2_COLOR;
+        } else if (PlayerSelecting == 3) {
+
+            P3CharName.text = Character;
+
+            spriteP3.color = Color.white;
+            P3CharDescrip.text = Descriptions[Character]; if (Character == "Bear") {
+                spriteP3.sprite = bearsprite;
+            } else if (Character == "Fish") {
+                spriteP3.sprite = fishprite;
+            } else if (Character == "Hawk") {
+                spriteP3.sprite = hawksprite;
+            } else if (Character == "Baboon") {
+                spriteP3.sprite = baboonsprite;
+            } else if (Character == "Fox") {
+                spriteP3.sprite = foxsprite;
+            } else {
+                spriteP3.sprite = dogsprite;
+            }
+        } else {
+            P4CharName.text = Character;
+
+            spriteP4.color = Color.white;
+            P4CharDescrip.text = Descriptions[Character]; if (Character == "Bear") {
+                spriteP4.sprite = bearsprite;
+            } else if (Character == "Fish") {
+                spriteP4.sprite = fishprite;
+            } else if (Character == "Hawk") {
+                spriteP4.sprite = hawksprite;
+            } else if (Character == "Baboon") {
+                spriteP4.sprite = baboonsprite;
+            } else if (Character == "Fox") {
+                spriteP4.sprite = foxsprite;
+            } else {
+                spriteP4.sprite = dogsprite;
+            }
+
         }
     }
 
@@ -93,20 +130,25 @@ public class TitleScreen : MonoBehaviour {
     }
 
     public void ChooseCharacter() {
+        HoverOverCharacter(HoveredChar);
         StartCoroutine(Flash());
         if (PlayerSelecting == 2) {
-            Global.S.P2Character = HoveredChar;
-            inputModule2.SetActive(false);
+            // blue second player
+            Global.S.BlueP2 = HoveredChar;
+            TitleText.text = "Player 3: Choose Your Character!";
+        } else if (PlayerSelecting == 1) {
+            // blue first player
+            Global.S.BlueP1 = HoveredChar;
+            TitleText.text = "Player 2: Choose Your Character!";
+        } else if (PlayerSelecting == 3) {
+            Global.S.RedP1 = HoveredChar;
+            TitleText.text = "Player 4: Choose Your Character!";
+        } else if (PlayerSelecting == 4) {
+            Global.S.RedP2 = HoveredChar;
             TitleText.text = "Get ready for the game!";
             Invoke("startGame", 2.0f);
-
-        } else {
-            Global.S.P1Character = HoveredChar;
-            ++PlayerSelecting;
-            TitleText.text = "Player 2: Choose Your Character!";
-            inputModule.SetActive(false);
-            inputModule2.SetActive(true);
         }
+        ++PlayerSelecting;
     }
 
     public void PlaySound(string name, float volume = 1f) {

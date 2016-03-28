@@ -8,7 +8,7 @@ public class Player : MonoBehaviour {
 
     public bool RedTeam = true;
     struct controls {
-        public string up, vert, hor,R_vert, R_hor;
+        public string up, vert, hor, R_vert, R_hor;
         public string skate, Shoot, special;
     };
 
@@ -29,6 +29,9 @@ public class Player : MonoBehaviour {
     int slowed = 0;
     float fatigue = 0;
     bool dash = false;
+    bool shooting = true;
+    float charge_timer = 0;
+    float max_charge_time = 5;
 
     GameObject ball;
     Rigidbody2D ball_rb;
@@ -50,7 +53,7 @@ public class Player : MonoBehaviour {
         } else {
             GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR;
         }
-        
+
         default_color = GetComponent<Renderer>().material.color;
     }
 
@@ -71,12 +74,15 @@ public class Player : MonoBehaviour {
             GetComponent<Renderer>().material.color = Color.red;
         }
         */
-       
+
         if (has_ball == true) {
             dribble();
         }
         if (ControlManager.fireButtonPressed(my_number) && has_ball) {
             shoot();
+        }
+        if (shooting && has_ball) {
+            finish_shot();
         }
     }
 
@@ -100,7 +106,7 @@ public class Player : MonoBehaviour {
     }
 
     public void gainControlOfBall() {
-        HUD.S.PlaySound("dribble", Random.Range(.5f,1f));
+        HUD.S.PlaySound("dribble", Random.Range(.5f, 1f));
         ball.transform.parent = transform;
         has_ball = true;
         current_ball_angle = (ball.transform.position - transform.position).normalized;
@@ -142,7 +148,7 @@ public class Player : MonoBehaviour {
             }
         }
     }
-    
+
     void dribble() {
         Vector2 dribble_vector = ControlManager.getDribbleVector(my_number);
         if (dribble_vector.magnitude > DRIBBLE_MAGNITUDE_THRESHOLD) {
@@ -162,6 +168,42 @@ public class Player : MonoBehaviour {
         ball_rb.AddForce(shot);
         ball_rb.isKinematic = false;
         has_ball = false;
+        if (!shooting) {
+            shooting = true;
+            charge_timer = 0;
+        }
+
+    }
+
+    void finish_shot() {
+        if (Input.GetAxis(my_inputs.Shoot) == 0 && shooting == true) {
+            actually_shoot();
+        } else {
+            charge_timer += Time.deltaTime;
+            ball.GetComponent<ParticleSystem>().Emit((int)(charge_timer));
+            ball.GetComponent<ParticleSystem>().startSpeed = charge_timer * 3;
+            while (charge_timer / 2 - 1 > slowed) {
+                slowed++;
+            }
+            if (charge_timer > max_charge_time) {
+                charge_timer = max_charge_time;
+                actually_shoot();
+            }
+
+        }
+    }
+
+    void actually_shoot() {
+        HUD.S.PlaySound("kick", Random.Range(.5f, 1f));
+        loseControlOfBall();
+        Vector2 shot = ball.transform.position - transform.position;
+        Vector3.Normalize(shot);
+        shot *= shot_force*charge_timer*1.5f;
+        ball_rb.AddForce(shot);
+        ball_rb.isKinematic = false;
+        has_ball = false;
+        shooting = false;
+        ball.GetComponent<ParticleSystem>().startSpeed = 10;
     }
 
     void allowBallCollision() {
