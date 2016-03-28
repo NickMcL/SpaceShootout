@@ -246,10 +246,11 @@ public class HUD : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        countdown.text = TimeLeft.ToString("F2");
         if (!GameStarted) {
             return;
         }
+
+        countdown.text = TimeLeft.ToString("F2");
         if (TimeLeft > 0f) {
             TimeLeft -= Time.deltaTime;
             if (TimeLeft <= 0f) {
