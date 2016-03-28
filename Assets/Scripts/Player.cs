@@ -53,16 +53,11 @@ public class Player : MonoBehaviour {
         rigid = gameObject.GetComponent<Rigidbody2D>();
 
         if (my_number == 1) {
-            is_goalie = false;
             GetComponent<SpriteRenderer>().color = PLAYER_1_COLOR;
         } else {
-            is_goalie = true;
             GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR;
         }
-
-        if (!is_goalie) {
-            gainControlOfBall();
-        }
+        
         default_color = GetComponent<Renderer>().material.color;
     }
 

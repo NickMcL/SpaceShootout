@@ -32,7 +32,7 @@ public class SoccerBall : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D coll) {
-        if (coll.gameObject.tag == "Player" && coll.gameObject.GetComponent<Player>().is_goalie && HUD.S.GameStarted) {
+        if (coll.gameObject.tag == "Player" && HUD.S.GameStarted) {
             HUD.S.SuccessfulBlock();
             if (transform.parent != null) {
                 transform.parent.gameObject.GetComponent<Player>().loseControlOfBall();

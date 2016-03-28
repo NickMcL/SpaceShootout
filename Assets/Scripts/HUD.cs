@@ -52,21 +52,24 @@ public class HUD : MonoBehaviour {
     public void Player1Scored() {
         ++P1Score;
         middleText.text = "Player 1 Scores!";
+        StartCoroutine(erasetextin(0.5f));
         UpdateScores();
-
-        PlayerSwap();
     }
 
     public void Player2Scored() {
         ++P2Score;
         middleText.text = "Player 2 Scores!";
-
+        StartCoroutine(erasetextin(0.5f));
         UpdateScores();
-
-        PlayerSwap();
     }
 
     void erasetext() {
+        middleText.text = "";
+    }
+    
+    IEnumerator erasetextin(float f)
+    {
+        yield return new WaitForSeconds(f);
         middleText.text = "";
     }
 
@@ -109,38 +112,10 @@ public class HUD : MonoBehaviour {
     public Vector3 GoalieStartPos;
     public Vector3 ShooterStartPos;
 
-    public void PlayerSwap() {
-        GameStarted = false;
-        Invoke("PlayerSwapReal", end_round_delay);
-    }
-
-    public void PlayerSwapReal() {
-        erasetext();
-        Goal.S.resetGoal();
-        TimeLeft = round_time;
-        player1.loseControlOfBall();
-        player2.loseControlOfBall();
-        if (player2isGoalie) {
-            player2isGoalie = false;
-            player1.is_goalie = true;
-            player2.is_goalie = false;
-            player1.transform.position = GoalieStartPos;
-            player2.transform.position = ShooterStartPos;
-            player2.gainControlOfBall();
-        } else {
-            player2isGoalie = true;
-            player1.is_goalie = false;
-            player2.is_goalie = true;
-            player1.transform.position = ShooterStartPos;
-            player2.transform.position = GoalieStartPos;
-            player1.gainControlOfBall();
-        }
-        StartCoroutine(Count_Down());
-    }
-
     public void SuccessfulBlock() {
         middleText.text = "Nice Block!";
-        PlayerSwap();
+
+        StartCoroutine(erasetextin(0.5f));
     }
 
     void FixedUpdate() {
@@ -152,7 +127,8 @@ public class HUD : MonoBehaviour {
             TimeLeft -= Time.deltaTime;
             if (TimeLeft <= 0f) {
                 middleText.text = "Out of Time!";
-                PlayerSwap();
+
+                StartCoroutine(erasetextin(0.5f));
                 TimeLeft = 0f;
             }
         }
