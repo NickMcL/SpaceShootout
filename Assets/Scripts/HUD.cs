@@ -59,6 +59,7 @@ public class HUD : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         middleText.text = "1";
         yield return new WaitForSeconds(1f);
+        CameraShaker.S.DoShake(0.05f, 0.15f);
         middleText.text = "Go!";
         yield return new WaitForSeconds(0.4f);
         middleText.text = "";
