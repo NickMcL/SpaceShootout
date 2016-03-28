@@ -7,18 +7,18 @@ public class Asteriod : MonoBehaviour {
     public float min_lerp_offset;
     public float max_lerp_offset;
 
-    Vector2[] lerp_points = new Vector2[2];
+    Vector3[] lerp_points = new Vector3[2];
     float lerp_time;
     float lerp_start;
 
 	// Use this for initialization
 	void Start () {
         for (int i = 0; i < lerp_points.Length; ++i) {
-            lerp_points[i] = new Vector2(
+            lerp_points[i] = new Vector3(
                 transform.position.x + UnityEngine.Random.Range(min_lerp_offset, max_lerp_offset),
-                transform.position.y + UnityEngine.Random.Range(min_lerp_offset, max_lerp_offset));
+                transform.position.y + UnityEngine.Random.Range(min_lerp_offset, max_lerp_offset), 0f);
         }
-        lerp_time = Vector2.Distance(lerp_points[0], lerp_points[1]) / move_speed;
+        lerp_time = Vector3.Distance(lerp_points[0], lerp_points[1]) / move_speed;
         lerp_start = 0;
 	}
 	
