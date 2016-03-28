@@ -106,17 +106,18 @@ public class Player : MonoBehaviour {
         Rigidbody2D ball_rb = ball.GetComponent<Rigidbody2D>();
 
 
-
     }
     void shoot() {
         Vector2 shot = ball.transform.position-transform.position;
         Vector3.Normalize(shot);
-        shot *= 100f;
+        shot *= 1000f;
         ball_rb.AddForce(shot);
+        ball_rb.isKinematic = false;
         has_ball = false;
     }
     bool getInputPower() {
         return Input.GetAxis(my_inputs.special) > 0;
     }
 
+    
 }
