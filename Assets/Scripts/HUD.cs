@@ -141,6 +141,7 @@ public class HUD : MonoBehaviour {
     IEnumerator GameReset(Team scoring_team) {
         GameStarted = false;
         yield return new WaitForSeconds(1f);
+        ResetObjects.S.Reset();
         player1red.transform.position = RedTeamStartPos1;
         player2red.transform.position = RedTeamStartPos2;
         player1blue.transform.position = BlueTeamStartPos1;

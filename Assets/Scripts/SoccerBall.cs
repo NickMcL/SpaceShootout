@@ -80,7 +80,7 @@ public class SoccerBall : MonoBehaviour {
             HUD.S.PlaySound("boing", Random.Range(.5f, 1f));
         }
 
-        if (coll.gameObject.tag == "Asteroid") {
+        if (coll.gameObject.tag == "AsteroidBreakable") {
             HUD.S.PlaySound("objecthit2", Random.Range(.5f, 1f));
             if (rb.velocity.magnitude > 10f && transform.parent == null) {
                 coll.gameObject.GetComponent<Asteriod>().Destroy();
