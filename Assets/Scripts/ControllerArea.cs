@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class ControllerArea : MonoBehaviour {
     const int TOTAL_PLAYERS = 4;
     static int players_set = 0;
+    static bool next_scene_loaded = false;
 
 	// Use this for initialization
 	void Start () {
@@ -12,7 +13,8 @@ public class ControllerArea : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (players_set == TOTAL_PLAYERS) {
+        if (players_set == TOTAL_PLAYERS && !next_scene_loaded) {
+            next_scene_loaded = true;
             SceneManager.LoadScene("CharacterSelect");
         }
 	}
