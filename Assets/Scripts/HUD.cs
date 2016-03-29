@@ -7,8 +7,8 @@ public class HUD : MonoBehaviour {
     public Text middleText;
     public Text p1scoretext, p2scoretext;
     public Color goalColorRed, goalColorBlue;
-    public Player player1red;
-    public Player player1blue;
+    public Player player1red, player2red;
+    public Player player1blue, player2blue;
 
     public Text countdown;
 
@@ -37,10 +37,16 @@ public class HUD : MonoBehaviour {
         GameObject[] g = GameObject.FindGameObjectsWithTag("Player");
         for (int c = 0; c < g.Length; ++c) {
             Player p = g[c].GetComponent<Player>();
-            if (p.my_number == 1) {
+            if (p.my_number == 0) {
                 player1red = p;
-            } else {
+            } else if(p.my_number == 1) {
+                player2red = p;
+            }else if (p.my_number == 2)
+            {
                 player1blue = p;
+            } else
+            {
+                player2blue = p;
             }
         }
         ball = GameObject.FindGameObjectWithTag("Ball");
@@ -72,6 +78,8 @@ public class HUD : MonoBehaviour {
     {
         player1blue.GetComponent<Player>().loseControlOfBall();
         player1red.GetComponent<Player>().loseControlOfBall();
+        player2red.GetComponent<Player>().loseControlOfBall();
+        player2blue.GetComponent<Player>().loseControlOfBall();
         ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
     public void RedTeamScored() {
@@ -132,7 +140,9 @@ public class HUD : MonoBehaviour {
         if (secondhalf)
         {
             player1red.transform.position = BlueTeamStartPos1;
+            player2red.transform.position = BlueTeamStartPos2;
             player1blue.transform.position = RedTeamStartPos1;
+            player2blue.transform.position = RedTeamStartPos2;
             if (BlueScored)
             {
                 ball.transform.position = BallStartPosBlueAdvantage;
@@ -145,7 +155,9 @@ public class HUD : MonoBehaviour {
         }
         else {
             player1red.transform.position = RedTeamStartPos1;
+            player2red.transform.position = RedTeamStartPos2;
             player1blue.transform.position = BlueTeamStartPos1;
+            player2blue.transform.position = BlueTeamStartPos2;
             if (BlueScored)
             {
                 ball.transform.position = BallStartPosRedAdvantage;
