@@ -6,16 +6,10 @@ public class Player : MonoBehaviour {
     Color PLAYER_1_COLOR = new Color(1f, 0.7f, 0.7f);
     Color PLAYER_2_COLOR = new Color(0.7f, 0.7f, 1f);
 
-    public bool RedTeam = true;
-    struct controls {
-        public string up, vert, hor, R_vert, R_hor;
-        public string skate, Shoot, special;
-    };
-
     public int my_number = 1;
     public float ball_offset_scale;
     public bool has_ball = false;
-    public bool is_goalie = false;
+    public HUD.Team team;
 
     float max_speed = 5;
     float acceleration = 30;
@@ -24,18 +18,20 @@ public class Player : MonoBehaviour {
     float slow_delay_time = 1f;
     float slow_delay = 0;
     public float shot_force = 1000f;
+    public float charge_shot_delay = 2f;
+    public float charge_shot_multiplier = 2f;
+    public int charged_emit = 10;
+    public float charged_speed = 10f;
     Vector2 current_ball_angle;
 
     int slowed = 0;
     float fatigue = 0;
     bool dash = false;
-    bool shooting = true;
-    float charge_timer = 0;
-    float max_charge_time = 5;
+    bool shooting = false;
+    float shot_start_time;
 
     GameObject ball;
     Rigidbody2D ball_rb;
-    controls my_inputs;
     Rigidbody2D rigid;
     CircleCollider2D player_collider;
     CircleCollider2D ball_collider;
@@ -47,8 +43,13 @@ public class Player : MonoBehaviour {
         player_collider = GetComponent<CircleCollider2D>();
         ball_collider = ball.GetComponent<CircleCollider2D>();
         rigid = gameObject.GetComponent<Rigidbody2D>();
-        
 
+        if (my_number == 0 || my_number == 1) {
+            team = HUD.Team.BLUE;
+        } else {
+            team = HUD.Team.RED;
+        }
+        
         default_color = GetComponent<Renderer>().material.color;
     }
 
@@ -73,8 +74,8 @@ public class Player : MonoBehaviour {
         if (has_ball == true) {
             dribble();
         }
-        if (ControlManager.fireButtonPressed(my_number) && has_ball) {
-            shoot();
+        if (ControlManager.fireButtonPressed(my_number) && has_ball && !shooting) {
+            startShot();
         }
         if (shooting && has_ball) {
             finishShot();
@@ -114,6 +115,7 @@ public class Player : MonoBehaviour {
         if (ball.transform.parent == transform) {
             ball.transform.parent = null;
             has_ball = false;
+            shooting = false;
             if (HUD.S.GameStarted) {
                 Invoke("allowBallCollision", 0.5f);
             } else {
@@ -154,37 +156,28 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void shoot() {
-        HUD.S.PlaySound("kick", Random.Range(.5f,1f));
-        loseControlOfBall();
-        Vector2 shot = ball.transform.position-transform.position;
-        Vector3.Normalize(shot);
-        shot *= shot_force;
-        ball_rb.AddForce(shot);
-        ball_rb.isKinematic = false;
-        has_ball = false;
-        if (!shooting) {
-            shooting = true;
-            charge_timer = 0;
-        }
-
+    void startShot() {
+        shooting = true;
+        shot_start_time = Time.time;
     }
 
     void finishShot() {
-        if (!ControlManager.fireButtonPressed(my_number) && shooting == true) {
+        if (!ControlManager.fireButtonPressed(my_number) && shooting) {
             actuallyShoot();
         } else {
-            charge_timer += Time.deltaTime;
-            ball.GetComponent<ParticleSystem>().Emit((int)(charge_timer));
-            ball.GetComponent<ParticleSystem>().startSpeed = charge_timer * 3;
-            while (charge_timer / 2 - 1 > slowed) {
-                slowed++;
-            }
-            if (charge_timer > max_charge_time) {
-                charge_timer = max_charge_time;
-                actuallyShoot();
+            float charge_time = Time.time - shot_start_time;
+            ball.GetComponent<ParticleSystem>().Emit((int)(charge_time));
+            ball.GetComponent<ParticleSystem>().startSpeed = charge_time * 3;
+            while ((charge_time / 2) - 1 > slowed) {
+                if (slowed < (max_speed / 2)) {
+                    slowed++;
+                }
             }
 
+            if (charge_time > charge_shot_delay) {
+                ball.GetComponent<ParticleSystem>().Emit(charged_emit);
+                ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
+            }
         }
     }
 
@@ -193,21 +186,17 @@ public class Player : MonoBehaviour {
         loseControlOfBall();
         Vector2 shot = ball.transform.position - transform.position;
         Vector3.Normalize(shot);
-        shot *= shot_force * charge_timer * 1.5f;
+        shot *= shot_force;
+        if (Time.time - shot_start_time > charge_shot_delay) {
+            shot *= charge_shot_multiplier;
+            ball.GetComponent<SoccerBall>().fadeParticles(charged_emit);
+        }
         ball_rb.AddForce(shot);
-        ball_rb.isKinematic = false;
         has_ball = false;
         shooting = false;
-        ball.GetComponent<ParticleSystem>().startSpeed = 10;
     }
 
     void allowBallCollision() {
         Physics2D.IgnoreCollision(player_collider, ball_collider, false);
-    }
-
-    void OnCollisionEnter2D(Collision2D coll) {
-        if (!is_goalie && coll.gameObject.tag == "Ball") {
-            gainControlOfBall();
-        }
     }
 }

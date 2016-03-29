@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class Goal : MonoBehaviour {
     public static Goal S;
-    public bool redGoal = true;
+    public HUD.Team team;
 
     public float lerp_time;
     public GameObject[] lerp_points;
@@ -23,13 +23,13 @@ public class Goal : MonoBehaviour {
         S = this;
     }
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         lerp_start = 0f;
         original_point_order = new GameObject[lerp_points.Length];
         Array.Copy(lerp_points, original_point_order, lerp_points.Length);
         resetGoal();
-	}
+    }
 
     // Update is called once per frame
     void Update() {
@@ -65,13 +65,7 @@ public class Goal : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Ball" && HUD.S.GameStarted) {
-            if(redGoal)
-            {
-                Global.S.score(false);
-            }  else
-            {
-                Global.S.score(true);
-            }
+            Global.S.score(team);
         }
     }
 
