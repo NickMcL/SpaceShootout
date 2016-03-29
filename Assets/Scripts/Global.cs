@@ -28,7 +28,7 @@ public class Global : MonoBehaviour {
         for (int c = 0; c < g.Length; ++c) {
             Player p = g[c].GetComponent<Player>();
             SpriteRenderer sr = g[c].GetComponent<SpriteRenderer>();
-            if (p.my_number == 1) {
+            if (p.my_number == 0) {
                 p.RedTeam = false;
                 sr.color = BlueColor;
                 if (BlueP1 == "Bear") {
@@ -44,7 +44,7 @@ public class Global : MonoBehaviour {
                 } else {
                     sr.sprite = dogsprite;
                 }
-            } else if (p.my_number == 2) {
+            } else if (p.my_number == 1) {
                 p.RedTeam = false;
 
                 sr.color = BlueColor;
@@ -61,7 +61,7 @@ public class Global : MonoBehaviour {
                 } else {
                     sr.sprite = dogsprite;
                 }
-            } else if (p.my_number == 3) {
+            } else if (p.my_number == 2) {
                 p.RedTeam = true;
                 sr.color = RedColor;
                 if (RedP1 == "Bear") {
