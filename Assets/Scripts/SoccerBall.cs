@@ -4,10 +4,11 @@ using System.Collections;
 public class SoccerBall : MonoBehaviour {
     Rigidbody2D rb;
     Rigidbody ballrb;
-    Rigidbody2D parentrb;
     float max_speed = 50;
     public static GameObject Ball;
     Vector3 WayToGo;
+
+    public Rigidbody2D parentrb;
 
     public bool BlueBall = false;
 
@@ -22,10 +23,12 @@ public class SoccerBall : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        if (transform.parent != null) {
+        if (transform.parent != null)
+        {
             WayToGo.x = parentrb.velocity.y;
             WayToGo.y = -parentrb.velocity.x;
-        } else {
+        }
+        else {
             WayToGo.x = rb.velocity.y;
             WayToGo.y = -rb.velocity.x;
         }
@@ -63,25 +66,30 @@ public class SoccerBall : MonoBehaviour {
                 HUD.S.SuccessfulBlock();
             }
             if (transform.parent != null) {
+            
                 transform.parent.gameObject.GetComponent<Player>().loseControlOfBall();
             }
-            
             coll.gameObject.GetComponent<Player>().gainControlOfBall();
-
-
-
-            if (coll.gameObject.GetComponent<Player>().RedTeam) {
+            if (coll.gameObject.GetComponent<Player>().RedTeam)
+            {
                 BlueBall = false;
-            } else {
+            } else
+            {
                 BlueBall = true;
             }
             parentrb = coll.gameObject.GetComponent<Rigidbody2D>();
         }
-        if (coll.gameObject.tag == "LevelBounds") {
-            HUD.S.PlaySound("boing", Random.Range(.5f, 1f));
+        if(coll.gameObject.tag == "LevelBounds")
+        {
+            HUD.S.PlaySound("boing", Random.Range(.5f,1f));
         }
-        if (coll.gameObject.tag == "Asteroid") {
-            HUD.S.PlaySound("objecthit2", Random.Range(.5f, 1f));
+        if (coll.gameObject.tag == "Asteroid")
+        {
+            HUD.S.PlaySound("objecthit2", Random.Range(.5f,1f));
+            if (rb.velocity.magnitude > 10f)
+            {
+                coll.gameObject.GetComponent<Asteriod>().Destroy();
+            }
         }
     }
 }
