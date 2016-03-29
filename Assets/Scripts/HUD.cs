@@ -10,6 +10,10 @@ public class HUD : MonoBehaviour {
     public Player player1red, player2red;
     public Player player1blue, player2blue;
 
+    public Vector3 RedTeamStartPos1, RedTeamStartPos2;
+    public Vector3 BlueTeamStartPos1, BlueTeamStartPos2;
+    public Vector3 BallStartPosBlueAdvantage, BallStartPosRedAdvantage;
+
     public Text countdown;
 
     public List<Goal> goals = new List<Goal>();
@@ -22,8 +26,13 @@ public class HUD : MonoBehaviour {
     public float round_time = 10f;
     public float TimeLeft;
     public float end_round_delay = 3f;
+    public bool GameStarted = false;
+    public int BlueTeamScore = 0;
+    public int RedTeamScore = 0;
 
     public bool secondhalf = false;
+
+    public enum Team { BLUE, RED, NONE };
 
     void Awake() {
         S = this;
@@ -56,12 +65,8 @@ public class HUD : MonoBehaviour {
         Global.S.loadSprites();
     }
 
-    public int BlueTeamScore = 0;
-    public int RedTeamScore = 0;
-
     public void UpdateScores() {
         if (secondhalf) {
-
             p2scoretext.text = BlueTeamScore.ToString();
             p1scoretext.text = RedTeamScore.ToString();
         } else {
@@ -70,7 +75,6 @@ public class HUD : MonoBehaviour {
         }
     }
 
-
     public void EveryoneLoseControl() {
         player1blue.GetComponent<Player>().loseControlOfBall();
         player1red.GetComponent<Player>().loseControlOfBall();
@@ -78,6 +82,7 @@ public class HUD : MonoBehaviour {
         player2blue.GetComponent<Player>().loseControlOfBall();
         ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
+
     public void RedTeamScored() {
         GameStarted = false;
         ++RedTeamScore;
@@ -85,7 +90,7 @@ public class HUD : MonoBehaviour {
         EveryoneLoseControl();
         StartCoroutine(erasetextin(1f));
         UpdateScores();
-        StartCoroutine(GameReset(false));
+        StartCoroutine(GameReset(Team.RED));
     }
 
     public void BlueTeamScored() {
@@ -96,7 +101,7 @@ public class HUD : MonoBehaviour {
         EveryoneLoseControl();
         StartCoroutine(erasetextin(1f));
         UpdateScores();
-        StartCoroutine(GameReset(true));
+        StartCoroutine(GameReset(Team.BLUE));
     }
 
     void erasetext() {
@@ -108,7 +113,6 @@ public class HUD : MonoBehaviour {
         middleText.text = "";
     }
 
-    public bool GameStarted = false;
     IEnumerator Count_Down() {
         middleText.text = "3";
         PlaySound("close02", 1f);
@@ -128,7 +132,7 @@ public class HUD : MonoBehaviour {
         GameStarted = true;
     }
 
-    IEnumerator GameReset(bool BlueScored) {
+    IEnumerator GameReset(Team scoring_team) {
         GameStarted = false;
         yield return new WaitForSeconds(1f);
         if (secondhalf) {
@@ -136,18 +140,18 @@ public class HUD : MonoBehaviour {
             player2red.transform.position = BlueTeamStartPos2;
             player1blue.transform.position = RedTeamStartPos1;
             player2blue.transform.position = RedTeamStartPos2;
-            if (BlueScored) {
+            if (scoring_team == Team.RED) {
                 ball.transform.position = BallStartPosBlueAdvantage;
             } else {
                 ball.transform.position = BallStartPosRedAdvantage;
-
             }
+
         } else {
             player1red.transform.position = RedTeamStartPos1;
             player2red.transform.position = RedTeamStartPos2;
             player1blue.transform.position = BlueTeamStartPos1;
             player2blue.transform.position = BlueTeamStartPos2;
-            if (BlueScored) {
+            if (scoring_team == Team.RED) {
                 ball.transform.position = BallStartPosRedAdvantage;
             } else {
                 ball.transform.position = BallStartPosBlueAdvantage;
@@ -167,17 +171,17 @@ public class HUD : MonoBehaviour {
 
         ball.transform.position = Vector2.zero;
 
-        if (goals[0].redGoal) {
-            goals[0].redGoal = false;
+        if (goals[0].team == Team.RED) {
+            goals[0].team = Team.BLUE;
+            goals[1].team = Team.RED;
             goals[0].GetComponent<SpriteRenderer>().color = goalColorBlue;
-            goals[1].redGoal = true;
 
             goals[1].GetComponent<SpriteRenderer>().color = goalColorRed;
         } else {
-            goals[0].redGoal = true;
+            goals[0].team = Team.RED;
+            goals[1].team = Team.BLUE;
 
             goals[0].GetComponent<SpriteRenderer>().color = goalColorRed;
-            goals[1].redGoal = false;
             goals[1].GetComponent<SpriteRenderer>().color = goalColorBlue;
         }
 
@@ -198,11 +202,10 @@ public class HUD : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            ControlManager.use_controllers = !ControlManager.use_controllers;
+        }
     }
-
-    public Vector3 RedTeamStartPos1, RedTeamStartPos2;
-    public Vector3 BlueTeamStartPos1, BlueTeamStartPos2;
-    public Vector3 BallStartPosBlueAdvantage, BallStartPosRedAdvantage;
 
     public void SuccessfulBlock() {
         middleText.text = "Nice!";

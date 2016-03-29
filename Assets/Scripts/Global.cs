@@ -18,9 +18,7 @@ public class Global : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Tab)) {
-            ControlManager.use_controllers = !ControlManager.use_controllers;
-        }
+
     }
 
     public void loadSprites() {
@@ -29,7 +27,6 @@ public class Global : MonoBehaviour {
             Player p = g[c].GetComponent<Player>();
             SpriteRenderer sr = g[c].GetComponent<SpriteRenderer>();
             if (p.my_number == 0) {
-                p.RedTeam = false;
                 sr.color = BlueColor;
                 if (BlueP1 == "Bear") {
                     sr.sprite = bearsprite;
@@ -45,8 +42,6 @@ public class Global : MonoBehaviour {
                     sr.sprite = dogsprite;
                 }
             } else if (p.my_number == 1) {
-                p.RedTeam = false;
-
                 sr.color = BlueColor;
                 if (BlueP2 == "Bear") {
                     sr.sprite = bearsprite;
@@ -62,7 +57,6 @@ public class Global : MonoBehaviour {
                     sr.sprite = dogsprite;
                 }
             } else if (p.my_number == 2) {
-                p.RedTeam = true;
                 sr.color = RedColor;
                 if (RedP1 == "Bear") {
                     sr.sprite = bearsprite;
@@ -78,7 +72,6 @@ public class Global : MonoBehaviour {
                     sr.sprite = dogsprite;
                 }
             } else {
-                p.RedTeam = true;
                 sr.color = RedColor;
                 if (RedP2 == "Bear") {
                     sr.sprite = bearsprite;
@@ -97,9 +90,9 @@ public class Global : MonoBehaviour {
         }
     }
 
-    public void score(bool red) {
+    public void score(HUD.Team team) {
         CameraShaker.S.DoShake(0.08f, 0.15f);
-        if (red) {
+        if (team == HUD.Team.RED) {
             HUD.S.RedTeamScored();
         } else {
             HUD.S.BlueTeamScored();
