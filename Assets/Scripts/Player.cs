@@ -114,6 +114,7 @@ public class Player : MonoBehaviour {
     public void loseControlOfBall() {
         if (ball.transform.parent == transform) {
             HUD.S.stopLaserCharge();
+            ControlManager.rumble(my_number, false);
             ball.transform.parent = null;
             has_ball = false;
             shooting = false;
@@ -177,6 +178,7 @@ public class Player : MonoBehaviour {
             }
 
             if (charge_time > charge_shot_delay) {
+                ControlManager.rumble(my_number);
                 ball.GetComponent<ParticleSystem>().Emit(charged_emit);
                 ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
             }
@@ -193,8 +195,6 @@ public class Player : MonoBehaviour {
             shot *= charge_shot_multiplier;
             ball.GetComponent<SoccerBall>().fadeParticles(charged_emit);
             HUD.S.fireLaser();
-        } else {
-            HUD.S.stopLaserCharge();
         }
         ball_rb.AddForce(shot);
         has_ball = false;
@@ -203,5 +203,14 @@ public class Player : MonoBehaviour {
 
     void allowBallCollision() {
         Physics2D.IgnoreCollision(player_collider, ball_collider, false);
+    }
+
+    public void burstRumble(float duration) {
+        ControlManager.rumble(my_number);
+        Invoke("endRumble", duration);
+    }
+
+    void endRumble() {
+        ControlManager.rumble(my_number, false);
     }
 }

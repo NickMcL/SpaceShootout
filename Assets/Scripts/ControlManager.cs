@@ -71,4 +71,14 @@ public class ControlManager : MonoBehaviour {
         }
         return Input.GetKey(player_key_map["special"][player_num]);
     }
+
+    static public void rumble(int player_num, bool stop = false) {
+        if (use_controllers) {
+            if (stop) {
+                players[player_num].Vibrate(0f);
+            } else {
+                players[player_num].Vibrate(0.4f);
+            }
+        }
+    }
 }

@@ -96,6 +96,8 @@ public class HUD : MonoBehaviour {
         EveryoneLoseControl();
         StartCoroutine(erasetextin(1f));
         UpdateScores();
+        player1red.burstRumble(1f);
+        player2red.burstRumble(1f);
         StartCoroutine(GameReset(Team.RED));
     }
 
@@ -107,6 +109,8 @@ public class HUD : MonoBehaviour {
         EveryoneLoseControl();
         StartCoroutine(erasetextin(1f));
         UpdateScores();
+        player1blue.burstRumble(1f);
+        player2blue.burstRumble(1f);
         StartCoroutine(GameReset(Team.BLUE));
     }
 
