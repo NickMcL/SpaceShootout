@@ -2,8 +2,13 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class HUD : MonoBehaviour {
+    List<string> BALL_STOLEN_STRINGS = new List<string>() {
+        "Stolen!", "Turnover!", "Robbed!", "Hijacked!", "Swiped!", "Snatched!", "Bamboozled!"
+    };
+
     public Text middleText;
     public Text p1scoretext, p2scoretext;
     public Color goalColorRed, goalColorBlue;
@@ -66,13 +71,8 @@ public class HUD : MonoBehaviour {
     }
 
     public void UpdateScores() {
-        if (secondhalf) {
-            p2scoretext.text = BlueTeamScore.ToString();
-            p1scoretext.text = RedTeamScore.ToString();
-        } else {
-            p1scoretext.text = BlueTeamScore.ToString();
-            p2scoretext.text = RedTeamScore.ToString();
-        }
+        p1scoretext.text = BlueTeamScore.ToString();
+        p2scoretext.text = RedTeamScore.ToString();
     }
 
     public void EveryoneLoseControl() {
@@ -135,32 +135,19 @@ public class HUD : MonoBehaviour {
     IEnumerator GameReset(Team scoring_team) {
         GameStarted = false;
         yield return new WaitForSeconds(1f);
-        if (secondhalf) {
-            player1red.transform.position = BlueTeamStartPos1;
-            player2red.transform.position = BlueTeamStartPos2;
-            player1blue.transform.position = RedTeamStartPos1;
-            player2blue.transform.position = RedTeamStartPos2;
-            if (scoring_team == Team.RED) {
-                ball.transform.position = BallStartPosBlueAdvantage;
-            } else {
-                ball.transform.position = BallStartPosRedAdvantage;
-            }
-
+        player1red.transform.position = RedTeamStartPos1;
+        player2red.transform.position = RedTeamStartPos2;
+        player1blue.transform.position = BlueTeamStartPos1;
+        player2blue.transform.position = BlueTeamStartPos2;
+        if (scoring_team == Team.RED) {
+            ball.transform.position = BallStartPosRedAdvantage;
         } else {
-            player1red.transform.position = RedTeamStartPos1;
-            player2red.transform.position = RedTeamStartPos2;
-            player1blue.transform.position = BlueTeamStartPos1;
-            player2blue.transform.position = BlueTeamStartPos2;
-            if (scoring_team == Team.RED) {
-                ball.transform.position = BallStartPosRedAdvantage;
-            } else {
-                ball.transform.position = BallStartPosBlueAdvantage;
-            }
+            ball.transform.position = BallStartPosBlueAdvantage;
         }
         StartCoroutine(Count_Down());
     }
 
-    IEnumerator Halftime() {
+    /*IEnumerator Halftime() {
         GameStarted = false;
         middleText.text = "Half Time!";
         secondhalf = true;
@@ -186,7 +173,7 @@ public class HUD : MonoBehaviour {
         }
 
         StartCoroutine(Count_Down());
-    }
+    }*/
 
     public void PlaySound(string name, float volume = 1f) {
         GameObject g = new GameObject();
@@ -207,8 +194,8 @@ public class HUD : MonoBehaviour {
         }
     }
 
-    public void SuccessfulBlock() {
-        middleText.text = "Nice!";
+    public void SuccessfulSteal() {
+        middleText.text = BALL_STOLEN_STRINGS[Random.Range(0, BALL_STOLEN_STRINGS.Count)];
         CameraShaker.S.DoShake(0.04f, 0.15f);
         StartCoroutine(erasetextin(0.2f));
     }
@@ -235,7 +222,7 @@ public class HUD : MonoBehaviour {
             yield return new WaitForSeconds(2f);
         }
 
-        Application.LoadLevel(0);
+        SceneManager.LoadScene("CharacterSelect");
     }
 
     void FixedUpdate() {
@@ -247,14 +234,9 @@ public class HUD : MonoBehaviour {
         if (TimeLeft > 0f) {
             TimeLeft -= Time.deltaTime;
             if (TimeLeft <= 0f) {
-                if (secondhalf) {
-                    StartCoroutine(GameEnded());
-                    TimeLeft = float.MaxValue;
-                    countdown.text = "";
-                } else {
-                    TimeLeft = round_time;
-                    StartCoroutine(Halftime());
-                }
+                StartCoroutine(GameEnded());
+                TimeLeft = float.MaxValue;
+                countdown.text = "";
             }
         }
     }

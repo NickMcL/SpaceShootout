@@ -33,15 +33,11 @@ public class Goal : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (lookat != null)
-        {
+        if (lookat != null) {
             Vector2 dirToTarget = lookat.transform.position - transform.position;
-            if (forward)
-            {
+            if (forward) {
                 transform.Rotate(Vector3.forward, Vector2.Angle(dirToTarget, transform.up));
-            }
-            else
-            {
+            } else {
                 transform.Rotate(-Vector3.forward, Vector2.Angle(dirToTarget, transform.up));
             }
         }
@@ -60,11 +56,12 @@ public class Goal : MonoBehaviour {
         last_pos = Util.lerp(lerp_points, u);
         this.transform.position = last_pos;
 
-        
+
     }
 
     void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Ball" && HUD.S.GameStarted) {
+            HUD.S.PlaySound("explosion", 1);
             Global.S.score(team);
         }
     }

@@ -63,10 +63,10 @@ public class SoccerBall : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D coll) {
         if (coll.gameObject.tag == "Player" && HUD.S.GameStarted) {
             Player coll_player = coll.gameObject.GetComponent<Player>();
-            if (ball_team != HUD.Team.NONE && coll_player.team != ball_team) {
-                HUD.S.SuccessfulBlock();
-            }
             if (transform.parent != null) {
+                if (ball_team != HUD.Team.NONE && coll_player.team != ball_team) {
+                    HUD.S.SuccessfulSteal();
+                }
                 transform.parent.gameObject.GetComponent<Player>().loseControlOfBall();
             }
 
