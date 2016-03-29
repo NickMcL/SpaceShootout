@@ -113,6 +113,7 @@ public class Player : MonoBehaviour {
 
     public void loseControlOfBall() {
         if (ball.transform.parent == transform) {
+            HUD.S.stopLaserCharge();
             ball.transform.parent = null;
             has_ball = false;
             shooting = false;
@@ -159,6 +160,7 @@ public class Player : MonoBehaviour {
     void startShot() {
         shooting = true;
         shot_start_time = Time.time;
+        HUD.S.startLaserCharge();
     }
 
     void finishShot() {
@@ -190,6 +192,9 @@ public class Player : MonoBehaviour {
         if (Time.time - shot_start_time > charge_shot_delay) {
             shot *= charge_shot_multiplier;
             ball.GetComponent<SoccerBall>().fadeParticles(charged_emit);
+            HUD.S.fireLaser();
+        } else {
+            HUD.S.stopLaserCharge();
         }
         ball_rb.AddForce(shot);
         has_ball = false;

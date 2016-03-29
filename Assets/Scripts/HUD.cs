@@ -39,6 +39,8 @@ public class HUD : MonoBehaviour {
 
     public enum Team { BLUE, RED, NONE };
 
+    GameObject laser_sound;
+
     void Awake() {
         S = this;
     }
@@ -61,6 +63,10 @@ public class HUD : MonoBehaviour {
                 player2blue = p;
             }
         }
+        player1red.transform.position = RedTeamStartPos1;
+        player2red.transform.position = RedTeamStartPos2;
+        player1blue.transform.position = BlueTeamStartPos1;
+        player2blue.transform.position = BlueTeamStartPos2;
         ball = GameObject.FindGameObjectWithTag("Ball");
 
         GameObject[] gs = GameObject.FindGameObjectsWithTag("Goal");
@@ -187,6 +193,42 @@ public class HUD : MonoBehaviour {
         Destroy(g, ac.length);
     }
 
+    public void startLaserCharge() {
+        laser_sound = new GameObject();
+        Invoke("playLaserCharge", 0.3f);
+    }
+
+    void playLaserCharge() {
+        if (laser_sound == null) {
+            return;
+        }
+        AudioSource adsrc = laser_sound.AddComponent<AudioSource>();
+        laser_sound.transform.position = Camera.main.transform.position;
+        adsrc.spatialBlend = 0;
+        AudioClip ac = Resources.Load("Sound/charging_laser") as AudioClip;
+        adsrc.clip = ac;
+        adsrc.volume = 1f;
+        adsrc.Play();
+    }
+
+    public void stopLaserCharge() {
+        if (laser_sound == null) {
+            return;
+        }
+
+        AudioSource audio_source = laser_sound.GetComponent<AudioSource>();
+        laser_sound = null;
+        if (audio_source == null) {
+            return;
+        }
+        audio_source.Stop();
+    }
+
+    public void fireLaser() {
+        stopLaserCharge();
+        PlaySound("fire_laser", 1f);
+    }
+
     // Update is called once per frame
     void Update() {
         if (Input.GetKeyDown(KeyCode.Tab)) {
@@ -211,7 +253,7 @@ public class HUD : MonoBehaviour {
             yield return new WaitForSeconds(2f);
 
 
-        } else if (BlueTeamScore < RedTeamScore) {
+        } else if (BlueTeamScore > RedTeamScore) {
             middleText.text = "Blue Team Wins!";
 
             yield return new WaitForSeconds(2f);
