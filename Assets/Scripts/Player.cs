@@ -47,12 +47,7 @@ public class Player : MonoBehaviour {
         player_collider = GetComponent<CircleCollider2D>();
         ball_collider = ball.GetComponent<CircleCollider2D>();
         rigid = gameObject.GetComponent<Rigidbody2D>();
-
-        if (my_number == 1 || my_number == 2) {
-            GetComponent<SpriteRenderer>().color = PLAYER_1_COLOR;
-        } else {
-            GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR;
-        }
+        
 
         default_color = GetComponent<Renderer>().material.color;
     }
@@ -107,7 +102,7 @@ public class Player : MonoBehaviour {
 
     public void gainControlOfBall() {
         HUD.S.PlaySound("dribble", Random.Range(.5f, 1f));
-        ball.transform.parent = transform;
+        ball.transform.SetParent(transform);
         has_ball = true;
         current_ball_angle = (ball.transform.position - transform.position).normalized;
         dribble();
