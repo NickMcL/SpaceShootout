@@ -23,7 +23,7 @@ public class BlackHole : MonoBehaviour
 
             // apply force on target towards me
             float inverse = 1f / Mathf.Pow(forceDirection.magnitude, 1.5f);
-            if (collider.gameObject.tag != "BlackHole"  && collider.gameObject.tag != "LevelBounds" && collider.gameObject.tag != "Asteroid" && collider.gameObject.tag != "Goal" && HUD.S.GameStarted)
+            if (collider.gameObject.tag != "BlackHole"  && collider.gameObject.tag != "LevelBounds" && collider.gameObject.tag != "Asteroid" && collider.gameObject.tag != "Goal" && collider.gameObject.tag != "Player" && HUD.S.GameStarted)
             {
                 if (collider.GetComponent<Rigidbody2D>() != null)
                 {

@@ -14,6 +14,11 @@ public class Goal : MonoBehaviour {
     Vector3 last_pos;
     GameObject[] original_point_order;
 
+    public GameObject lookat;
+    public Vector3 targetPoint;
+    public Quaternion targetRotation;
+    bool forward = true;
+
     void Awake() {
         S = this;
     }
@@ -28,6 +33,18 @@ public class Goal : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (lookat != null)
+        {
+            Vector2 dirToTarget = lookat.transform.position - transform.position;
+            if (forward)
+            {
+                transform.Rotate(Vector3.forward, Vector2.Angle(dirToTarget, transform.up));
+            }
+            else
+            {
+                transform.Rotate(-Vector3.forward, Vector2.Angle(dirToTarget, transform.up));
+            }
+        }
         if (!HUD.S.GameStarted) {
             this.transform.position = last_pos;
             lerp_start = Time.time;
@@ -38,9 +55,12 @@ public class Goal : MonoBehaviour {
             u = 0f;
             lerp_start = Time.time;
             Array.Reverse(lerp_points);
+            forward = !forward;
         }
         last_pos = Util.lerp(lerp_points, u);
         this.transform.position = last_pos;
+
+        
     }
 
     void OnTriggerEnter2D(Collider2D coll) {
