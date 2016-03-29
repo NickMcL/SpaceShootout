@@ -27,7 +27,7 @@ public class Asteriod : MonoBehaviour {
         }
         if(lerp_points.Length > 1) lerp_time = Vector3.Distance(lerp_points[0], lerp_points[1]) / move_speed;
         lerp_start = 0;
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {

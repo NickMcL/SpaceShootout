@@ -6,6 +6,7 @@ public class ResetObjects : MonoBehaviour
 {
     public static ResetObjects S;
 
+    public GameObject AsteroidBreakablePrefab;
     public GameObject[] ObjectsToReset;
     public List<Vector3> OriginalPositions;
 
@@ -26,7 +27,7 @@ public class ResetObjects : MonoBehaviour
     {
         for(int i = 0; i < ObjectsToReset.Length; i++)
         {
-            GameObject astroid = Instantiate(ObjectsToReset[i], OriginalPositions[i], Quaternion.identity) as GameObject;
+            GameObject astroid = Instantiate(AsteroidBreakablePrefab, OriginalPositions[i], Quaternion.identity) as GameObject;
             //ObjectsToReset[i].transform.position = OriginalPositions[i];
         }
 
