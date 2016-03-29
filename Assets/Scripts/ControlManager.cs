@@ -16,7 +16,7 @@ public class ControlManager : MonoBehaviour {
         { "special", new List<KeyCode>() { KeyCode.KeypadEnter, KeyCode.V, KeyCode.M, KeyCode.Question} }
     };
 
-    public static bool use_controllers = false;
+    public static bool use_controllers = true;
     static InputDevice[] players = new InputDevice[TOTAL_PLAYERS];
 
     static public void setPlayerDevice(int player_num, InputDevice device) {

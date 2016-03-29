@@ -36,7 +36,7 @@ public class Player : MonoBehaviour {
     CircleCollider2D player_collider;
     CircleCollider2D ball_collider;
     Color default_color;
-    public SpriteRenderer label;
+    public GameObject label;
 
     void Start() {
         ball = SoccerBall.Ball;
@@ -50,10 +50,9 @@ public class Player : MonoBehaviour {
         } else {
             team = HUD.Team.RED;
         }
-        
+
         default_color = GetComponent<Renderer>().material.color;
-        //label = GetComponentInChildren<SpriteRenderer>();
-        label.sprite = Resources.Load("p" + (my_number+1)) as Sprite;
+        label.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("p" + (my_number+1));
     }
 
     void Update() {

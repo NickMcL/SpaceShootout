@@ -4,8 +4,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class TitleScreen : MonoBehaviour {
-    Color PLAYER_1_COLOR = new Color(1f, 0.7f, 0.7f);
-    Color PLAYER_2_COLOR = new Color(0.7f, 0.7f, 1f);
+    Color RED_COLOR = new Color(1f, 0.7f, 0.7f);
+    Color BLUE_COLOR = new Color(0.7f, 0.7f, 1f);
 
     public Text P1CharName, P1CharDescrip, P2CharName, P2CharDescrip, TitleText, P3CharName, P3CharDescrip, P4CharName, P4CharDescrip;
     public Image flash;
@@ -57,7 +57,7 @@ public class TitleScreen : MonoBehaviour {
             } else {
                 spriteP1.sprite = dogsprite;
             }
-            spriteP1.color = PLAYER_1_COLOR;
+            spriteP1.color = BLUE_COLOR;
         } else if (PlayerSelecting == 2) {
             P2CharName.text = Character;
             P2CharDescrip.text = Descriptions[Character];
@@ -74,7 +74,7 @@ public class TitleScreen : MonoBehaviour {
             } else {
                 spriteP2.sprite = dogsprite;
             }
-            spriteP2.color = PLAYER_2_COLOR;
+            spriteP2.color = BLUE_COLOR;
         } else if (PlayerSelecting == 3) {
 
             P3CharName.text = Character;
@@ -93,6 +93,7 @@ public class TitleScreen : MonoBehaviour {
             } else {
                 spriteP3.sprite = dogsprite;
             }
+            spriteP3.color = RED_COLOR;
         } else {
             P4CharName.text = Character;
 
@@ -110,7 +111,7 @@ public class TitleScreen : MonoBehaviour {
             } else {
                 spriteP4.sprite = dogsprite;
             }
-
+            spriteP4.color = RED_COLOR;
         }
     }
 

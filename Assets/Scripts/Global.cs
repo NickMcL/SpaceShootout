@@ -93,9 +93,9 @@ public class Global : MonoBehaviour {
     public void score(HUD.Team team) {
         CameraShaker.S.DoShake(0.08f, 0.15f);
         if (team == HUD.Team.RED) {
-            HUD.S.RedTeamScored();
-        } else {
             HUD.S.BlueTeamScored();
+        } else {
+            HUD.S.RedTeamScored();
         }
     }
 }
