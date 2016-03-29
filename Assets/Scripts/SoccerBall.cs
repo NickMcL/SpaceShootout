@@ -8,7 +8,7 @@ public class SoccerBall : MonoBehaviour {
     public static GameObject Ball;
     Vector3 WayToGo;
 
-    
+    public Rigidbody2D parentrb;
 
     public bool BlueBall = false;
 
@@ -42,11 +42,27 @@ public class SoccerBall : MonoBehaviour {
         }
         GetComponent<ParticleSystem>().Emit((int)( rb.velocity.magnitude/2));
     }
-    Rigidbody2D parentrb;
+    bool CANBETAMPEREDWITH = true;
+
+    IEnumerator ballcd()
+    {
+        yield return new WaitForSeconds(5f);
+        CANBETAMPEREDWITH = true;
+    }
+
+
+    void OnCollisionExit2D(Collision2D coll)
+    {
+        if(coll.gameObject.tag == "Player" && HUD.S.GameStarted)
+        {
+            CANBETAMPEREDWITH = true;
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D coll) {
-        if (coll.gameObject.tag == "Player" && HUD.S.GameStarted) {
-            if ((coll.gameObject.GetComponent<Player>().RedTeam && BlueBall) || (!coll.gameObject.GetComponent<Player>().RedTeam && !BlueBall))
-            {
+        if (coll.gameObject.tag == "Player" && HUD.S.GameStarted && CANBETAMPEREDWITH) {
+            CANBETAMPEREDWITH = false;
+            if ((coll.gameObject.GetComponent<Player>().RedTeam && BlueBall) || (!coll.gameObject.GetComponent<Player>().RedTeam && !BlueBall)) {
                 HUD.S.SuccessfulBlock();
             }
             if (transform.parent != null) {
