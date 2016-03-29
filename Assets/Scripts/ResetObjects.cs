@@ -25,17 +25,23 @@ public class ResetObjects : MonoBehaviour
 
     public void Reset()
     {
-        for(int i = 0; i < ObjectsToReset.Length; i++)
+        GameObject[] AsteroidBreakable = GameObject.FindGameObjectsWithTag("AsteroidBreakable");
+        for (int i = 0; i < AsteroidBreakable.Length; i++)
         {
-            GameObject astroid = Instantiate(AsteroidBreakablePrefab, OriginalPositions[i], Quaternion.identity) as GameObject;
-            //ObjectsToReset[i].transform.position = OriginalPositions[i];
+            Destroy(AsteroidBreakable[i]);
         }
 
         GameObject[] AsteroidMinis = GameObject.FindGameObjectsWithTag("AsteroidMini");
-        for (var i = 0; i < AsteroidMinis.Length; i++)
+        for (int i = 0; i < AsteroidMinis.Length; i++)
         {
             Destroy(AsteroidMinis[i]);
         }
+
+        for (int i = 0; i < ObjectsToReset.Length; i++)
+        {
+            GameObject astroid = Instantiate(AsteroidBreakablePrefab, OriginalPositions[i], Quaternion.identity) as GameObject;
+        }
+
     }
 
 }
