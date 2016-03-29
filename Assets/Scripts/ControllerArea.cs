@@ -7,6 +7,8 @@ public class ControllerArea : MonoBehaviour {
     static int players_set = 0;
     static bool next_scene_loaded = false;
 
+    public string nextScene;
+
 	// Use this for initialization
 	void Start () {
 	}
@@ -15,7 +17,7 @@ public class ControllerArea : MonoBehaviour {
 	void Update () {
         if (players_set == TOTAL_PLAYERS && !next_scene_loaded) {
             next_scene_loaded = true;
-            SceneManager.LoadScene("CharacterSelect");
+            SceneManager.LoadScene(nextScene);
         }
 	}
 

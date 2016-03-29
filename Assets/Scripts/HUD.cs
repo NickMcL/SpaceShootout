@@ -49,6 +49,7 @@ public class HUD : MonoBehaviour {
         goals.Add(gs[0].GetComponent<Goal>());
 
         goals.Add(gs[1].GetComponent<Goal>());
+        Global.S.loadSprites();
     }
 
     public int BlueTeamScore = 0;
@@ -203,7 +204,7 @@ public class HUD : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
+        if ()
     }
 
     public Vector3 RedTeamStartPos1, RedTeamStartPos2;

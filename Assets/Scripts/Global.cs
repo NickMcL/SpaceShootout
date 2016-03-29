@@ -23,7 +23,7 @@ public class Global : MonoBehaviour {
         }
     }
 
-    public void OnLevelWasLoaded(int level) {
+    public void loadSprites() {
         GameObject[] g = GameObject.FindGameObjectsWithTag("Player");
         for (int c = 0; c < g.Length; ++c) {
             Player p = g[c].GetComponent<Player>();

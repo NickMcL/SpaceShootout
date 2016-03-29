@@ -39,14 +39,14 @@ public class ControlManager : MonoBehaviour {
 
     static public Vector2 getMovementVector(int player_num) {
         if (use_controllers) {
-            return players[player_num].RightStick;
+            return players[player_num].LeftStick;
         }
         return getKeyboardMovement(player_num);
     }
 
     static public Vector2 getDribbleVector(int player_num) {
         if (use_controllers) {
-            return players[player_num].LeftStick;
+            return players[player_num].RightStick;
         }
         return getKeyboardMovement(player_num);
     }
