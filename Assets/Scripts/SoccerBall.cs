@@ -15,9 +15,9 @@ public class SoccerBall : MonoBehaviour {
     public float emit_decay_rate;
     bool fade_particles = false;
     float emit;
-
+    GameObject[] goals;
     ParticleSystem particle_system;
-
+    public float slow_mo_dist = 5f;
     // Use this for initialization
     void Awake() {
         Ball = gameObject;
@@ -27,6 +27,7 @@ public class SoccerBall : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         particle_system = GetComponent<ParticleSystem>();
         ballrb = transform.GetChild(0).gameObject.GetComponent<Rigidbody>();
+        goals = GameObject.FindGameObjectsWithTag("Goal");
     }
 
     void FixedUpdate() {
@@ -46,6 +47,7 @@ public class SoccerBall : MonoBehaviour {
                 fade_particles = false;
             }
         }
+
     }
 
     // Update is called once per frame
@@ -53,13 +55,34 @@ public class SoccerBall : MonoBehaviour {
         while (rb.velocity.magnitude > max_speed) {
             rb.velocity *= 0.99f;
         }
+        timeDilation();
     }
 
     public void fadeParticles(float start_emit) {
         fade_particles = true;
         emit = start_emit;
     }
+    void timeDilation() {
+        Time.timeScale = 1;
+        float velocity = rb.velocity.magnitude;
+        if (transform.parent != null) {
+            velocity = parentrb.velocity.magnitude;
+        }
+        foreach (GameObject goal in goals) {
+            Vector3 dist = goal.transform.position - transform.position;
+            dist.z = 0;
+            float multiplier = (int)(dist.magnitude * 4 / slow_mo_dist) * 0.2f + 0.25f;
+            if (dist.magnitude < slow_mo_dist) {
+                multiplier *= (1 - velocity / max_speed);
+                if (multiplier < 0.1f)
+                    multiplier = 0.1f;
+                if (Time.timeScale > multiplier) {
+                    Time.timeScale = multiplier;
+                }
+            }
 
+        }
+    }
     void OnCollisionEnter2D(Collision2D coll) {
         if (coll.gameObject.tag == "Player" && HUD.S.GameStarted) {
             Player coll_player = coll.gameObject.GetComponent<Player>();

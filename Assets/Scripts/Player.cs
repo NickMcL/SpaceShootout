@@ -18,7 +18,7 @@ public class Player : MonoBehaviour {
     float slow_delay_time = 1f;
     float slow_delay = 0;
     public float shot_force = 1000f;
-    public float charge_shot_delay = 2f;
+    public float charge_shot_delay = 1.5f;
     public float charge_shot_multiplier = 2f;
     public int charged_emit = 10;
     public float charged_speed = 10f;
@@ -171,18 +171,20 @@ public class Player : MonoBehaviour {
             actuallyShoot();
         } else {
             float charge_time = Time.time - shot_start_time;
-            ball.GetComponent<ParticleSystem>().Emit((int)(charge_time));
-            ball.GetComponent<ParticleSystem>().startSpeed = charge_time * 3;
+     
             while ((charge_time / 2) - 1 > slowed) {
                 if (slowed < (max_speed / 2)) {
                     slowed++;
                 }
             }
-
+            
             if (charge_time > charge_shot_delay) {
                 ControlManager.rumble(my_number);
-                ball.GetComponent<ParticleSystem>().Emit(charged_emit);
+                ball.GetComponent<ParticleSystem>().Emit(charged_emit/2);
                 ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
+            } else {
+                ball.GetComponent<ParticleSystem>().Emit((int)(charge_time/charge_shot_delay * charged_emit/2));
+                ball.GetComponent<ParticleSystem>().startSpeed = (int)(charged_speed * charge_time / charge_shot_delay);
             }
         }
     }
