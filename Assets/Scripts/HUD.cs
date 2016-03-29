@@ -54,13 +54,13 @@ public class HUD : MonoBehaviour {
         for (int c = 0; c < g.Length; ++c) {
             Player p = g[c].GetComponent<Player>();
             if (p.my_number == 0) {
-                player1red = p;
-            } else if (p.my_number == 1) {
-                player2red = p;
-            } else if (p.my_number == 2) {
                 player1blue = p;
-            } else {
+            } else if (p.my_number == 1) {
                 player2blue = p;
+            } else if (p.my_number == 2) {
+                player1red = p;
+            } else {
+                player2red = p;
             }
         }
         player1red.transform.position = RedTeamStartPos1;

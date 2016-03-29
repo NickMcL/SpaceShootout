@@ -114,7 +114,7 @@ public class Player : MonoBehaviour {
     public void loseControlOfBall() {
         if (ball.transform.parent == transform) {
             HUD.S.stopLaserCharge();
-            ControlManager.rumble(my_number, false);
+            ControlManager.rumble(my_number, true);
             ball.transform.parent = null;
             has_ball = false;
             shooting = false;
@@ -211,6 +211,6 @@ public class Player : MonoBehaviour {
     }
 
     void endRumble() {
-        ControlManager.rumble(my_number, false);
+        ControlManager.rumble(my_number, true);
     }
 }
