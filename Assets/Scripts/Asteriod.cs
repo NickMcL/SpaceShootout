@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class Asteriod : MonoBehaviour {
     public List<GameObject> asteroid_list;
+    public List<Sprite> sprite_list;
 
     public bool doLerp = true;
     public float launchSpeed;
@@ -16,6 +17,9 @@ public class Asteriod : MonoBehaviour {
     Vector3[] lerp_points = new Vector3[2];
     float lerp_time;
     float lerp_start;
+
+    int hitcount;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -47,6 +51,15 @@ public class Asteriod : MonoBehaviour {
     public void Destroy()
     {
         CameraShaker.S.DoShake(.1f, 0f);
+
+        hitcount++;
+        if (hitcount < 3)
+        {
+            GetComponent<SpriteRenderer>().sprite = sprite_list[hitcount];
+            return;
+        }
+
+        
         foreach (GameObject obj in asteroid_list)
         {
             GameObject astroid = Instantiate(obj, UnityEngine.Random.insideUnitCircle  + new Vector2(transform.position.x, transform.position.y), Quaternion.identity) as GameObject;
