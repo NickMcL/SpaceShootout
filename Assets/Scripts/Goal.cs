@@ -61,8 +61,14 @@ public class Goal : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Ball" && HUD.S.GameStarted) {
+
+            //set to true for replay
+            if (false) {
+                Replay.replay_device.startPlayback(Replay.replay_device.current_time - 500, Replay.replay_device.current_time, 1);
+                return;
+            }
             HUD.S.PlaySound("explosion", 1);
-            Global.S.score(team);
+           Global.S.score(team);
         }
     }
 

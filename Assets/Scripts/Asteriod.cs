@@ -72,6 +72,7 @@ public class Asteriod : MonoBehaviour {
         }
         if (asteroid_list.Count != 0)
         {
+            Replay.replay_device.killObject(gameObject);
             Destroy(this.gameObject);
         }
     }

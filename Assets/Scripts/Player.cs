@@ -38,6 +38,9 @@ public class Player : MonoBehaviour {
     Color default_color;
     public GameObject label;
 
+    // should be the first thind done in anything that needs to be in a replay
+   
+
     void Start() {
         ball = SoccerBall.Ball;
         ball_rb = ball.GetComponent<Rigidbody2D>();
@@ -53,6 +56,10 @@ public class Player : MonoBehaviour {
 
         default_color = GetComponent<Renderer>().material.color;
         label.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("p" + (my_number+1));
+    }
+
+    void FixedUpdate() {
+  //      Replay.replay_device.updateObject(gameObject);
     }
 
     void Update() {
