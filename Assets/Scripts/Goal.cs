@@ -19,6 +19,8 @@ public class Goal : MonoBehaviour {
     public Quaternion targetRotation;
     bool forward = true;
 
+    public GameObject explosionPrefab;
+
     void Awake() {
         S = this;
     }
@@ -62,6 +64,7 @@ public class Goal : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Ball" && HUD.S.GameStarted) {
             HUD.S.PlaySound("explosion", 1);
+            GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity) as GameObject;
             Global.S.score(team);
         }
     }
