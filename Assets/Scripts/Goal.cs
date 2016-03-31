@@ -19,6 +19,11 @@ public class Goal : MonoBehaviour {
     public Quaternion targetRotation;
     bool forward = true;
 
+    public GameObject explosionPrefab;
+    public Collider2D[] inRange;
+    public float explodeRadius = 4f;
+    public float explodeForce = 1000f;
+
     void Awake() {
         S = this;
     }
@@ -68,7 +73,11 @@ public class Goal : MonoBehaviour {
                 return;
             }
             HUD.S.PlaySound("explosion", 1);
-           Global.S.score(team);
+
+            GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity) as GameObject;
+            explodeAtPoint();
+            Global.S.score(team);
+
         }
     }
 
@@ -76,5 +85,22 @@ public class Goal : MonoBehaviour {
         Array.Copy(original_point_order, lerp_points, lerp_points.Length);
         last_pos = Util.lerp(lerp_points, 0f);
         this.transform.position = Util.lerp(lerp_points, 0f);
+    }
+
+    public void explodeAtPoint()
+    {
+        inRange = Physics2D.OverlapCircleAll(transform.position, explodeRadius);
+        foreach (Collider2D collider in inRange)
+        {
+            if (collider.gameObject.tag == "Player")
+            {
+                if (collider.GetComponent<Rigidbody2D>() != null)
+                {
+                    float x = collider.transform.position.x - transform.position.x;
+                    float y = collider.transform.position.y - transform.position.y;
+                    collider.GetComponent<Rigidbody2D>().AddForce((new Vector2(x, y))*explodeForce, ForceMode2D.Force);
+                }
+            }
+        }
     }
 }
