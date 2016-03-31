@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Asteriod : MonoBehaviour {
     public List<GameObject> asteroid_list;
     public List<Sprite> sprite_list;
+    public GameObject explosionPrefab;
 
     public bool doLerp = true;
     public float launchSpeed;
@@ -59,7 +60,8 @@ public class Asteriod : MonoBehaviour {
             return;
         }
 
-        
+        GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity) as GameObject;
+
         foreach (GameObject obj in asteroid_list)
         {
             GameObject astroid = Instantiate(obj, UnityEngine.Random.insideUnitCircle  + new Vector2(transform.position.x, transform.position.y), Quaternion.identity) as GameObject;
