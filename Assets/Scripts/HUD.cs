@@ -41,6 +41,7 @@ public class HUD : MonoBehaviour {
 
     GameObject laser_sound;
 
+    Dictionary<int, Player> playersAndNums = new Dictionary<int, Player>();
     void Awake() {
         S = this;
     }
@@ -51,7 +52,6 @@ public class HUD : MonoBehaviour {
         PlaySound("LaserMillenium", .25f);
         StartCoroutine(Count_Down());
         GameObject[] g = GameObject.FindGameObjectsWithTag("Player");
-        Dictionary<int, Player> playersAndNums = new Dictionary<int, Player>();
         for (int c = 0; c < g.Length; ++c) {
             Player p = g[c].GetComponent<Player>();
             if (p.my_number == 0) {
@@ -80,14 +80,61 @@ public class HUD : MonoBehaviour {
         goals.Add(gs[0].GetComponent<Goal>());
 
         goals.Add(gs[1].GetComponent<Goal>());
+
+
+
+        StartCoroutine(SpawnPowerups());
+
         Global.S.loadSprites();
+        
+
     }
+
+    public GameObject[] PowerUps;
+    bool powerUpOut = false;
+    float StageLengthX = 14f;
+    float StageLengthY = 8f;
+
+    public bool PointIsNearPlayers(Vector3 point, float maxdist)
+    {
+        foreach (KeyValuePair<int, Player> entry in playersAndNums)
+        {
+            if((entry.Value.transform.position - point).magnitude < maxdist){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public float SpawnPowerupIntervalMax = 15f;
+    public float SpawnPowerupIntervalMin = 5f;
 
     public IEnumerator SpawnPowerups()
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(-0.5f, 0.5f));
+            if (!powerUpOut)
+            {
+                yield return new WaitForSeconds(Random.Range(SpawnPowerupIntervalMin, SpawnPowerupIntervalMax));
+                int rnjesus = Random.Range(0, PowerUps.Length);
+                Vector3 targetPos = new Vector3(Random.Range(-StageLengthX / 2f, StageLengthX / 2f), Random.Range(-StageLengthY / 2f, StageLengthY / 2f));
+                bool TooCloseToPlayers = PointIsNearPlayers(targetPos, 1f);
+
+
+
+                while (TooCloseToPlayers)
+                {
+                    targetPos = new Vector3(Random.Range(-StageLengthX / 2f, StageLengthX / 2f), Random.Range(-StageLengthY / 2f, StageLengthY / 2f));
+                    TooCloseToPlayers = PointIsNearPlayers(targetPos, 1f);
+                }
+
+                Instantiate(PowerUps[rnjesus], targetPos, transform.rotation);
+
+                powerUpOut = true;
+            } else
+            {
+                yield return new WaitForFixedUpdate();
+            }
         }
     }
 
@@ -267,6 +314,23 @@ public class HUD : MonoBehaviour {
         middleText.text = "SPEED BOOST!";
         CameraShaker.S.DoShake(0.04f, 0.15f);
         StartCoroutine(erasetextin(0.2f));
+        powerUpOut = false;
+    }
+
+    public void GetPushPowerup()
+    {
+        middleText.text = "TACKLE BOOST!";
+        CameraShaker.S.DoShake(0.04f, 0.15f);
+        StartCoroutine(erasetextin(0.2f));
+        powerUpOut = false;
+    }
+
+    public void GetShootPowerup()
+    {
+        middleText.text = "SHOOT BOOST!";
+        CameraShaker.S.DoShake(0.04f, 0.15f);
+        StartCoroutine(erasetextin(0.2f));
+        powerUpOut = false;
     }
 
     IEnumerator GameEnded() {

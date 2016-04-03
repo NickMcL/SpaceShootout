@@ -15,7 +15,7 @@ public class ShootPowerUp : MonoBehaviour {
         if (collision.CompareTag("Player") && canBePickedUp)
         {
             GetComponent<SpriteRenderer>().enabled = false;
-            HUD.S.GetSpeedPowerup();
+            HUD.S.GetShootPowerup();
             canBePickedUp = false;
             pee = collision.GetComponent<Player>();
             following = collision.gameObject.transform;
