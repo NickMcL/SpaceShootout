@@ -51,18 +51,25 @@ public class HUD : MonoBehaviour {
         PlaySound("LaserMillenium", .25f);
         StartCoroutine(Count_Down());
         GameObject[] g = GameObject.FindGameObjectsWithTag("Player");
+        Dictionary<int, Player> playersAndNums = new Dictionary<int, Player>();
         for (int c = 0; c < g.Length; ++c) {
             Player p = g[c].GetComponent<Player>();
             if (p.my_number == 0) {
                 player1blue = p;
+                playersAndNums[0] = p;
             } else if (p.my_number == 1) {
                 player2blue = p;
+                playersAndNums[1] = p;
             } else if (p.my_number == 2) {
                 player1red = p;
+                playersAndNums[2] = p;
             } else {
                 player2red = p;
+                playersAndNums[3] = p;
             }
         }
+        Physics2D.IgnoreCollision(playersAndNums[0].GetComponent<Collider2D>(), playersAndNums[1].GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(playersAndNums[2].GetComponent<Collider2D>(), playersAndNums[3].GetComponent<Collider2D>());
         player1red.transform.position = RedTeamStartPos1;
         player2red.transform.position = RedTeamStartPos2;
         player1blue.transform.position = BlueTeamStartPos1;
@@ -74,6 +81,14 @@ public class HUD : MonoBehaviour {
 
         goals.Add(gs[1].GetComponent<Goal>());
         Global.S.loadSprites();
+    }
+
+    public IEnumerator SpawnPowerups()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(-0.5f, 0.5f));
+        }
     }
 
     public void UpdateScores() {
