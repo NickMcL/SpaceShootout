@@ -5,7 +5,7 @@ public class Replayable : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        prepForReplay();
+       // prepForReplay();
 	}
     void prepForReplay() {
         /*
@@ -15,9 +15,9 @@ public class Replayable : MonoBehaviour {
             return;
         }
         */
-        Replay.replay_device.addToList(gameObject);
+        //Replay.replay_device.addToList(gameObject);
     }
     void FixedUpdate() {
-        Replay.replay_device.updateObject(gameObject);
+       // Replay.replay_device.updateObject(gameObject);
     }
 }

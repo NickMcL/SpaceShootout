@@ -12,7 +12,7 @@ public class Player : MonoBehaviour {
     public HUD.Team team;
 
     float max_speed = 5;
-    float acceleration = 30;
+    public float acceleration = 30;
     float dash_delay_time = 0.3f;
     float dash_delay = 0;
     float slow_delay_time = 1f;

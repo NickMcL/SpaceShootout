@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class HUD : MonoBehaviour {
     List<string> BALL_STOLEN_STRINGS = new List<string>() {
-        "Stolen!", "Turnover!", "Robbed!", "Hijacked!", "Swiped!", "Snatched!", "Bamboozled!"
+        "Stolen!", "Turnover!", "Robbed!", "Hijacked!", "Swiped!", "Snatched!", "Bamboozled!", "The Tables have Turned!", "Shrekt!", "Praise The Sun!"
     };
 
     public Text middleText;
@@ -243,6 +243,13 @@ public class HUD : MonoBehaviour {
 
     public void SuccessfulSteal() {
         middleText.text = BALL_STOLEN_STRINGS[Random.Range(0, BALL_STOLEN_STRINGS.Count)];
+        CameraShaker.S.DoShake(0.04f, 0.15f);
+        StartCoroutine(erasetextin(0.2f));
+    }
+
+    public void GetSpeedPowerup()
+    {
+        middleText.text = "SPEED BOOST!";
         CameraShaker.S.DoShake(0.04f, 0.15f);
         StartCoroutine(erasetextin(0.2f));
     }

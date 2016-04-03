@@ -69,7 +69,7 @@ public class Goal : MonoBehaviour {
 
             //set to true for replay
             if (false) {
-                Replay.replay_device.startPlayback(Replay.replay_device.current_time - 500, Replay.replay_device.current_time, 1);
+              //  Replay.replay_device.startPlayback(Replay.replay_device.current_time - 500, Replay.replay_device.current_time, 1);
                 return;
             }
             HUD.S.PlaySound("explosion", 1);
