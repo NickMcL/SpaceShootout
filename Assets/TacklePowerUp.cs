@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TacklePowerUp : MonoBehaviour {
 
-    public float TackleBounceSpeed = 10f;
+    public float TackleModifier = 2f;
     public float time = 10f;
     bool canBePickedUp = true;
     bool followingTheLeader = false;
@@ -30,14 +30,14 @@ public class TacklePowerUp : MonoBehaviour {
     {
         pee.pushPoweruped = true;
 
-        pee.pushSpeed = 10f;
+        pee.pushSpeed *= TackleModifier;
         transform.GetChild(0).gameObject.SetActive(true);
     }
 
     void NerfPlayer()
     {
         pee.pushPoweruped = false;
-        pee.pushSpeed = 0f;
+        pee.pushSpeed /= TackleModifier;
         transform.GetChild(0).gameObject.GetComponent<ParticleSystem>().enableEmission = false;
         StartCoroutine(DieAfterALil());
     }

@@ -39,8 +39,11 @@ public class Player : MonoBehaviour
     Color default_color;
     public GameObject label;
 
-    public float pushSpeed = 0f;
+    public float pushSpeed = 3000f;
     public bool pushPoweruped = false;
+
+    public bool isBaboon = false;
+    public bool isDoge = false;
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
@@ -56,10 +59,13 @@ public class Player : MonoBehaviour
 
 
 
-            if (!pushPoweruped)
+            if (pushPoweruped || isBaboon)
+            {
+            } else
             {
                 return;
             }
+            
             if ((p.team == HUD.Team.BLUE && team == HUD.Team.RED) || (p.team == HUD.Team.RED && team == HUD.Team.BLUE))
             {
                 float pushsp = pushSpeed;
@@ -67,7 +73,8 @@ public class Player : MonoBehaviour
                 {
                     pushsp *= 4f;
                 }
-                p.GetComponent<Rigidbody2D>().AddForceAtPosition((collision.contacts[0].point - (Vector2)transform.position).normalized * pushsp, collision.contacts[0].point, ForceMode2D.Impulse);
+                print((collision.gameObject.transform.position - transform.position).normalized * pushsp);
+                p.GetComponent<Rigidbody2D>().AddForce((collision.gameObject.transform.position - transform.position).normalized * pushsp, ForceMode2D.Impulse);
             }
         }
     }
@@ -266,11 +273,39 @@ public class Player : MonoBehaviour
             {
                 ControlManager.rumble(my_number);
                 ball.GetComponent<ParticleSystem>().Emit(charged_emit / 2);
-                ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
+                if (isDoge)
+                {
+                    if (Random.Range(0, 100) < 5)
+                    {
+
+                        ball.GetComponent<ParticleSystem>().startSpeed = charged_speed * 100;
+                    } else
+                    {
+
+                        ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
+                    }
+                }
+                else {
+                    ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
+                }
             }
             else {
                 ball.GetComponent<ParticleSystem>().Emit((int)(charge_time / charge_shot_delay * charged_emit / 2));
-                ball.GetComponent<ParticleSystem>().startSpeed = (int)(charged_speed * charge_time / charge_shot_delay);
+                if (isDoge)
+                {
+                    if (Random.Range(0, 100) < 5)
+                    {
+
+                        ball.GetComponent<ParticleSystem>().startSpeed = charged_speed * 100;
+                    } else
+                    {
+
+                        ball.GetComponent<ParticleSystem>().startSpeed = (int)(charged_speed * charge_time / charge_shot_delay);
+                    }
+                }
+                else {
+                    ball.GetComponent<ParticleSystem>().startSpeed = (int)(charged_speed * charge_time / charge_shot_delay);
+                }
             }
         }
     }
