@@ -42,6 +42,7 @@ public class HUD : MonoBehaviour {
     GameObject laser_sound;
 
     Dictionary<int, Player> playersAndNums = new Dictionary<int, Player>();
+    List<Collider2D> asteroidboxes = new List<Collider2D>();
     void Awake() {
         S = this;
     }
@@ -81,8 +82,16 @@ public class HUD : MonoBehaviour {
 
         goals.Add(gs[1].GetComponent<Goal>());
 
-
-
+        GameObject[] asts = GameObject.FindGameObjectsWithTag("Asteroid");
+        for(int c = 0; c < asts.Length; ++c)
+        {
+            asteroidboxes.Add(asts[c].GetComponent<Collider2D>());
+        }
+        GameObject[] asts2 = GameObject.FindGameObjectsWithTag("AsteroidBreakable");
+        for(int c = 0; c < asts2.Length; ++c)
+        {
+            asteroidboxes.Add(asts2[c].GetComponent<Collider2D>());
+        }
         StartCoroutine(SpawnPowerups());
 
         Global.S.loadSprites();
@@ -103,6 +112,15 @@ public class HUD : MonoBehaviour {
                 return true;
             }
         }
+
+        foreach(Collider2D col in asteroidboxes)
+        {
+            if (col.bounds.Contains(point))
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 
