@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
     float DRIBBLE_MAGNITUDE_THRESHOLD = 0.8f;
     Color PLAYER_1_COLOR = new Color(1f, 0.7f, 0.7f);
     Color PLAYER_2_COLOR = new Color(0.7f, 0.7f, 1f);
@@ -38,32 +39,71 @@ public class Player : MonoBehaviour {
     Color default_color;
     public GameObject label;
 
-    // should be the first thind done in anything that needs to be in a replay
-   
+    public float pushSpeed = 0f;
+    public bool pushPoweruped = false;
 
-    void Start() {
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Player p = collision.gameObject.GetComponent<Player>();
+            if ((p.team == HUD.Team.BLUE && team == HUD.Team.BLUE) || (p.team == HUD.Team.RED && team == HUD.Team.RED))
+            {
+                Physics2D.IgnoreCollision(player_collider, collision.gameObject.GetComponent<Collider2D>());
+                return;
+            }
+
+
+
+            if (!pushPoweruped)
+            {
+                return;
+            }
+            if ((p.team == HUD.Team.BLUE && team == HUD.Team.RED) || (p.team == HUD.Team.RED && team == HUD.Team.BLUE))
+            {
+                float pushsp = pushSpeed;
+                if (isDashingCurrently)
+                {
+                    pushsp *= 4f;
+                }
+                p.GetComponent<Rigidbody2D>().AddForceAtPosition((collision.contacts[0].point - (Vector2)transform.position).normalized * pushsp, collision.contacts[0].point, ForceMode2D.Impulse);
+            }
+        }
+    }
+
+    // should be the first thind done in anything that needs to be in a replay
+
+
+    void Start()
+    {
         ball = SoccerBall.Ball;
         ball_rb = ball.GetComponent<Rigidbody2D>();
         player_collider = GetComponent<CircleCollider2D>();
         ball_collider = ball.GetComponent<CircleCollider2D>();
         rigid = gameObject.GetComponent<Rigidbody2D>();
 
-        if (my_number == 0 || my_number == 1) {
+        if (my_number == 0 || my_number == 1)
+        {
             team = HUD.Team.BLUE;
-        } else {
+        }
+        else {
             team = HUD.Team.RED;
         }
 
         default_color = GetComponent<Renderer>().material.color;
-        label.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("p" + (my_number+1));
+        label.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("p" + (my_number + 1));
     }
 
-    void FixedUpdate() {
-  //      Replay.replay_device.updateObject(gameObject);
+    void FixedUpdate()
+    {
+        //      Replay.replay_device.updateObject(gameObject);
     }
 
-    void Update() {
-        if (!HUD.S.GameStarted) {
+    void Update()
+    {
+        if (!HUD.S.GameStarted)
+        {
             return;
         }
         checkDash();
@@ -80,24 +120,37 @@ public class Player : MonoBehaviour {
         }
         */
 
-        if (has_ball == true) {
+        if (has_ball == true)
+        {
             dribble();
         }
-        if (ControlManager.fireButtonPressed(my_number) && has_ball && !shooting) {
+        if (ControlManager.fireButtonPressed(my_number) && has_ball && !shooting)
+        {
             startShot();
         }
-        if (shooting && has_ball) {
+        if (shooting && has_ball)
+        {
             finishShot();
         }
     }
+    public bool isDashingCurrently = false;
+    IEnumerator dashing()
+    {
+        isDashingCurrently = true;
+        yield return new WaitForSeconds(0.8f);
+        isDashingCurrently = false;
+    }
 
-    void updateMovement() {
+    void updateMovement()
+    {
         Vector2 move_vector = ControlManager.getMovementVector(my_number);
         move_vector *= acceleration;
 
-        if (dash == true) {
+        if (dash == true)
+        {
             HUD.S.PlaySound("woosh", Random.Range(.5f, 1f));
             move_vector *= 20;
+            StartCoroutine(dashing());
             dash = false;
         }/*
         if (slowed >0) {
@@ -105,12 +158,14 @@ public class Player : MonoBehaviour {
         }
           */
         rigid.AddForce(move_vector / (1 + slowed * 0.75f));
-        if (rigid.velocity.magnitude > max_speed && dash_delay < dash_delay_time * 0.8f) {
+        if (rigid.velocity.magnitude > max_speed && dash_delay < dash_delay_time * 0.8f)
+        {
             rigid.velocity *= 0.97f;
         }
     }
 
-    public void gainControlOfBall() {
+    public void gainControlOfBall()
+    {
         HUD.S.PlaySound("dribble", Random.Range(.5f, 1f));
         ball.transform.SetParent(transform);
         has_ball = true;
@@ -120,89 +175,115 @@ public class Player : MonoBehaviour {
         Physics2D.IgnoreCollision(player_collider, ball_collider, true);
     }
 
-    public void loseControlOfBall() {
-        if (ball.transform.parent == transform) {
+    public void loseControlOfBall()
+    {
+        if (ball.transform.parent == transform)
+        {
             HUD.S.stopLaserCharge();
             ControlManager.rumble(my_number, true);
             ball.transform.parent = null;
             has_ball = false;
             shooting = false;
-            if (HUD.S.GameStarted) {
+            if (HUD.S.GameStarted)
+            {
                 Invoke("allowBallCollision", 0.5f);
-            } else {
+            }
+            else {
                 Physics2D.IgnoreCollision(player_collider, ball_collider, false);
             }
         }
     }
 
-    void checkDash() {
-        if (slow_delay > 0) {
+    void checkDash()
+    {
+        if (slow_delay > 0)
+        {
             slow_delay -= Time.deltaTime;
-        } else if (slowed > 0) {
+        }
+        else if (slowed > 0)
+        {
             slowed--;
-            if (slowed > 0) {
+            if (slowed > 0)
+            {
                 slow_delay = slow_delay_time;
             }
         }
 
-        if (ControlManager.boostButtonPressed(my_number) && dash_delay <= 0 && slowed < 3) {
+        if (ControlManager.boostButtonPressed(my_number) && dash_delay <= 0 && slowed < 3)
+        {
             dash = true;
             dash_delay = dash_delay_time;
-        } else if (dash_delay > 0) {
+        }
+        else if (dash_delay > 0)
+        {
             dash_delay -= Time.deltaTime;
-            if (dash_delay <= 0) {
+            if (dash_delay <= 0)
+            {
                 slowed++;
                 slow_delay = slow_delay_time;
             }
         }
     }
 
-    void dribble() {
+    void dribble()
+    {
         Vector2 dribble_vector = ControlManager.getDribbleVector(my_number);
-        if (dribble_vector.magnitude > DRIBBLE_MAGNITUDE_THRESHOLD) {
+        if (dribble_vector.magnitude > DRIBBLE_MAGNITUDE_THRESHOLD)
+        {
             current_ball_angle = dribble_vector.normalized;
         }
-        if (current_ball_angle != Vector2.zero) {
+        if (current_ball_angle != Vector2.zero)
+        {
             ball.transform.localPosition = current_ball_angle * ball_offset_scale;
         }
     }
 
-    void startShot() {
+    void startShot()
+    {
         shooting = true;
         shot_start_time = Time.time;
         HUD.S.startLaserCharge();
     }
 
-    void finishShot() {
-        if (!ControlManager.fireButtonPressed(my_number) && shooting) {
+    void finishShot()
+    {
+        if (!ControlManager.fireButtonPressed(my_number) && shooting)
+        {
             actuallyShoot();
-        } else {
+        }
+        else {
             float charge_time = Time.time - shot_start_time;
-     
-            while ((charge_time / 2) - 1 > slowed) {
-                if (slowed < (max_speed / 2)) {
+
+            while ((charge_time / 2) - 1 > slowed)
+            {
+                if (slowed < (max_speed / 2))
+                {
                     slowed++;
                 }
             }
-            
-            if (charge_time > charge_shot_delay) {
+
+            if (charge_time > charge_shot_delay)
+            {
                 ControlManager.rumble(my_number);
-                ball.GetComponent<ParticleSystem>().Emit(charged_emit/2);
+                ball.GetComponent<ParticleSystem>().Emit(charged_emit / 2);
                 ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
-            } else {
-                ball.GetComponent<ParticleSystem>().Emit((int)(charge_time/charge_shot_delay * charged_emit/2));
+            }
+            else {
+                ball.GetComponent<ParticleSystem>().Emit((int)(charge_time / charge_shot_delay * charged_emit / 2));
                 ball.GetComponent<ParticleSystem>().startSpeed = (int)(charged_speed * charge_time / charge_shot_delay);
             }
         }
     }
 
-    void actuallyShoot() {
+    void actuallyShoot()
+    {
         HUD.S.PlaySound("kick", Random.Range(.5f, 1f));
         loseControlOfBall();
         Vector2 shot = ball.transform.position - transform.position;
         Vector3.Normalize(shot);
         shot *= shot_force;
-        if (Time.time - shot_start_time > charge_shot_delay) {
+        if (Time.time - shot_start_time > charge_shot_delay)
+        {
             shot *= charge_shot_multiplier;
             ball.GetComponent<SoccerBall>().fadeParticles(charged_emit);
             HUD.S.fireLaser();
@@ -212,16 +293,19 @@ public class Player : MonoBehaviour {
         shooting = false;
     }
 
-    void allowBallCollision() {
+    void allowBallCollision()
+    {
         Physics2D.IgnoreCollision(player_collider, ball_collider, false);
     }
 
-    public void burstRumble(float duration) {
+    public void burstRumble(float duration)
+    {
         ControlManager.rumble(my_number);
         Invoke("endRumble", duration);
     }
 
-    void endRumble() {
+    void endRumble()
+    {
         ControlManager.rumble(my_number, true);
     }
 }
