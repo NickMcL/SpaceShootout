@@ -65,6 +65,10 @@ public class SoccerBall : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         timeDilation();
+        if(transform.parent != null)
+        {
+            Statistics.S.timeControlStat(transform.parent.GetComponent<Player>().my_number);
+        }
     }
 
     public void fadeParticles(float start_emit) {
@@ -130,6 +134,7 @@ public class SoccerBall : MonoBehaviour {
             if (transform.parent != null) {
                 if (ball_team != HUD.Team.NONE && coll_player.team != ball_team) {
                     HUD.S.SuccessfulSteal();
+                    Statistics.S.stealStat(coll_player.my_number);
                     stolen = true;
                 }
                 transform.parent.gameObject.GetComponent<Player>().loseControlOfBall(stolen);

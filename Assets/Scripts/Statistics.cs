@@ -10,6 +10,7 @@ public class Statistics : MonoBehaviour {
 
     static public int[] goalsScored = new int[4];
     static public int[] steals = new int[4];
+    static public float[] timeControlled = new float[4];
 
     void Awake()
     {
@@ -71,5 +72,10 @@ public class Statistics : MonoBehaviour {
     public void stealStat(int playerNum)
     {
         steals[playerNum]++;
+    }
+
+    public void timeControlStat(int playerNum)
+    {
+        timeControlled[playerNum] += Time.deltaTime;
     }
 }
