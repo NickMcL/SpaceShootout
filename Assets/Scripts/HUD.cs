@@ -105,6 +105,8 @@ public class HUD : MonoBehaviour {
     float StageLengthX = 14f;
     float StageLengthY = 8f;
 
+    GameObject powerupslam;
+
     public bool PointIsNearPlayers(Vector3 point, float maxdist)
     {
         foreach (KeyValuePair<int, Player> entry in playersAndNums)
@@ -150,7 +152,7 @@ public class HUD : MonoBehaviour {
                     TooCloseToPlayers = PointIsNearPlayers(targetPos, 2f);
                 }
 
-                Instantiate(PowerUps[rnjesus], targetPos, transform.rotation);
+                powerupslam = Instantiate(PowerUps[rnjesus], targetPos, transform.rotation) as GameObject;
 
                 powerUpOut = true;
             } else
@@ -361,6 +363,11 @@ public class HUD : MonoBehaviour {
 
     IEnumerator GameEnded() {
         GameStarted = false;
+        if(powerupslam != null)
+        {
+            Destroy(powerupslam);
+            powerUpOut = false;
+        }
         Time.timeScale = 1;
         ball.GetComponent<SoccerBall>().ball_in_play = false;
         middleText.text = "Time's Up!";
