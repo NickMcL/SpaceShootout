@@ -33,6 +33,8 @@ public class Player : MonoBehaviour {
     public bool isDashingCurrently = false;
     public int doge_luck = 80;
     public float doge_shot_force_mult = 10f;
+    public float stolen_collision_delay = 0.75f;
+    public float lose_ball_collision_delay = 0.1f;
 
     GameObject ball;
     Rigidbody2D ball_rb;
@@ -68,11 +70,9 @@ public class Player : MonoBehaviour {
                 p.GetComponent<Rigidbody2D>().AddForce((collision.gameObject.transform.position - transform.position).normalized * pushsp, ForceMode2D.Impulse);
             }
         }
-        if (collision.gameObject.tag == "AsteroidBreakable")
-        {
+        if (collision.gameObject.tag == "AsteroidBreakable") {
             HUD.S.PlaySound("objecthit2", Random.Range(.5f, 1f));
-            if (rigid.velocity.magnitude > 7.5f)
-            {
+            if (rigid.velocity.magnitude > 7.5f) {
                 collision.gameObject.GetComponent<Asteriod>().Destroy();
             }
         }
@@ -93,7 +93,7 @@ public class Player : MonoBehaviour {
         player_collider = GetComponent<CircleCollider2D>();
         ball_collider = ball.GetComponent<CircleCollider2D>();
         rigid = gameObject.GetComponent<Rigidbody2D>();
-        
+
         setTeammate();
         default_color = GetComponent<Renderer>().material.color;
         label.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("p" + (my_number + 1));
@@ -176,7 +176,7 @@ public class Player : MonoBehaviour {
             rigid.AddForce(move_vector / (1 + slowed * 0.75f));
         }
         if (rigid.velocity.magnitude > max_speed && dash_delay < dash_delay_time * 0.8f) {
-                rigid.velocity *= 0.97f;
+            rigid.velocity *= 0.97f;
         }
     }
 
@@ -188,20 +188,24 @@ public class Player : MonoBehaviour {
         dribble();
         ball_rb.velocity = Vector2.zero;
         Physics2D.IgnoreCollision(player_collider, ball_collider, true);
+        Physics2D.IgnoreCollision(ball.GetComponent<Collider2D>(), teammate.GetComponent<Collider2D>(), true);
     }
 
-    public void loseControlOfBall() {
+    public void loseControlOfBall(bool stolen = false) {
         if (ball.transform.parent == transform) {
             HUD.S.stopLaserCharge();
             ControlManager.rumble(my_number, true);
             ball.transform.parent = null;
             has_ball = false;
             shooting = false;
-            if (HUD.S.GameStarted) {
-                Invoke("allowBallCollision", 0.5f);
+            if (HUD.S.GameStarted && stolen) {
+                Invoke("allowBallCollision", stolen_collision_delay);
+            } else if (HUD.S.GameStarted) {
+                Invoke("allowBallCollision", lose_ball_collision_delay);
             } else {
                 Physics2D.IgnoreCollision(player_collider, ball_collider, false);
             }
+            Physics2D.IgnoreCollision(ball.GetComponent<Collider2D>(), teammate.GetComponent<Collider2D>(), false);
         }
     }
 
@@ -233,7 +237,7 @@ public class Player : MonoBehaviour {
             current_ball_angle = dribble_vector.normalized;
         }
         if (current_ball_angle != Vector2.zero) {
-            ball.transform.localPosition =  Vector3.Lerp(ball.transform.localPosition,current_ball_angle * ball_offset_scale, Time.deltaTime * 20f);
+            ball.transform.localPosition = Vector3.Lerp(ball.transform.localPosition, current_ball_angle * ball_offset_scale, Time.deltaTime * 20f);
         }
     }
 

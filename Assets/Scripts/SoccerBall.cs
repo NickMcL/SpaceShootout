@@ -118,6 +118,8 @@ public class SoccerBall : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D coll) {
+        bool stolen = false;
+
         if (coll.gameObject.tag == "Player" && HUD.S.GameStarted) {
             Player coll_player = coll.gameObject.GetComponent<Player>();
             if (transform.parent != null && coll_player.team == ball_team) {
@@ -126,8 +128,9 @@ public class SoccerBall : MonoBehaviour {
             if (transform.parent != null) {
                 if (ball_team != HUD.Team.NONE && coll_player.team != ball_team) {
                     HUD.S.SuccessfulSteal();
+                    stolen = true;
                 }
-                transform.parent.gameObject.GetComponent<Player>().loseControlOfBall();
+                transform.parent.gameObject.GetComponent<Player>().loseControlOfBall(stolen);
             }
 
             coll.gameObject.GetComponent<Player>().gainControlOfBall();
