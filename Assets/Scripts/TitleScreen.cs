@@ -130,6 +130,7 @@ public class TitleScreen : MonoBehaviour {
         flash.color = flashcolor;
     }
     public Image CONTROLS;
+    bool canPressStartToGo = false;
     public void ChooseCharacter() {
         HoverOverCharacter(HoveredChar);
         StartCoroutine(Flash());
@@ -150,14 +151,15 @@ public class TitleScreen : MonoBehaviour {
             Color c = CONTROLS.color;
             c.a = 1f;
             CONTROLS.color = c;
-            Invoke("startGame", 4.0f);
+            CONTROLS.raycastTarget = true;
+            Invoke("ShowControls", 1.0f);
         }
         ++PlayerSelecting;
     }
 
     void ShowControls()
     {
-
+        canPressStartToGo = true;
     }
 
     public void PlaySound(string name, float volume = 1f) {
@@ -178,6 +180,9 @@ public class TitleScreen : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
+        if (canPressStartToGo && ControlManager.playerPressedStart())
+        {
+            startGame();
+        }
     }
 }
