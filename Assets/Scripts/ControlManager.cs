@@ -81,4 +81,8 @@ public class ControlManager : MonoBehaviour {
             }
         }
     }
+
+    static public bool playerPressedStart() {
+        return Input.GetKey(KeyCode.Return);
+    }
 }
