@@ -74,7 +74,7 @@ public class Replay : MonoBehaviour {
     }
 
     public void startPlayback(int replay_start_time, int replay_stop_time,float time_scale) {
-        Time.timeScale = time_scale;
+        /*Time.timeScale = time_scale;
         if (replay_stop_time <= replay_start_time || replay_stop_time > current_time) {
             print("invalid replay, see startPlayback");
             return;
@@ -103,7 +103,7 @@ public class Replay : MonoBehaviour {
                 moving_objects[i] = dupe; //it has to be
 
             }
-        }
+        }*/
     }
     void playBack() {
         if (replay_time == replay_stop) {

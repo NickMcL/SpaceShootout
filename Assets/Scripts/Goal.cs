@@ -21,8 +21,9 @@ public class Goal : MonoBehaviour {
 
     public GameObject explosionPrefab;
     public Collider2D[] inRange;
-    public float explodeRadius = 4f;
-    public float explodeForce = 1000f;
+    public float full_explosive_force_radius = 5f;
+    public float full_explosive_force = 1000f;
+    public float total_explode_radius = 18f;
 
     void Awake() {
         S = this;
@@ -66,10 +67,10 @@ public class Goal : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Ball" && HUD.S.GameStarted) {
-
+            coll.gameObject.GetComponent<SoccerBall>().ball_in_play = false;
             //set to true for replay
             if (false) {
-              //  Replay.replay_device.startPlayback(Replay.replay_device.current_time - 500, Replay.replay_device.current_time, 1);
+                //  Replay.replay_device.startPlayback(Replay.replay_device.current_time - 500, Replay.replay_device.current_time, 1);
                 return;
             }
             HUD.S.PlaySound("explosion", 1);
@@ -77,7 +78,6 @@ public class Goal : MonoBehaviour {
             GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity) as GameObject;
             explodeAtPoint();
             Global.S.score(team);
-
         }
     }
 
@@ -87,18 +87,27 @@ public class Goal : MonoBehaviour {
         this.transform.position = Util.lerp(lerp_points, 0f);
     }
 
-    public void explodeAtPoint()
-    {
-        inRange = Physics2D.OverlapCircleAll(transform.position, explodeRadius);
-        foreach (Collider2D collider in inRange)
-        {
-            if (collider.gameObject.tag == "Player")
-            {
-                if (collider.GetComponent<Rigidbody2D>() != null)
-                {
-                    float x = collider.transform.position.x - transform.position.x;
-                    float y = collider.transform.position.y - transform.position.y;
-                    collider.GetComponent<Rigidbody2D>().AddForce((new Vector2(x, y))*explodeForce, ForceMode2D.Force);
+    public void explodeAtPoint() {
+        Vector2 distance;
+        Rigidbody2D rb;
+        float explosive_force;
+
+        inRange = Physics2D.OverlapCircleAll(transform.position, total_explode_radius);
+        foreach (Collider2D collider in inRange) {
+            if (collider.gameObject.tag == "Player") {
+                if (collider.GetComponent<Rigidbody2D>() != null) {
+                    distance = collider.transform.position - transform.position;
+                    if (distance.magnitude < full_explosive_force_radius) {
+                        explosive_force = full_explosive_force;
+                    } else {
+                        explosive_force = ((-full_explosive_force) / (total_explode_radius - full_explosive_force_radius)) *
+                            (distance.magnitude - full_explosive_force_radius) + full_explosive_force;
+                        explosive_force = Mathf.Max(0f, explosive_force);
+                    }
+
+                    rb = collider.gameObject.GetComponent<Rigidbody2D>();
+                    rb.velocity = Vector2.zero;
+                    rb.AddForce((collider.transform.position - transform.position) * explosive_force, ForceMode2D.Impulse);
                 }
             }
         }

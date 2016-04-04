@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class HUD : MonoBehaviour {
     List<string> BALL_STOLEN_STRINGS = new List<string>() {
-        "Stolen!", "Turnover!", "Robbed!", "Hijacked!", "Swiped!", "Snatched!", "Bamboozled!", "The Tables have Turned!", "Shrekt!", "Praise The Sun!"
+        "Stolen!", "Turnover!", "Robbed!", "Hijacked!", "Swiped!", "Snatched!", "Bamboozled!"
     };
 
     public Text middleText;
@@ -34,6 +34,7 @@ public class HUD : MonoBehaviour {
     public bool GameStarted = false;
     public int BlueTeamScore = 0;
     public int RedTeamScore = 0;
+    public float score_time_scale = 0.5f;
 
     public bool secondhalf = false;
 
@@ -90,6 +91,7 @@ public class HUD : MonoBehaviour {
     }
 
     public void RedTeamScored() {
+        Time.timeScale = score_time_scale;
         GameStarted = false;
         ++RedTeamScore;
         middleText.text = "Red Team Scores!";
@@ -102,6 +104,7 @@ public class HUD : MonoBehaviour {
     }
 
     public void BlueTeamScored() {
+        Time.timeScale = score_time_scale;
         GameStarted = false;
         ++BlueTeamScore;
 
@@ -140,9 +143,11 @@ public class HUD : MonoBehaviour {
         yield return new WaitForSeconds(0.4f);
         middleText.text = "";
         GameStarted = true;
+        ball.GetComponent<SoccerBall>().ball_in_play = true;
     }
 
     IEnumerator GameReset(Team scoring_team) {
+        Time.timeScale = 1f;
         GameStarted = false;
         yield return new WaitForSeconds(1f);
         ResetObjects.S.Reset();

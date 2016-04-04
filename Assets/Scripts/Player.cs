@@ -104,7 +104,9 @@ public class Player : MonoBehaviour {
             rigid.velocity = rigid.velocity/(1+slowed*0.2f);
         }
           */
-        rigid.AddForce(move_vector / (1 + slowed * 0.75f));
+        if (ball.GetComponent<SoccerBall>().ball_in_play) {
+            rigid.AddForce(move_vector / (1 + slowed * 0.75f));
+        }
         if (rigid.velocity.magnitude > max_speed && dash_delay < dash_delay_time * 0.8f) {
             rigid.velocity *= 0.97f;
         }
@@ -182,6 +184,8 @@ public class Player : MonoBehaviour {
             while ((charge_time / 2) - 1 > slowed) {
                 if (slowed < (max_speed / 2)) {
                     slowed++;
+                } else {
+                    break;
                 }
             }
             

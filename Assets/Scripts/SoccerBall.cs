@@ -13,11 +13,17 @@ public class SoccerBall : MonoBehaviour {
     public HUD.Team ball_team = HUD.Team.NONE;
 
     public float emit_decay_rate;
+    public float time_scale_exponent = 2f;
+    public float time_scale_max_dist = 5f;
+    public float time_scale_min = 0.5f;
+    public bool ball_in_play;
+    //public float slow_mo_dist = 5f;
+
     bool fade_particles = false;
     float emit;
     GameObject[] goals;
     ParticleSystem particle_system;
-    public float slow_mo_dist = 5f;
+
     // Use this for initialization
     void Awake() {
         Ball = gameObject;
@@ -28,6 +34,7 @@ public class SoccerBall : MonoBehaviour {
         particle_system = GetComponent<ParticleSystem>();
         ballrb = transform.GetChild(0).gameObject.GetComponent<Rigidbody>();
         goals = GameObject.FindGameObjectsWithTag("Goal");
+        ball_in_play = true;
     }
 
     void FixedUpdate() {
@@ -62,12 +69,26 @@ public class SoccerBall : MonoBehaviour {
         fade_particles = true;
         emit = start_emit;
     }
+
     void timeDilation() {
-        Time.timeScale = 1;
+        if (!ball_in_play || !HUD.S.GameStarted) {
+            return;
+        } else if (transform.parent != null) {
+            Time.timeScale = 1f;
+            return;
+        }
+
+        float goal_dist = getDistanceFromGoal();
+        float slope = (1f - time_scale_min) / (Mathf.Pow(time_scale_max_dist, time_scale_exponent));
+        float new_time_scale = slope * Mathf.Pow(goal_dist, time_scale_exponent) + time_scale_min;
+        Time.timeScale = Mathf.Max(time_scale_min, Mathf.Min(1f, new_time_scale));
+
+        /*Time.timeScale = 1;
         float velocity = rb.velocity.magnitude;
         if (transform.parent != null) {
             velocity = parentrb.velocity.magnitude;
         }
+
         foreach (GameObject goal in goals) {
             Vector3 dist = goal.transform.position - transform.position;
             dist.z = 0;
@@ -80,9 +101,22 @@ public class SoccerBall : MonoBehaviour {
                     Time.timeScale = multiplier;
                 }
             }
-
-        }
+        }*/
     }
+
+    float getDistanceFromGoal() {
+        Vector2 temp;
+        Vector2 min_distance_vector = Vector2.one * int.MaxValue;
+
+        foreach (GameObject goal in goals) {
+            temp = (Vector2) transform.position - (Vector2) goal.transform.position;
+            if (temp.magnitude < min_distance_vector.magnitude) {
+                min_distance_vector = temp;
+            }
+        }
+        return min_distance_vector.magnitude;
+    }
+
     void OnCollisionEnter2D(Collision2D coll) {
         if (coll.gameObject.tag == "Player" && HUD.S.GameStarted) {
             Player coll_player = coll.gameObject.GetComponent<Player>();
