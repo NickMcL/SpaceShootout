@@ -9,6 +9,7 @@ public class ResetObjects : MonoBehaviour
     public GameObject AsteroidBreakablePrefab;
     public GameObject[] ObjectsToReset;
     public List<Vector3> OriginalPositions;
+    public List<Vector3> OriginalScales;
 
     // Use this for initialization
     void Awake()
@@ -20,6 +21,7 @@ public class ResetObjects : MonoBehaviour
         foreach (GameObject obj in ObjectsToReset)
         {
             OriginalPositions.Add(obj.transform.position);
+            OriginalScales.Add(obj.transform.localScale);
         }
     }
 
@@ -40,6 +42,7 @@ public class ResetObjects : MonoBehaviour
         for (int i = 0; i < ObjectsToReset.Length; i++)
         {
             GameObject astroid = Instantiate(AsteroidBreakablePrefab, OriginalPositions[i], Quaternion.identity) as GameObject;
+            astroid.transform.localScale = OriginalScales[i];
         }
 
     }
