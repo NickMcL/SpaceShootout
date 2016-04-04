@@ -238,6 +238,7 @@ public class HUD : MonoBehaviour {
         player2red.transform.position = RedTeamStartPos2;
         player1blue.transform.position = BlueTeamStartPos1;
         player2blue.transform.position = BlueTeamStartPos2;
+        ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         if (scoring_team == Team.RED) {
             ball.transform.position = BallStartPosRedAdvantage;
         } else {
