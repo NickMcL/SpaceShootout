@@ -20,10 +20,13 @@ public class Asteriod : MonoBehaviour {
     float lerp_start;
 
     int hitcount;
+
+    public GameObject ball;
     
 
 	// Use this for initialization
 	void Start () {
+        ball = GameObject.FindGameObjectWithTag("Ball");
         for (int i = 0; i < lerp_points.Length; ++i)
         {
             lerp_points[i] = new Vector3(
@@ -51,6 +54,7 @@ public class Asteriod : MonoBehaviour {
 
     public void Destroy()
     {
+        if (!ball.GetComponent<SoccerBall>().ball_in_play) return;
         CameraShaker.S.DoShake(.1f, 0f);
 
         hitcount++;
