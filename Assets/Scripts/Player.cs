@@ -78,6 +78,14 @@ public class Player : MonoBehaviour {
         }
     }
 
+    void Awake() {
+        if (my_number == 0 || my_number == 1) {
+            team = HUD.Team.BLUE;
+        } else {
+            team = HUD.Team.RED;
+        }
+    }
+
     // should be the first thind done in anything that needs to be in a replay
     void Start() {
         ball = SoccerBall.Ball;
@@ -85,14 +93,8 @@ public class Player : MonoBehaviour {
         player_collider = GetComponent<CircleCollider2D>();
         ball_collider = ball.GetComponent<CircleCollider2D>();
         rigid = gameObject.GetComponent<Rigidbody2D>();
-
-        if (my_number == 0 || my_number == 1) {
-            team = HUD.Team.BLUE;
-        } else {
-            team = HUD.Team.RED;
-        }
+        
         setTeammate();
-
         default_color = GetComponent<Renderer>().material.color;
         label.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("p" + (my_number + 1));
     }
