@@ -380,6 +380,31 @@ public class HUD : MonoBehaviour {
 
         SceneManager.LoadScene("CharacterSelect");
     }
+    public Image overlay;
+    IEnumerator FlashRed()
+    {
+        Color c = overlay.color;
+        c.a = 1f;
+        overlay.color = c;
+        for(int cee = 0; cee < 5; ++cee)
+        {
+            yield return new WaitForSeconds(0.1f);
+            c.a -= 0.2f;
+            overlay.color = c;
+        }
+    }
+    bool doingFiveSecondsLeft = false;
+    IEnumerator fiveSecondsLeft()
+    {
+        countdown.color = Color.red;
+        doingFiveSecondsLeft = true;
+        for(int c = 0; c < 10; ++c)
+        {
+            StartCoroutine(FlashRed());
+            yield return new WaitForSeconds(1f);
+        }
+
+    }
 
     void FixedUpdate() {
         if (!GameStarted) {
@@ -389,6 +414,11 @@ public class HUD : MonoBehaviour {
         countdown.text = TimeLeft.ToString("F2");
         if (TimeLeft > 0f) {
             TimeLeft -= Time.deltaTime;
+            if(TimeLeft <= 10f && !doingFiveSecondsLeft)
+            {
+                doingFiveSecondsLeft = true;
+                StartCoroutine(fiveSecondsLeft());
+            }
             if (TimeLeft <= 0f) {
                 StartCoroutine(GameEnded());
                 TimeLeft = float.MaxValue;

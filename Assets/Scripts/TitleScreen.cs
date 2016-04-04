@@ -129,7 +129,7 @@ public class TitleScreen : MonoBehaviour {
         flashcolor.a = 0f;
         flash.color = flashcolor;
     }
-
+    public Image CONTROLS;
     public void ChooseCharacter() {
         HoverOverCharacter(HoveredChar);
         StartCoroutine(Flash());
@@ -147,9 +147,17 @@ public class TitleScreen : MonoBehaviour {
         } else if (PlayerSelecting == 4) {
             Global.S.RedP2 = HoveredChar;
             TitleText.text = "Get ready for the game!";
-            Invoke("startGame", 2.0f);
+            Color c = CONTROLS.color;
+            c.a = 1f;
+            CONTROLS.color = c;
+            Invoke("startGame", 4.0f);
         }
         ++PlayerSelecting;
+    }
+
+    void ShowControls()
+    {
+
     }
 
     public void PlaySound(string name, float volume = 1f) {
