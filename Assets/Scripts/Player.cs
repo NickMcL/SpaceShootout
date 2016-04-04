@@ -233,7 +233,7 @@ public class Player : MonoBehaviour {
             current_ball_angle = dribble_vector.normalized;
         }
         if (current_ball_angle != Vector2.zero) {
-            ball.transform.localPosition = current_ball_angle * ball_offset_scale;
+            ball.transform.localPosition =  Vector3.Lerp(ball.transform.localPosition,current_ball_angle * ball_offset_scale, Time.deltaTime * 20f);
         }
     }
 

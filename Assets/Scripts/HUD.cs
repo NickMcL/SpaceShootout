@@ -116,9 +116,12 @@ public class HUD : MonoBehaviour {
 
         foreach(Collider2D col in asteroidboxes)
         {
-            if (col.bounds.Contains(point))
+            if (col != null)
             {
-                return true;
+                if (col.bounds.Contains(point))
+                {
+                    return true;
+                }
             }
         }
 
@@ -358,6 +361,8 @@ public class HUD : MonoBehaviour {
 
     IEnumerator GameEnded() {
         GameStarted = false;
+        Time.timeScale = 1;
+        ball.GetComponent<SoccerBall>().ball_in_play = false;
         middleText.text = "Time's Up!";
         CameraShaker.S.DoShake(0.09f, 0.15f);
         yield return new WaitForSeconds(1f);
