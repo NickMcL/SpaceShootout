@@ -58,7 +58,7 @@ public class Asteriod : MonoBehaviour {
         CameraShaker.S.DoShake(.1f, 0f);
 
         hitcount++;
-        if (hitcount < 2)
+        if (hitcount < 3)
         {
             GetComponent<SpriteRenderer>().sprite = sprite_list[hitcount];
             return;

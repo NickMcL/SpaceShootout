@@ -116,9 +116,12 @@ public class HUD : MonoBehaviour {
 
         foreach(Collider2D col in asteroidboxes)
         {
-            if (col.bounds.Contains(point))
+            if (col != null)
             {
-                return true;
+                if (col.bounds.Contains(point))
+                {
+                    return true;
+                }
             }
         }
 
