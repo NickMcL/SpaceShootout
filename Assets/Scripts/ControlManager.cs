@@ -13,7 +13,7 @@ public class ControlManager : MonoBehaviour {
         { "right", new List<KeyCode>() { KeyCode.RightArrow, KeyCode.D, KeyCode.H, KeyCode.L} },
         { "boost", new List<KeyCode>() { KeyCode.Keypad0, KeyCode.X, KeyCode.B, KeyCode.Comma} },
         { "fire", new List<KeyCode>() { KeyCode.KeypadPeriod, KeyCode.C, KeyCode.N, KeyCode.Period} },
-        { "special", new List<KeyCode>() { KeyCode.KeypadEnter, KeyCode.V, KeyCode.M, KeyCode.Question} }
+        { "special", new List<KeyCode>() { KeyCode.KeypadEnter, KeyCode.V, KeyCode.M, KeyCode.Slash} }
     };
 
     public static bool use_controllers = false;
@@ -65,9 +65,9 @@ public class ControlManager : MonoBehaviour {
         return Input.GetKey(player_key_map["fire"][player_num]);
     }
 
-    static public bool specialButtonPressed(int player_num) {
+    static public bool passButtonPressed(int player_num) {
         if (use_controllers) {
-            return players[player_num].Action1.IsPressed;
+            return players[player_num].RightBumper.IsPressed;
         }
         return Input.GetKey(player_key_map["special"][player_num]);
     }

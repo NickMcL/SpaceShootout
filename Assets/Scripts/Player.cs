@@ -23,6 +23,7 @@ public class Player : MonoBehaviour {
     public int charged_emit = 10;
     public float charged_speed = 10f;
     Vector2 current_ball_angle;
+    GameObject teammate;
 
     int slowed = 0;
     float fatigue = 0;
@@ -30,6 +31,8 @@ public class Player : MonoBehaviour {
     bool shooting = false;
     float shot_start_time;
     public bool isDashingCurrently = false;
+    public int doge_luck = 80;
+    public float doge_shot_force_mult = 10f;
 
     GameObject ball;
     Rigidbody2D ball_rb;
@@ -46,7 +49,6 @@ public class Player : MonoBehaviour {
     public bool isDoge = false;
 
     public void OnCollisionEnter2D(Collision2D collision) {
-
         if (collision.gameObject.CompareTag("Player")) {
             Player p = collision.gameObject.GetComponent<Player>();
             if ((p.team == HUD.Team.BLUE && team == HUD.Team.BLUE) || (p.team == HUD.Team.RED && team == HUD.Team.RED)) {
@@ -63,7 +65,6 @@ public class Player : MonoBehaviour {
                 if (isDashingCurrently) {
                     pushsp *= 4f;
                 }
-                print((collision.gameObject.transform.position - transform.position).normalized * pushsp);
                 p.GetComponent<Rigidbody2D>().AddForce((collision.gameObject.transform.position - transform.position).normalized * pushsp, ForceMode2D.Impulse);
             }
         }
@@ -82,9 +83,19 @@ public class Player : MonoBehaviour {
         } else {
             team = HUD.Team.RED;
         }
+        setTeammate();
 
         default_color = GetComponent<Renderer>().material.color;
         label.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("p" + (my_number + 1));
+    }
+
+    void setTeammate() {
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) {
+            if (player.GetComponent<Player>().team == team && player != gameObject) {
+                teammate = player;
+                return;
+            }
+        }
     }
 
     void FixedUpdate() {
@@ -118,6 +129,17 @@ public class Player : MonoBehaviour {
         if (shooting && has_ball) {
             finishShot();
         }
+        if (ControlManager.passButtonPressed(my_number) && has_ball) {
+            passToTeammate();
+        }
+    }
+
+    void passToTeammate() {
+        Vector2 teammate_direction = teammate.transform.position - transform.position;
+        current_ball_angle = teammate_direction.normalized;
+        ball.transform.localPosition = current_ball_angle * ball_offset_scale;
+        shot_start_time = int.MaxValue;
+        actuallyShoot();
     }
 
     IEnumerator dashing() {
@@ -145,8 +167,8 @@ public class Player : MonoBehaviour {
         }
         if (rigid.velocity.magnitude > max_speed && dash_delay < dash_delay_time * 0.8f) {
                 rigid.velocity *= 0.97f;
-            }
         }
+    }
 
     public void gainControlOfBall() {
         HUD.S.PlaySound("dribble", Random.Range(.5f, 1f));
@@ -228,30 +250,10 @@ public class Player : MonoBehaviour {
             if (charge_time > charge_shot_delay) {
                 ControlManager.rumble(my_number);
                 ball.GetComponent<ParticleSystem>().Emit(charged_emit / 2);
-                if (isDoge) {
-                    if (Random.Range(0, 100) < 5) {
-
-                        ball.GetComponent<ParticleSystem>().startSpeed = charged_speed * 100;
-                    } else {
-
-                        ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
-                    }
-                } else {
-                    ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
-                }
+                ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
             } else {
                 ball.GetComponent<ParticleSystem>().Emit((int)(charge_time / charge_shot_delay * charged_emit / 2));
-                if (isDoge) {
-                    if (Random.Range(0, 100) < 5) {
-
-                        ball.GetComponent<ParticleSystem>().startSpeed = charged_speed * 100;
-                    } else {
-
-                        ball.GetComponent<ParticleSystem>().startSpeed = (int)(charged_speed * charge_time / charge_shot_delay);
-                    }
-                } else {
-                    ball.GetComponent<ParticleSystem>().startSpeed = (int)(charged_speed * charge_time / charge_shot_delay);
-                }
+                ball.GetComponent<ParticleSystem>().startSpeed = (int)(charged_speed * charge_time / charge_shot_delay);
             }
         }
     }
@@ -261,7 +263,7 @@ public class Player : MonoBehaviour {
         loseControlOfBall();
         Vector2 shot = ball.transform.position - transform.position;
         Vector3.Normalize(shot);
-        shot *= shot_force;
+        shot *= getShotForce();
         if (Time.time - shot_start_time > charge_shot_delay) {
             shot *= charge_shot_multiplier;
             ball.GetComponent<SoccerBall>().fadeParticles(charged_emit);
@@ -270,6 +272,14 @@ public class Player : MonoBehaviour {
         ball_rb.AddForce(shot);
         has_ball = false;
         shooting = false;
+    }
+
+    float getShotForce() {
+        if (isDoge && Random.Range(0, 100) < doge_luck) {
+            CameraShaker.S.DoShake(0.1f, 0.15f);
+            return shot_force * doge_shot_force_mult;
+        }
+        return shot_force;
     }
 
     void allowBallCollision() {
