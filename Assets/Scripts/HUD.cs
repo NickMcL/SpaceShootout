@@ -42,6 +42,8 @@ public class HUD : MonoBehaviour {
 
     GameObject laser_sound;
 
+    Dictionary<int, Player> playersAndNums = new Dictionary<int, Player>();
+    List<Collider2D> asteroidboxes = new List<Collider2D>();
     void Awake() {
         S = this;
     }
@@ -56,14 +58,20 @@ public class HUD : MonoBehaviour {
             Player p = g[c].GetComponent<Player>();
             if (p.my_number == 0) {
                 player1blue = p;
+                playersAndNums[0] = p;
             } else if (p.my_number == 1) {
                 player2blue = p;
+                playersAndNums[1] = p;
             } else if (p.my_number == 2) {
                 player1red = p;
+                playersAndNums[2] = p;
             } else {
                 player2red = p;
+                playersAndNums[3] = p;
             }
         }
+        Physics2D.IgnoreCollision(playersAndNums[0].GetComponent<Collider2D>(), playersAndNums[1].GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(playersAndNums[2].GetComponent<Collider2D>(), playersAndNums[3].GetComponent<Collider2D>());
         player1red.transform.position = RedTeamStartPos1;
         player2red.transform.position = RedTeamStartPos2;
         player1blue.transform.position = BlueTeamStartPos1;
@@ -74,7 +82,79 @@ public class HUD : MonoBehaviour {
         goals.Add(gs[0].GetComponent<Goal>());
 
         goals.Add(gs[1].GetComponent<Goal>());
+
+        GameObject[] asts = GameObject.FindGameObjectsWithTag("Asteroid");
+        for(int c = 0; c < asts.Length; ++c)
+        {
+            asteroidboxes.Add(asts[c].GetComponent<Collider2D>());
+        }
+        GameObject[] asts2 = GameObject.FindGameObjectsWithTag("AsteroidBreakable");
+        for(int c = 0; c < asts2.Length; ++c)
+        {
+            asteroidboxes.Add(asts2[c].GetComponent<Collider2D>());
+        }
+        StartCoroutine(SpawnPowerups());
+
         Global.S.loadSprites();
+        
+
+    }
+
+    public GameObject[] PowerUps;
+    bool powerUpOut = false;
+    float StageLengthX = 14f;
+    float StageLengthY = 8f;
+
+    public bool PointIsNearPlayers(Vector3 point, float maxdist)
+    {
+        foreach (KeyValuePair<int, Player> entry in playersAndNums)
+        {
+            if((entry.Value.transform.position - point).magnitude < maxdist){
+                return true;
+            }
+        }
+
+        foreach(Collider2D col in asteroidboxes)
+        {
+            if (col.bounds.Contains(point))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public float SpawnPowerupIntervalMax = 15f;
+    public float SpawnPowerupIntervalMin = 5f;
+
+    public IEnumerator SpawnPowerups()
+    {
+        while (true)
+        {
+            if (!powerUpOut)
+            {
+                yield return new WaitForSeconds(Random.Range(SpawnPowerupIntervalMin, SpawnPowerupIntervalMax));
+                int rnjesus = Random.Range(0, PowerUps.Length);
+                Vector3 targetPos = new Vector3(Random.Range(-StageLengthX / 2f, StageLengthX / 2f), Random.Range(-StageLengthY / 2f, StageLengthY / 2f));
+                bool TooCloseToPlayers = PointIsNearPlayers(targetPos, 2f);
+
+
+
+                while (TooCloseToPlayers)
+                {
+                    targetPos = new Vector3(Random.Range(-StageLengthX / 2f, StageLengthX / 2f), Random.Range(-StageLengthY / 2f, StageLengthY / 2f));
+                    TooCloseToPlayers = PointIsNearPlayers(targetPos, 2f);
+                }
+
+                Instantiate(PowerUps[rnjesus], targetPos, transform.rotation);
+
+                powerUpOut = true;
+            } else
+            {
+                yield return new WaitForFixedUpdate();
+            }
+        }
     }
 
     public void UpdateScores() {
@@ -257,6 +337,23 @@ public class HUD : MonoBehaviour {
         middleText.text = "SPEED BOOST!";
         CameraShaker.S.DoShake(0.04f, 0.15f);
         StartCoroutine(erasetextin(0.2f));
+        powerUpOut = false;
+    }
+
+    public void GetPushPowerup()
+    {
+        middleText.text = "TACKLE BOOST!";
+        CameraShaker.S.DoShake(0.04f, 0.15f);
+        StartCoroutine(erasetextin(0.2f));
+        powerUpOut = false;
+    }
+
+    public void GetShootPowerup()
+    {
+        middleText.text = "SHOOT BOOST!";
+        CameraShaker.S.DoShake(0.04f, 0.15f);
+        StartCoroutine(erasetextin(0.2f));
+        powerUpOut = false;
     }
 
     IEnumerator GameEnded() {

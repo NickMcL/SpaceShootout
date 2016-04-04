@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShootPowerUp : MonoBehaviour {
-    public float ShotBonus = 1.5f;
+public class TacklePowerUp : MonoBehaviour {
+
+    public float TackleModifier = 2f;
     public float time = 10f;
     bool canBePickedUp = true;
     bool followingTheLeader = false;
@@ -15,7 +16,7 @@ public class ShootPowerUp : MonoBehaviour {
         if (collision.CompareTag("Player") && canBePickedUp)
         {
             GetComponent<SpriteRenderer>().enabled = false;
-            HUD.S.GetShootPowerup();
+            HUD.S.GetPushPowerup();
             canBePickedUp = false;
             pee = collision.GetComponent<Player>();
             following = collision.gameObject.transform;
@@ -27,14 +28,16 @@ public class ShootPowerUp : MonoBehaviour {
 
     void BuffPlayer()
     {
-        pee.charged_speed *= ShotBonus;
+        pee.pushPoweruped = true;
+
+        pee.pushSpeed *= TackleModifier;
         transform.GetChild(0).gameObject.SetActive(true);
     }
 
     void NerfPlayer()
     {
-        pee.charged_speed /= ShotBonus;
-
+        pee.pushPoweruped = false;
+        pee.pushSpeed /= TackleModifier;
         transform.GetChild(0).gameObject.GetComponent<ParticleSystem>().enableEmission = false;
         StartCoroutine(DieAfterALil());
     }

@@ -24,12 +24,12 @@ public class TitleScreen : MonoBehaviour {
     void Start() {
         PlaySound("Spacearray", 1f);
         inputModule2.SetActive(false);
-        Descriptions["Bear"] = "Can push some obstacles out of the way.";
-        Descriptions["Fish"] = "Shoots bubble projectile that can move the ball.";
-        Descriptions["Hawk"] = "High Speed, temporary speed boost comes up more often.";
-        Descriptions["Baboon"] = "High kicking power.";
-        Descriptions["Fox"] = "Can shoot curveballs.";
-        Descriptions["Dog"] = "No noticable abilities but get to play as doge.";
+        Descriptions["Bear"] = "Bigger in size, better at bodyblocking.";
+        Descriptions["Fish"] = "Improved shooting speed.";
+        Descriptions["Hawk"] = "Higher speed.";
+        Descriptions["Baboon"] = "Tackles opponents harder.";
+        Descriptions["Fox"] = "Slightly immproved speed and shoot power.";
+        Descriptions["Dog"] = "No noticable abilities but has extremely high Luck.";
         flashcolor = flash.color;
         flashcolor.a = 0f;
         flash.color = flashcolor;

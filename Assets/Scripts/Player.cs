@@ -29,6 +29,7 @@ public class Player : MonoBehaviour {
     bool dash = false;
     bool shooting = false;
     float shot_start_time;
+    public bool isDashingCurrently = false;
 
     GameObject ball;
     Rigidbody2D ball_rb;
@@ -38,9 +39,37 @@ public class Player : MonoBehaviour {
     Color default_color;
     public GameObject label;
 
-    // should be the first thind done in anything that needs to be in a replay
-   
+    public float pushSpeed = 3000f;
+    public bool pushPoweruped = false;
 
+    public bool isBaboon = false;
+    public bool isDoge = false;
+
+    public void OnCollisionEnter2D(Collision2D collision) {
+
+        if (collision.gameObject.CompareTag("Player")) {
+            Player p = collision.gameObject.GetComponent<Player>();
+            if ((p.team == HUD.Team.BLUE && team == HUD.Team.BLUE) || (p.team == HUD.Team.RED && team == HUD.Team.RED)) {
+                Physics2D.IgnoreCollision(player_collider, collision.gameObject.GetComponent<Collider2D>());
+                return;
+            }
+
+            if (!(pushPoweruped || isBaboon)) {
+                return;
+            }
+
+            if ((p.team == HUD.Team.BLUE && team == HUD.Team.RED) || (p.team == HUD.Team.RED && team == HUD.Team.BLUE)) {
+                float pushsp = pushSpeed;
+                if (isDashingCurrently) {
+                    pushsp *= 4f;
+                }
+                print((collision.gameObject.transform.position - transform.position).normalized * pushsp);
+                p.GetComponent<Rigidbody2D>().AddForce((collision.gameObject.transform.position - transform.position).normalized * pushsp, ForceMode2D.Impulse);
+            }
+        }
+    }
+
+    // should be the first thind done in anything that needs to be in a replay
     void Start() {
         ball = SoccerBall.Ball;
         ball_rb = ball.GetComponent<Rigidbody2D>();
@@ -55,11 +84,11 @@ public class Player : MonoBehaviour {
         }
 
         default_color = GetComponent<Renderer>().material.color;
-        label.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("p" + (my_number+1));
+        label.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("p" + (my_number + 1));
     }
 
     void FixedUpdate() {
-  //      Replay.replay_device.updateObject(gameObject);
+        //      Replay.replay_device.updateObject(gameObject);
     }
 
     void Update() {
@@ -91,6 +120,12 @@ public class Player : MonoBehaviour {
         }
     }
 
+    IEnumerator dashing() {
+        isDashingCurrently = true;
+        yield return new WaitForSeconds(0.8f);
+        isDashingCurrently = false;
+    }
+
     void updateMovement() {
         Vector2 move_vector = ControlManager.getMovementVector(my_number);
         move_vector *= acceleration;
@@ -98,6 +133,7 @@ public class Player : MonoBehaviour {
         if (dash == true) {
             HUD.S.PlaySound("woosh", Random.Range(.5f, 1f));
             move_vector *= 20;
+            StartCoroutine(dashing());
             dash = false;
         }/*
         if (slowed >0) {
@@ -108,9 +144,9 @@ public class Player : MonoBehaviour {
             rigid.AddForce(move_vector / (1 + slowed * 0.75f));
         }
         if (rigid.velocity.magnitude > max_speed && dash_delay < dash_delay_time * 0.8f) {
-            rigid.velocity *= 0.97f;
+                rigid.velocity *= 0.97f;
+            }
         }
-    }
 
     public void gainControlOfBall() {
         HUD.S.PlaySound("dribble", Random.Range(.5f, 1f));
@@ -180,7 +216,7 @@ public class Player : MonoBehaviour {
             actuallyShoot();
         } else {
             float charge_time = Time.time - shot_start_time;
-     
+
             while ((charge_time / 2) - 1 > slowed) {
                 if (slowed < (max_speed / 2)) {
                     slowed++;
@@ -188,14 +224,34 @@ public class Player : MonoBehaviour {
                     break;
                 }
             }
-            
+
             if (charge_time > charge_shot_delay) {
                 ControlManager.rumble(my_number);
-                ball.GetComponent<ParticleSystem>().Emit(charged_emit/2);
-                ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
+                ball.GetComponent<ParticleSystem>().Emit(charged_emit / 2);
+                if (isDoge) {
+                    if (Random.Range(0, 100) < 5) {
+
+                        ball.GetComponent<ParticleSystem>().startSpeed = charged_speed * 100;
+                    } else {
+
+                        ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
+                    }
+                } else {
+                    ball.GetComponent<ParticleSystem>().startSpeed = charged_speed;
+                }
             } else {
-                ball.GetComponent<ParticleSystem>().Emit((int)(charge_time/charge_shot_delay * charged_emit/2));
-                ball.GetComponent<ParticleSystem>().startSpeed = (int)(charged_speed * charge_time / charge_shot_delay);
+                ball.GetComponent<ParticleSystem>().Emit((int)(charge_time / charge_shot_delay * charged_emit / 2));
+                if (isDoge) {
+                    if (Random.Range(0, 100) < 5) {
+
+                        ball.GetComponent<ParticleSystem>().startSpeed = charged_speed * 100;
+                    } else {
+
+                        ball.GetComponent<ParticleSystem>().startSpeed = (int)(charged_speed * charge_time / charge_shot_delay);
+                    }
+                } else {
+                    ball.GetComponent<ParticleSystem>().startSpeed = (int)(charged_speed * charge_time / charge_shot_delay);
+                }
             }
         }
     }
