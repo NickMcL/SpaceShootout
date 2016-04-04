@@ -8,6 +8,8 @@ public class SoccerBall : MonoBehaviour {
     public static GameObject Ball;
     Vector3 WayToGo;
 
+    public int lastPlayerTouched;
+
     public Rigidbody2D parentrb;
 
     public HUD.Team ball_team = HUD.Team.NONE;
@@ -134,6 +136,7 @@ public class SoccerBall : MonoBehaviour {
             }
 
             coll.gameObject.GetComponent<Player>().gainControlOfBall();
+            lastPlayerTouched = coll.gameObject.GetComponent<Player>().my_number;
             fade_particles = false;
             ball_team = coll_player.team;
             parentrb = coll.gameObject.GetComponent<Rigidbody2D>();

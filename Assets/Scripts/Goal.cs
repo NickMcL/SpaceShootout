@@ -78,6 +78,8 @@ public class Goal : MonoBehaviour {
             GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity) as GameObject;
             explodeAtPoint();
             Global.S.score(team);
+            Statistics.S.goalStat(coll.gameObject.GetComponent<SoccerBall>().lastPlayerTouched);
+            Statistics.S.PrintStatistics();
         }
     }
 
