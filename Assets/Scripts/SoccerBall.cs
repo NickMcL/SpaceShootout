@@ -4,7 +4,7 @@ using System.Collections;
 public class SoccerBall : MonoBehaviour {
     Rigidbody2D rb;
     Rigidbody ballrb;
-    float max_speed = 50;
+    float max_speed = 50f;
     public static GameObject Ball;
     Vector3 WayToGo;
 
@@ -38,6 +38,10 @@ public class SoccerBall : MonoBehaviour {
     }
 
     void FixedUpdate() {
+        if (rb.velocity.magnitude > max_speed) {
+            rb.velocity *= 0.99f;
+        }
+
         if (transform.parent != null) {
             WayToGo.x = parentrb.velocity.y;
             WayToGo.y = -parentrb.velocity.x;
@@ -54,14 +58,10 @@ public class SoccerBall : MonoBehaviour {
                 fade_particles = false;
             }
         }
-
     }
 
     // Update is called once per frame
     void Update() {
-        while (rb.velocity.magnitude > max_speed) {
-            rb.velocity *= 0.99f;
-        }
         timeDilation();
     }
 

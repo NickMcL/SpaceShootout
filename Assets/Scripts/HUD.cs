@@ -28,7 +28,7 @@ public class HUD : MonoBehaviour {
 
     public static HUD S;
 
-    public float round_time = 10f;
+    public float round_time = 90f;
     public float TimeLeft;
     public float end_round_delay = 3f;
     public bool GameStarted = false;
@@ -84,19 +84,17 @@ public class HUD : MonoBehaviour {
         goals.Add(gs[1].GetComponent<Goal>());
 
         GameObject[] asts = GameObject.FindGameObjectsWithTag("Asteroid");
-        for(int c = 0; c < asts.Length; ++c)
-        {
+        for (int c = 0; c < asts.Length; ++c) {
             asteroidboxes.Add(asts[c].GetComponent<Collider2D>());
         }
         GameObject[] asts2 = GameObject.FindGameObjectsWithTag("AsteroidBreakable");
-        for(int c = 0; c < asts2.Length; ++c)
-        {
+        for (int c = 0; c < asts2.Length; ++c) {
             asteroidboxes.Add(asts2[c].GetComponent<Collider2D>());
         }
         StartCoroutine(SpawnPowerups());
 
         Global.S.loadSprites();
-        
+
 
     }
 
@@ -107,21 +105,16 @@ public class HUD : MonoBehaviour {
 
     GameObject powerupslam;
 
-    public bool PointIsNearPlayers(Vector3 point, float maxdist)
-    {
-        foreach (KeyValuePair<int, Player> entry in playersAndNums)
-        {
-            if((entry.Value.transform.position - point).magnitude < maxdist){
+    public bool PointIsNearPlayers(Vector3 point, float maxdist) {
+        foreach (KeyValuePair<int, Player> entry in playersAndNums) {
+            if ((entry.Value.transform.position - point).magnitude < maxdist) {
                 return true;
             }
         }
 
-        foreach(Collider2D col in asteroidboxes)
-        {
-            if (col != null)
-            {
-                if (col.bounds.Contains(point))
-                {
+        foreach (Collider2D col in asteroidboxes) {
+            if (col != null) {
+                if (col.bounds.Contains(point)) {
                     return true;
                 }
             }
@@ -133,12 +126,9 @@ public class HUD : MonoBehaviour {
     public float SpawnPowerupIntervalMax = 15f;
     public float SpawnPowerupIntervalMin = 5f;
 
-    public IEnumerator SpawnPowerups()
-    {
-        while (true)
-        {
-            if (!powerUpOut)
-            {
+    public IEnumerator SpawnPowerups() {
+        while (true) {
+            if (!powerUpOut) {
                 yield return new WaitForSeconds(Random.Range(SpawnPowerupIntervalMin, SpawnPowerupIntervalMax));
                 int rnjesus = Random.Range(0, PowerUps.Length);
                 Vector3 targetPos = new Vector3(Random.Range(-StageLengthX / 2f, StageLengthX / 2f), Random.Range(-StageLengthY / 2f, StageLengthY / 2f));
@@ -146,8 +136,7 @@ public class HUD : MonoBehaviour {
 
 
 
-                while (TooCloseToPlayers)
-                {
+                while (TooCloseToPlayers) {
                     targetPos = new Vector3(Random.Range(-StageLengthX / 2f, StageLengthX / 2f), Random.Range(-StageLengthY / 2f, StageLengthY / 2f));
                     TooCloseToPlayers = PointIsNearPlayers(targetPos, 2f);
                 }
@@ -155,8 +144,7 @@ public class HUD : MonoBehaviour {
                 powerupslam = Instantiate(PowerUps[rnjesus], targetPos, transform.rotation) as GameObject;
 
                 powerUpOut = true;
-            } else
-            {
+            } else {
                 yield return new WaitForFixedUpdate();
             }
         }
@@ -338,24 +326,21 @@ public class HUD : MonoBehaviour {
         StartCoroutine(erasetextin(0.2f));
     }
 
-    public void GetSpeedPowerup()
-    {
+    public void GetSpeedPowerup() {
         middleText.text = "SPEED BOOST!";
         CameraShaker.S.DoShake(0.04f, 0.15f);
         StartCoroutine(erasetextin(0.2f));
         powerUpOut = false;
     }
 
-    public void GetPushPowerup()
-    {
+    public void GetPushPowerup() {
         middleText.text = "TACKLE BOOST!";
         CameraShaker.S.DoShake(0.04f, 0.15f);
         StartCoroutine(erasetextin(0.2f));
         powerUpOut = false;
     }
 
-    public void GetShootPowerup()
-    {
+    public void GetShootPowerup() {
         middleText.text = "SHOOT BOOST!";
         CameraShaker.S.DoShake(0.04f, 0.15f);
         StartCoroutine(erasetextin(0.2f));
@@ -364,8 +349,7 @@ public class HUD : MonoBehaviour {
 
     IEnumerator GameEnded() {
         GameStarted = false;
-        if(powerupslam != null)
-        {
+        if (powerupslam != null) {
             Destroy(powerupslam);
             powerUpOut = false;
         }
@@ -394,25 +378,21 @@ public class HUD : MonoBehaviour {
         SceneManager.LoadScene("CharacterSelect");
     }
     public Image overlay;
-    IEnumerator FlashRed()
-    {
+    IEnumerator FlashRed() {
         Color c = overlay.color;
         c.a = 1f;
         overlay.color = c;
-        for(int cee = 0; cee < 5; ++cee)
-        {
+        for (int cee = 0; cee < 5; ++cee) {
             yield return new WaitForSeconds(0.1f);
             c.a -= 0.2f;
             overlay.color = c;
         }
     }
     bool doingFiveSecondsLeft = false;
-    IEnumerator fiveSecondsLeft()
-    {
+    IEnumerator fiveSecondsLeft() {
         countdown.color = Color.red;
         doingFiveSecondsLeft = true;
-        for(int c = 0; c < 10; ++c)
-        {
+        for (int c = 0; c < 10; ++c) {
             StartCoroutine(FlashRed());
             yield return new WaitForSeconds(1f);
         }
@@ -427,8 +407,7 @@ public class HUD : MonoBehaviour {
         countdown.text = TimeLeft.ToString("F2");
         if (TimeLeft > 0f) {
             TimeLeft -= Time.deltaTime;
-            if(TimeLeft <= 10f && !doingFiveSecondsLeft)
-            {
+            if (TimeLeft <= 10f && !doingFiveSecondsLeft) {
                 doingFiveSecondsLeft = true;
                 StartCoroutine(fiveSecondsLeft());
             }
