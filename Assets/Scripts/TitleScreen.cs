@@ -148,16 +148,21 @@ public class TitleScreen : MonoBehaviour {
         } else if (PlayerSelecting == 4) {
             Global.S.RedP2 = HoveredChar;
             TitleText.text = "Get ready for the game!";
-            Color c = CONTROLS.color;
-            c.a = 1f;
-            CONTROLS.color = c;
             CONTROLS.raycastTarget = true;
-            Invoke("ShowControls", 1.0f);
+            Invoke("ShowControls", 4.0f);
         }
         ++PlayerSelecting;
     }
 
     void ShowControls()
+    {
+        Color c = CONTROLS.color;
+        c.a = 1f;
+        CONTROLS.color = c;
+        Invoke("CanPressStart", 1f);
+    }
+
+    void CanPressStart()
     {
         canPressStartToGo = true;
     }
