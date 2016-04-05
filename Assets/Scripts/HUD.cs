@@ -375,7 +375,7 @@ public class HUD : MonoBehaviour {
             yield return new WaitForSeconds(2f);
         }
 
-        SceneManager.LoadScene("CharacterSelect");
+        SceneManager.LoadScene("StatisticsScene");
     }
     public Image overlay;
     IEnumerator FlashRed() {
