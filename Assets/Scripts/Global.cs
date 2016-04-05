@@ -7,6 +7,8 @@ public class Global : MonoBehaviour {
     public string BlueP1, BlueP2;
     public string RedP1, RedP2;
 
+
+    public bool REDISWINRAR = false, TIE = false;
     public Sprite dogsprite, bearsprite, fishprite, hawksprite, baboonsprite, foxsprite;
     public Color BlueColor, RedColor;
 

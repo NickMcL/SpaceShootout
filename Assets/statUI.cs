@@ -21,8 +21,12 @@ public class statUI : MonoBehaviour {
     public Text player4Steals;
     public Text player4Time;
 
+
+    public Sprite bearWin, bearLose, fishWin, fishLose, baboonWin, baboonLose, hawkWin, hawkLose, dogeWin, dogeLose, foxWin, foxLose, bearTie, fishTie, baboonTie, hawkTie, dogeTie, foxTie;
+    // blue p1, blue p2, red p1, red p2
     // Use this for initialization
     void Start () {
+        Invoke("canGo", 5f);
         player1Goals = GameObject.Find("Player1Goals").GetComponent<Text>();
         player1Steals = GameObject.Find("Player1Steals").GetComponent<Text>();
         player1Time = GameObject.Find("Player1Time").GetComponent<Text>();
@@ -40,6 +44,7 @@ public class statUI : MonoBehaviour {
         player4Time = GameObject.Find("Player4Time").GetComponent<Text>();
 
 
+
         player1Goals.text += Statistics.goalsScored[0];
         player1Steals.text += Statistics.steals[0];
         player1Time.text += Mathf.Floor(Statistics.timeControlled[0]);
@@ -55,10 +60,235 @@ public class statUI : MonoBehaviour {
         player4Goals.text += Statistics.goalsScored[3];
         player4Steals.text += Statistics.steals[3];
         player4Time.text += Mathf.Floor(Statistics.timeControlled[3]);
+
+        if (Global.S.TIE)
+        {
+            if (Global.S.BlueP1 == "Bear")
+            {
+                GameObject.Find("Player1Image").GetComponent<Image>().sprite = bearTie;
+            }
+            else if (Global.S.BlueP1 == "Fox")
+            {
+                GameObject.Find("Player1Image").GetComponent<Image>().sprite = foxTie;
+            }
+            else if (Global.S.BlueP1 == "Hawk")
+            {
+                GameObject.Find("Player1Image").GetComponent<Image>().sprite = hawkTie;
+            }
+            else if (Global.S.BlueP1 == "Baboon")
+            {
+                GameObject.Find("Player1Image").GetComponent<Image>().sprite = baboonTie;
+            }
+            else if (Global.S.BlueP1 == "Fish")
+            {
+                GameObject.Find("Player1Image").GetComponent<Image>().sprite = fishTie;
+            }
+            else
+            {
+                GameObject.Find("Player1Image").GetComponent<Image>().sprite = dogeTie;
+            }
+
+            if (Global.S.BlueP2 == "Bear")
+            {
+                GameObject.Find("Player2Image").GetComponent<Image>().sprite = bearTie;
+            }
+            else if (Global.S.BlueP2 == "Fox")
+            {
+                GameObject.Find("Player2Image").GetComponent<Image>().sprite = foxTie;
+            }
+            else if (Global.S.BlueP2 == "Hawk")
+            {
+                GameObject.Find("Player2Image").GetComponent<Image>().sprite = hawkTie;
+            }
+            else if (Global.S.BlueP2 == "Baboon")
+            {
+                GameObject.Find("Player2Image").GetComponent<Image>().sprite = baboonTie;
+            }
+            else if (Global.S.BlueP2 == "Fish")
+            {
+                GameObject.Find("Player2Image").GetComponent<Image>().sprite = fishTie;
+            }
+            else
+            {
+                GameObject.Find("Player2Image").GetComponent<Image>().sprite = dogeTie;
+            }
+
+            if (Global.S.RedP1 == "Bear")
+            {
+                GameObject.Find("Player3Image").GetComponent<Image>().sprite = bearTie;
+            }
+            else if (Global.S.RedP1 == "Fox")
+            {
+                GameObject.Find("Player3Image").GetComponent<Image>().sprite = foxTie;
+            }
+            else if (Global.S.RedP1 == "Hawk")
+            {
+                GameObject.Find("Player3Image").GetComponent<Image>().sprite = hawkTie;
+            }
+            else if (Global.S.RedP1 == "Baboon")
+            {
+                GameObject.Find("Player3Image").GetComponent<Image>().sprite = baboonTie;
+            }
+            else if (Global.S.RedP1 == "Fish")
+            {
+                GameObject.Find("Player3Image").GetComponent<Image>().sprite = fishTie;
+            }
+            else
+            {
+                GameObject.Find("Player3Image").GetComponent<Image>().sprite = dogeTie;
+            }
+
+            if (Global.S.RedP2 == "Bear")
+            {
+                GameObject.Find("Player4Image").GetComponent<Image>().sprite = bearTie;
+            }
+            else if (Global.S.RedP2 == "Fox")
+            {
+                GameObject.Find("Player4Image").GetComponent<Image>().sprite = foxTie;
+            }
+            else if (Global.S.RedP2 == "Hawk")
+            {
+                GameObject.Find("Player4Image").GetComponent<Image>().sprite = hawkTie;
+            }
+            else if (Global.S.RedP2 == "Baboon")
+            {
+                GameObject.Find("Player4Image").GetComponent<Image>().sprite = baboonTie;
+            }
+            else if (Global.S.RedP2 == "Fish")
+            {
+                GameObject.Find("Player4Image").GetComponent<Image>().sprite = fishTie;
+            }
+            else
+            {
+                GameObject.Find("Player4Image").GetComponent<Image>().sprite = dogeTie;
+            }
+
+
+
+            return;
+        }
+
+
+        if(Global.S.BlueP1 == "Bear")
+        {
+            GameObject.Find("Player1Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? bearLose : bearWin);
+        } else if (Global.S.BlueP1 == "Fox")
+        {
+            GameObject.Find("Player1Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? foxLose : foxWin);
+        }
+        else if (Global.S.BlueP1 == "Hawk")
+        {
+            GameObject.Find("Player1Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? hawkLose : hawkWin);
+        }
+        else if (Global.S.BlueP1 == "Baboon")
+        {
+            GameObject.Find("Player1Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? baboonLose : baboonWin);
+        }
+        else if (Global.S.BlueP1 == "Fish")
+        {
+            GameObject.Find("Player1Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? fishLose: fishWin);
+        }
+        else
+        {
+            GameObject.Find("Player1Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? dogeLose : dogeWin);
+        }
+
+
+        if (Global.S.BlueP2 == "Bear")
+        {
+            GameObject.Find("Player2Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? bearLose : bearWin);
+        }
+        else if (Global.S.BlueP2 == "Fox")
+        {
+            GameObject.Find("Player2Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? foxLose : foxWin);
+        }
+        else if (Global.S.BlueP2 == "Hawk")
+        {
+            GameObject.Find("Player2Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? hawkLose : hawkWin);
+        }
+        else if (Global.S.BlueP2 == "Baboon")
+        {
+            GameObject.Find("Player2Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? baboonLose : baboonWin);
+        }
+        else if (Global.S.BlueP2 == "Fish")
+        {
+            GameObject.Find("Player2Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? fishLose : fishWin);
+        }
+        else
+        {
+            GameObject.Find("Player2Image").GetComponent<Image>().sprite = ((Global.S.REDISWINRAR) ? dogeLose : dogeWin);
+        }
+
+
+        if (Global.S.RedP1 == "Bear")
+        {
+            GameObject.Find("Player3Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? bearLose : bearWin);
+        }
+        else if (Global.S.RedP1 == "Fox")
+        {
+            GameObject.Find("Player3Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? foxLose : foxWin);
+        }
+        else if (Global.S.RedP1 == "Hawk")
+        {
+            GameObject.Find("Player3Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? hawkLose : hawkWin);
+        }
+        else if (Global.S.RedP1 == "Baboon")
+        {
+            GameObject.Find("Player3Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? baboonLose : baboonWin);
+        }
+        else if (Global.S.RedP1 == "Fish")
+        {
+            GameObject.Find("Player3Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? fishLose : fishWin);
+        }
+        else
+        {
+            GameObject.Find("Player3Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? dogeLose : dogeWin);
+        }
+
+
+        if (Global.S.RedP2 == "Bear")
+        {
+            GameObject.Find("Player4Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? bearLose : bearWin);
+        }
+        else if (Global.S.RedP2 == "Fox")
+        {
+            GameObject.Find("Player4Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? foxLose : foxWin);
+        }
+        else if (Global.S.RedP2 == "Hawk")
+        {
+            GameObject.Find("Player4Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? hawkLose : hawkWin);
+        }
+        else if (Global.S.RedP2 == "Baboon")
+        {
+            GameObject.Find("Player4Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? baboonLose : baboonWin);
+        }
+        else if (Global.S.RedP2 == "Fish")
+        {
+            GameObject.Find("Player4Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? fishLose : fishWin);
+        }
+        else
+        {
+            GameObject.Find("Player4Image").GetComponent<Image>().sprite = ((!Global.S.REDISWINRAR) ? dogeLose : dogeWin);
+        }
     }
-	
+    public bool canPressStartToGo = false;
+
+    void resetGame()
+    {
+        Application.LoadLevel("CharacterSelect");
+    }
+    public GameObject canGoText;
+    void canGo()
+    {
+        canPressStartToGo = true;
+        canGoText.SetActive(true);
+    }
+
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        if (canPressStartToGo && ControlManager.playerPressedStart())
+        {
+            resetGame();
+        }
+    }
 }

@@ -359,17 +359,22 @@ public class HUD : MonoBehaviour {
         CameraShaker.S.DoShake(0.09f, 0.15f);
         yield return new WaitForSeconds(1f);
         if (RedTeamScore > BlueTeamScore) {
+            Global.S.REDISWINRAR = true;
+            Global.S.TIE = false;
             middleText.text = "Red Team Wins!";
 
             yield return new WaitForSeconds(2f);
 
 
-        } else if (BlueTeamScore > RedTeamScore) {
+        } else if (BlueTeamScore > RedTeamScore)
+        {
+            Global.S.REDISWINRAR = false;
+            Global.S.TIE = false;
             middleText.text = "Blue Team Wins!";
 
             yield return new WaitForSeconds(2f);
         } else {
-
+            Global.S.TIE = true;
             middleText.text = "Tie!";
 
             yield return new WaitForSeconds(2f);
