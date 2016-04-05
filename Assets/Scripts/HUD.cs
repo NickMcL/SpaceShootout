@@ -398,9 +398,15 @@ public class HUD : MonoBehaviour {
     IEnumerator fiveSecondsLeft() {
         countdown.color = Color.red;
         doingFiveSecondsLeft = true;
-        for (int c = 0; c < 10; ++c) {
-            StartCoroutine(FlashRed());
-            yield return new WaitForSeconds(1f);
+        while (gameObject.active)
+        {
+            if (GameStarted) { 
+                StartCoroutine(FlashRed());
+                yield return new WaitForSeconds(1f);
+            } else
+            {
+                yield return new WaitForFixedUpdate();
+            }
         }
 
     }
