@@ -376,6 +376,9 @@ public class HUD : MonoBehaviour {
         middleText.text = "Time's Up!";
         CameraShaker.S.DoShake(0.09f, 0.15f);
         yield return new WaitForSeconds(1.5f);
+		for (int i = 0; i < 3; i++) {
+			ControlManager.rumble (i, true);
+		}
         PlaySound("time is up", 1f);
         yield return new WaitForSeconds(1f);
         if (RedTeamScore > BlueTeamScore) {
