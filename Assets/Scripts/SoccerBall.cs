@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SoccerBall : MonoBehaviour {
+    public static GameObject Ball;
+
     Rigidbody2D rb;
     Rigidbody ballrb;
-    float max_speed = 50;
-    public static GameObject Ball;
+    float max_speed = 50f;
     Vector3 WayToGo;
+
+    public GameObject bgm_game_object;
+    public int lastPlayerTouched;
 
     public Rigidbody2D parentrb;
 
@@ -26,6 +31,7 @@ public class SoccerBall : MonoBehaviour {
     float emit;
     GameObject[] goals;
     ParticleSystem particle_system;
+    AudioSource bgm;
 
     // Use this for initialization
     void Awake() {
@@ -36,11 +42,16 @@ public class SoccerBall : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         particle_system = GetComponent<ParticleSystem>();
         ballrb = transform.GetChild(0).gameObject.GetComponent<Rigidbody>();
+        bgm = bgm_game_object.GetComponent<AudioSource>();
         goals = GameObject.FindGameObjectsWithTag("Goal");
         ball_in_play = true;
     }
 
     void FixedUpdate() {
+        if (rb.velocity.magnitude > max_speed) {
+            rb.velocity *= 0.99f;
+        }
+
         if (transform.parent != null) {
             WayToGo.x = parentrb.velocity.y;
             WayToGo.y = -parentrb.velocity.x;
@@ -57,6 +68,7 @@ public class SoccerBall : MonoBehaviour {
                 fade_particles = false;
             }
         }
+
         if (hit_wall) {
             
             if (hit_wall_cooldown <= 0)
@@ -64,15 +76,16 @@ public class SoccerBall : MonoBehaviour {
             hit_wall_cooldown -= Time.deltaTime;
         }
 
+
     }
 
     // Update is called once per frame
     void Update() {
-        while (rb.velocity.magnitude > max_speed) {
-            rb.velocity *= 0.99f;
-        }
-    
+
         timeDilation();
+        if (transform.parent != null) {
+            Statistics.S.timeControlStat(transform.parent.GetComponent<Player>().my_number);
+        }
     }
 
     public void fadeParticles(float start_emit) {
@@ -84,7 +97,7 @@ public class SoccerBall : MonoBehaviour {
         if (!ball_in_play || !HUD.S.GameStarted) {
             return;
         } else if (transform.parent != null) {
-            Time.timeScale = 1f;
+            Time.timeScale = bgm.pitch = 1f;
             return;
         }
 
@@ -92,6 +105,7 @@ public class SoccerBall : MonoBehaviour {
         float slope = (1f - time_scale_min) / (Mathf.Pow(time_scale_max_dist, time_scale_exponent));
         float new_time_scale = slope * Mathf.Pow(goal_dist, time_scale_exponent) + time_scale_min;
         Time.timeScale = Mathf.Max(time_scale_min, Mathf.Min(1f, new_time_scale));
+        bgm.pitch = Time.timeScale + ((1f - Time.timeScale) * 0.5f);
 
         /*Time.timeScale = 1;
         float velocity = rb.velocity.magnitude;
@@ -119,7 +133,7 @@ public class SoccerBall : MonoBehaviour {
         Vector2 min_distance_vector = Vector2.one * int.MaxValue;
 
         foreach (GameObject goal in goals) {
-            temp = (Vector2) transform.position - (Vector2) goal.transform.position;
+            temp = (Vector2)transform.position - (Vector2)goal.transform.position;
             if (temp.magnitude < min_distance_vector.magnitude) {
                 min_distance_vector = temp;
             }
@@ -128,16 +142,24 @@ public class SoccerBall : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D coll) {
+        bool stolen = false;
+
         if (coll.gameObject.tag == "Player" && HUD.S.GameStarted) {
             Player coll_player = coll.gameObject.GetComponent<Player>();
+            if (transform.parent != null && coll_player.team == ball_team) {
+                return;
+            }
             if (transform.parent != null) {
                 if (ball_team != HUD.Team.NONE && coll_player.team != ball_team) {
                     HUD.S.SuccessfulSteal();
+                    Statistics.S.stealStat(coll_player.my_number);
+                    stolen = true;
                 }
-                transform.parent.gameObject.GetComponent<Player>().loseControlOfBall();
+                transform.parent.gameObject.GetComponent<Player>().loseControlOfBall(stolen);
             }
 
             coll.gameObject.GetComponent<Player>().gainControlOfBall();
+            lastPlayerTouched = coll.gameObject.GetComponent<Player>().my_number;
             fade_particles = false;
             ball_team = coll_player.team;
             parentrb = coll.gameObject.GetComponent<Rigidbody2D>();

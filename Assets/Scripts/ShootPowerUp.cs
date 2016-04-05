@@ -7,17 +7,15 @@ public class ShootPowerUp : MonoBehaviour {
     bool canBePickedUp = true;
     bool followingTheLeader = false;
 
-    Player pee;
+    Player p;
     Transform following;
 
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player") && canBePickedUp)
-        {
+    public void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.CompareTag("Player") && canBePickedUp) {
             GetComponent<SpriteRenderer>().enabled = false;
             HUD.S.GetShootPowerup();
             canBePickedUp = false;
-            pee = collision.GetComponent<Player>();
+            p = collision.GetComponent<Player>();
             following = collision.gameObject.transform;
             followingTheLeader = true;
             BuffPlayer();
@@ -25,22 +23,19 @@ public class ShootPowerUp : MonoBehaviour {
         }
     }
 
-    void BuffPlayer()
-    {
-        pee.charged_speed *= ShotBonus;
+    void BuffPlayer() {
+        p.shot_force *= ShotBonus;
         transform.GetChild(0).gameObject.SetActive(true);
     }
 
-    void NerfPlayer()
-    {
-        pee.charged_speed /= ShotBonus;
+    void NerfPlayer() {
+        p.shot_force /= ShotBonus;
 
         transform.GetChild(0).gameObject.GetComponent<ParticleSystem>().enableEmission = false;
         StartCoroutine(DieAfterALil());
     }
 
-    IEnumerator DieAfterALil()
-    {
+    IEnumerator DieAfterALil() {
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }
@@ -48,16 +43,13 @@ public class ShootPowerUp : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
 
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (followingTheLeader)
-        {
+    void Update() {
+        if (followingTheLeader) {
             transform.position = following.position;
             transform.localScale = new Vector3(1f, 1f, 1f);
         }
