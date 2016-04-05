@@ -205,16 +205,21 @@ public class HUD : MonoBehaviour {
     IEnumerator Count_Down() {
         middleText.text = "3";
         PlaySound("close02", 1f);
+        PlaySound("3", 1f);
         yield return new WaitForSeconds(1f);
         middleText.text = "2";
         PlaySound("close02", 1f);
+        PlaySound("2", 1f);
         yield return new WaitForSeconds(1f);
         middleText.text = "1";
         PlaySound("close02", 1f);
+
+        PlaySound("1", 0.7f);
         yield return new WaitForSeconds(1f);
         CameraShaker.S.DoShake(0.05f, 0.15f);
         EveryoneLoseControl();
         middleText.text = "Go!";
+        PlaySound("go", 0.5f);
         PlaySound("select01", 1f);
         yield return new WaitForSeconds(0.4f);
         middleText.text = "";
@@ -357,6 +362,7 @@ public class HUD : MonoBehaviour {
         Time.timeScale = 1;
         ball.GetComponent<SoccerBall>().ball_in_play = false;
         middleText.text = "Time's Up!";
+        PlaySound("time is up", 1f);
         CameraShaker.S.DoShake(0.09f, 0.15f);
         yield return new WaitForSeconds(1f);
         if (RedTeamScore > BlueTeamScore) {

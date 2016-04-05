@@ -52,6 +52,9 @@ public class TitleScreen : MonoBehaviour {
         for (int i = 0; i < character_chosen.Length; ++i) {
             character_chosen[i] = false;
         }
+
+
+        PlaySound("choose your character", 1f);
     }
 
     public void hoverOverCharacter(int player_num, string character) {
@@ -176,6 +179,32 @@ public class TitleScreen : MonoBehaviour {
     }
 
     public void chooseCharacter(int player_num) {
+        if (HoveredChar == "Bear")
+        {
+            PlaySound("bear", 1f);
+        }
+        else if (HoveredChar == "Fish")
+        {
+            PlaySound("fish", 1f);
+        }
+        else if (HoveredChar == "Hawk")
+        {
+            PlaySound("hawk", 1f);
+        }
+        else if (HoveredChar == "Baboon")
+        {
+            PlaySound("baboon", 1f);
+        }
+        else if (HoveredChar == "Fox")
+        {
+            PlaySound("fox", 1f);
+        }
+        else
+        {
+            PlaySound("doge", 1f);
+        }
+
+
         StartCoroutine(Flash());
         if (player_num == 0) {
             Global.S.BlueP1 = HoveredChar;
@@ -203,7 +232,9 @@ public class TitleScreen : MonoBehaviour {
         stopHoverOverCharacter(player_num);
     }
 
-    void ShowControls() {
+    void ShowControls()
+    {
+        PlaySound("get ready", 1f);
         Color c = CONTROLS.color;
         c.a = 1f;
         CONTROLS.color = c;
