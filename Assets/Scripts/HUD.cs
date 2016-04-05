@@ -365,7 +365,7 @@ public class HUD : MonoBehaviour {
     }
 
     IEnumerator GameEnded() {
-        PlaySound("buzzer");
+        PlaySound("buzzer", 0.7f);
         GameStarted = false;
         if (powerupslam != null) {
             Destroy(powerupslam);

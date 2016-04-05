@@ -75,7 +75,7 @@ public class Player : MonoBehaviour {
                 p.GetComponent<Rigidbody2D>().AddForce((collision.gameObject.transform.position - transform.position).normalized * pushsp, ForceMode2D.Impulse);
             }
         }
-        if (collision.gameObject.tag == "AsteroidBreakable") {
+        if (collision.gameObject.tag == "AsteroidBreakable" && ball.GetComponent<SoccerBall>().ball_in_play) {
             HUD.S.PlaySound("objecthit2", Random.Range(.5f, 1f));
             if (rigid.velocity.magnitude > 7.5f) {
                 collision.gameObject.GetComponent<Asteriod>().Destroy();

@@ -46,7 +46,7 @@ public class SoccerBall : MonoBehaviour {
         ballrb = transform.GetChild(0).gameObject.GetComponent<Rigidbody>();
         bgm = bgm_game_object.GetComponent<AudioSource>();
         goals = GameObject.FindGameObjectsWithTag("Goal");
-        ball_in_play = true;
+        ball_in_play = false;
         StartCoroutine(RayCastEveryFrame());
     }
     public LayerMask goalLayer;
@@ -194,7 +194,7 @@ public class SoccerBall : MonoBehaviour {
             hit_wall = true;
         }
 
-        if (coll.gameObject.tag == "AsteroidBreakable") {
+        if (coll.gameObject.tag == "AsteroidBreakable" && ball_in_play) {
             HUD.S.PlaySound("objecthit2", Random.Range(.5f, 1f));
             if (rb.velocity.magnitude > 10f && transform.parent == null) {
                 coll.gameObject.GetComponent<Asteriod>().Destroy();

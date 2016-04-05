@@ -12,6 +12,7 @@ public class ShootPowerUp : MonoBehaviour {
 
     public void OnTriggerEnter2D(Collider2D collision) {
         if (collision.CompareTag("Player") && canBePickedUp) {
+            HUD.S.PlaySound("powerup");
             GetComponent<SpriteRenderer>().enabled = false;
             HUD.S.GetShootPowerup();
             canBePickedUp = false;
