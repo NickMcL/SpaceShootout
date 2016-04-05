@@ -385,6 +385,7 @@ public class HUD : MonoBehaviour {
             Global.S.REDISWINRAR = true;
             Global.S.TIE = false;
             middleText.text = "Red Team Wins!";
+            PlaySound("redwin", 1f);
 
             yield return new WaitForSeconds(2f);
 
@@ -393,6 +394,7 @@ public class HUD : MonoBehaviour {
             Global.S.REDISWINRAR = false;
             Global.S.TIE = false;
             middleText.text = "Blue Team Wins!";
+            PlaySound("bluewin", 1f);
 
             yield return new WaitForSeconds(2f);
         } else {
@@ -430,6 +432,8 @@ public class HUD : MonoBehaviour {
 
     }
 
+    bool left30 = false;
+    bool left10 = false;
     void FixedUpdate() {
         if (!GameStarted) {
             return;
@@ -438,7 +442,15 @@ public class HUD : MonoBehaviour {
         countdown.text = TimeLeft.ToString("F2");
         if (TimeLeft > 0f) {
             TimeLeft -= Time.deltaTime;
+            if (TimeLeft <= 30f && !left30) {
+                left30 = true;
+                PlaySound("45s");
+            }
             if (TimeLeft <= 10f && !doingFiveSecondsLeft) {
+                if (!left10) {
+                    PlaySound("10seconds");
+                    left10 = true;
+                }
                 doingFiveSecondsLeft = true;
                 StartCoroutine(fiveSecondsLeft());
             }
