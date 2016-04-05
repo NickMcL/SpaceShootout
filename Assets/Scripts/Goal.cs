@@ -65,7 +65,7 @@ public class Goal : MonoBehaviour {
 
     }
 
-    void OnTriggerEnter2D(Collider2D coll) {
+    public void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Ball" && HUD.S.GameStarted) {
             coll.gameObject.GetComponent<SoccerBall>().ball_in_play = false;
             //set to true for replay

@@ -14,6 +14,7 @@ public class SoccerBall : MonoBehaviour {
     public int lastPlayerTouched;
 
     public Rigidbody2D parentrb;
+    Collider2D col;
 
     public HUD.Team ball_team = HUD.Team.NONE;
 
@@ -39,12 +40,34 @@ public class SoccerBall : MonoBehaviour {
     }
 
     void Start() {
+        col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
         particle_system = GetComponent<ParticleSystem>();
         ballrb = transform.GetChild(0).gameObject.GetComponent<Rigidbody>();
         bgm = bgm_game_object.GetComponent<AudioSource>();
         goals = GameObject.FindGameObjectsWithTag("Goal");
         ball_in_play = true;
+        StartCoroutine(RayCastEveryFrame());
+    }
+    public LayerMask goalLayer;
+    IEnumerator RayCastEveryFrame()
+    {
+        while (gameObject.active)
+        {
+            Vector3 prevloc = transform.position;
+
+            yield return new WaitForFixedUpdate();
+
+            RaycastHit2D[] hits = Physics2D.RaycastAll(prevloc, transform.position - prevloc, (transform.position - prevloc).magnitude, goalLayer);
+            for(int c = 0; c < hits.Length; ++c)
+            {
+                if (hits[c].collider.gameObject.CompareTag("Goal"))
+                {
+                    hits[c].collider.GetComponent<Goal>().OnTriggerEnter2D(col);
+
+                }
+            }
+        }
     }
 
     void FixedUpdate() {
