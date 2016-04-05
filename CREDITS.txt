@@ -1,4 +1,6 @@
-Goal: http://opengameart.org/content/supergoalkeeper-soccer
-Astroid: http://opengameart.org/content/space-shooter-assets
-Explosion: https://www.freesound.org/people/harpoyume/sounds/86026/
-Undo: https://www.freesound.org/people/Udderdude/sounds/257574/
+Goal sprite: http://opengameart.org/content/supergoalkeeper-soccer
+Character selector sprites: http://opengameart.org/content/pointers
+Astroid sprite: http://opengameart.org/content/space-shooter-assets
+End game buzzer sound: https://www.youtube.com/watch?v=y-YKmjxm31U
+Goal explosion sound: https://www.freesound.org/people/harpoyume/sounds/86026/
+Character select undo sound: https://www.freesound.org/people/Udderdude/sounds/257574/

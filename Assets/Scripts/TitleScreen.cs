@@ -23,12 +23,12 @@ public class TitleScreen : MonoBehaviour {
     public string nextSceneName;
 
     Color flashcolor;
-    public string HoveredChar = "";
     public Image CONTROLS;
     bool canPressStartToGo = false;
     int selected_players;
 
     bool[] character_chosen = new bool[ControlManager.TOTAL_PLAYERS];
+    string[] hover_character = new string[ControlManager.TOTAL_PLAYERS];
 
     void Awake() {
         S = this;
@@ -62,7 +62,7 @@ public class TitleScreen : MonoBehaviour {
             return;
         }
 
-        HoveredChar = character;
+        hover_character[player_num] = character;
         if (player_num == 0) {
             P1CharName.text = character;
             P1CharDescrip.text = Descriptions[character];
@@ -179,15 +179,15 @@ public class TitleScreen : MonoBehaviour {
     }
 
     public void chooseCharacter(int player_num) {
-        if (HoveredChar == "Bear") {
+        if (hover_character[player_num] == "Bear") {
             PlaySound("bear", 1f);
-        } else if (HoveredChar == "Fish") {
+        } else if (hover_character[player_num] == "Fish") {
             PlaySound("fish", 1f);
-        } else if (HoveredChar == "Hawk") {
+        } else if (hover_character[player_num] == "Hawk") {
             PlaySound("hawk", 1f);
-        } else if (HoveredChar == "Baboon") {
+        } else if (hover_character[player_num] == "Baboon") {
             PlaySound("baboon", 1f);
-        } else if (HoveredChar == "Fox") {
+        } else if (hover_character[player_num] == "Fox") {
             PlaySound("fox", 1f);
         } else {
             PlaySound("doge", 1f);
@@ -195,13 +195,13 @@ public class TitleScreen : MonoBehaviour {
 
         StartCoroutine(Flash());
         if (player_num == 0) {
-            Global.S.BlueP1 = HoveredChar;
+            Global.S.BlueP1 = hover_character[player_num];
         } else if (player_num == 1) {
-            Global.S.BlueP2 = HoveredChar;
+            Global.S.BlueP2 = hover_character[player_num];
         } else if (player_num == 2) {
-            Global.S.RedP1 = HoveredChar;
+            Global.S.RedP1 = hover_character[player_num];
         } else if (player_num == 3) {
-            Global.S.RedP2 = HoveredChar;
+            Global.S.RedP2 = hover_character[player_num];
         }
 
         ++selected_players;
@@ -214,6 +214,9 @@ public class TitleScreen : MonoBehaviour {
     }
 
     public void unchooseCharacter(int player_num) {
+        if (canPressStartToGo) {
+            return;
+        }
         PlaySound("undo");
         --selected_players;
         character_chosen[player_num] = false;
