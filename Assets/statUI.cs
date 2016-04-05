@@ -26,7 +26,7 @@ public class statUI : MonoBehaviour {
     // blue p1, blue p2, red p1, red p2
     // Use this for initialization
     void Start () {
-        PlaySound("LaserMillenium", 1f);
+        PlaySound("SteppinUp", 1f);
         Invoke("canGo", 5f);
         player1Goals = GameObject.Find("Player1Goals").GetComponent<Text>();
         player1Steals = GameObject.Find("Player1Steals").GetComponent<Text>();
