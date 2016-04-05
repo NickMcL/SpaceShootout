@@ -79,7 +79,6 @@ public class Goal : MonoBehaviour {
             explodeAtPoint();
             Global.S.score(team);
             Statistics.S.goalStat(coll.gameObject.GetComponent<SoccerBall>().lastPlayerTouched);
-            Statistics.S.PrintStatistics();
         }
     }
 
