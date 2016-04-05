@@ -53,6 +53,7 @@ public class Statistics : MonoBehaviour {
         {
             goalsScored[i] = 0;
             steals[i] = 0;
+            timeControlled[i] = 0;
         }
     }
 
