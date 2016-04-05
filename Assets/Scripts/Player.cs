@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
     float DRIBBLE_MAGNITUDE_THRESHOLD = 0.8f;
     Color PLAYER_1_COLOR = new Color(1f, 0.7f, 0.7f);
     Color PLAYER_2_COLOR = new Color(0.7f, 0.7f, 1f);
+
+    static public List<Collider2D> ball_check_colliders = new List<Collider2D>();
 
     public int my_number = 1;
     public float ball_offset_scale;
@@ -237,7 +240,32 @@ public class Player : MonoBehaviour {
             current_ball_angle = dribble_vector.normalized;
         }
         if (current_ball_angle != Vector2.zero) {
+            //Vector2 old_position = ball.transform.localPosition;
             ball.transform.localPosition = Vector3.Lerp(ball.transform.localPosition, current_ball_angle * ball_offset_scale, Time.deltaTime * 20f);
+            //fitBallInStage(old_position);
+        }
+    }
+
+    void fitBallInStage(Vector2 old_position) {
+        List<Collider2D> colliding_objects = new List<Collider2D>();
+        foreach (Collider2D coll in ball_check_colliders) {
+            if (coll.bounds.Intersects(ball_collider.bounds)) {
+                colliding_objects.Add(coll);
+            }
+        }
+
+        if (colliding_objects.Count == 0) {
+            return;
+        }
+
+        float total_degree_movement = 0f;
+        float current_angle = Util.getAngleInRads(ball.transform.localPosition);
+        float fitting_interval = 0.05f * Util.getCloserDirection(current_angle, Util.getAngleInRads(old_position));
+        float end_angle = Util.getAngleInRads(old_position);
+        while (Util.colliderIntersects(ball_collider, colliding_objects) && total_degree_movement < (2 * Mathf.PI)) {
+            current_angle += fitting_interval;
+            total_degree_movement += fitting_interval;
+            ball.transform.localPosition = new Vector2(Mathf.Cos(current_angle), Mathf.Sin(current_angle)) * ball_offset_scale;
         }
     }
 

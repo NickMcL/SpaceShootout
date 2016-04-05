@@ -28,30 +28,24 @@ public class Global : MonoBehaviour {
     public float baboonBoost = 1.5f;
 
 
-    public void SetBearAttributes(Player p)
-    {
+    public void SetBearAttributes(Player p) {
         p.GetComponent<CircleCollider2D>().radius = bearRadius;
     }
-    public void SetFishAttributes(Player p)
-    {
+    public void SetFishAttributes(Player p) {
         p.shot_force *= fishBoost;
     }
-    public void SetHawkAttributes(Player p)
-    {
+    public void SetHawkAttributes(Player p) {
         p.acceleration *= hawkBoost;
     }
-    public void SetBaboonAttributes(Player p)
-    {
+    public void SetBaboonAttributes(Player p) {
         p.isBaboon = true;
         p.pushSpeed *= baboonBoost;
     }
-    public void SetFoxAttributes(Player p)
-    {
+    public void SetFoxAttributes(Player p) {
         p.shot_force *= foxBoost;
         p.acceleration *= foxBoost;
     }
-    public void SetDogeAttributes(Player p)
-    {
+    public void SetDogeAttributes(Player p) {
         p.isDoge = true;
     }
     public void loadSprites() {

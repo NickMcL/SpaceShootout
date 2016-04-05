@@ -20,6 +20,7 @@ public class HUD : MonoBehaviour {
     public Vector3 BallStartPosBlueAdvantage, BallStartPosRedAdvantage;
 
     public Text countdown;
+    public GameObject bgm_object;
 
     public List<Goal> goals = new List<Goal>();
 
@@ -41,9 +42,12 @@ public class HUD : MonoBehaviour {
     public enum Team { BLUE, RED, NONE };
 
     GameObject laser_sound;
+    AudioSource bgm;
 
     Dictionary<int, Player> playersAndNums = new Dictionary<int, Player>();
     List<Collider2D> asteroidboxes = new List<Collider2D>();
+
+
     void Awake() {
         S = this;
     }
@@ -51,7 +55,7 @@ public class HUD : MonoBehaviour {
     // Use this for initialization
     void Start() {
         TimeLeft = round_time;
-        PlaySound("LaserMillenium", .25f);
+        //PlaySound("LaserMillenium", .25f);
         StartCoroutine(Count_Down());
         GameObject[] g = GameObject.FindGameObjectsWithTag("Player");
         for (int c = 0; c < g.Length; ++c) {
@@ -94,8 +98,7 @@ public class HUD : MonoBehaviour {
         StartCoroutine(SpawnPowerups());
 
         Global.S.loadSprites();
-
-
+        bgm = bgm_object.GetComponent<AudioSource>();
     }
 
     public GameObject[] PowerUps;
@@ -164,6 +167,7 @@ public class HUD : MonoBehaviour {
     }
 
     public void RedTeamScored() {
+        bgm.pitch = 1f;
         Time.timeScale = score_time_scale;
         GameStarted = false;
         ++RedTeamScore;
@@ -177,6 +181,7 @@ public class HUD : MonoBehaviour {
     }
 
     public void BlueTeamScored() {
+        bgm.pitch = 1f;
         Time.timeScale = score_time_scale;
         GameStarted = false;
         ++BlueTeamScore;

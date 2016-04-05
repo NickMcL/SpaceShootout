@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Replay : MonoBehaviour {
-    List<replay_object> moving_objects;
+/*    List<replay_object> moving_objects;
 
     public int current_time = 0;
     int replay_time = 0;
@@ -74,7 +74,7 @@ public class Replay : MonoBehaviour {
     }
 
     public void startPlayback(int replay_start_time, int replay_stop_time,float time_scale) {
-        /*Time.timeScale = time_scale;
+        Time.timeScale = time_scale;
         if (replay_stop_time <= replay_start_time || replay_stop_time > current_time) {
             print("invalid replay, see startPlayback");
             return;
@@ -103,7 +103,7 @@ public class Replay : MonoBehaviour {
                 moving_objects[i] = dupe; //it has to be
 
             }
-        }*/
+        }
     }
     void playBack() {
         if (replay_time == replay_stop) {
@@ -142,5 +142,5 @@ public class Replay : MonoBehaviour {
         }
         Time.timeScale = 1;
 
-    }
+    }*/
 }

@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SoccerBall : MonoBehaviour {
+    public static GameObject Ball;
+
     Rigidbody2D rb;
     Rigidbody ballrb;
     float max_speed = 50f;
-    public static GameObject Ball;
     Vector3 WayToGo;
 
+    public GameObject bgm_game_object;
     public Rigidbody2D parentrb;
 
     public HUD.Team ball_team = HUD.Team.NONE;
@@ -23,6 +26,7 @@ public class SoccerBall : MonoBehaviour {
     float emit;
     GameObject[] goals;
     ParticleSystem particle_system;
+    AudioSource bgm;
 
     // Use this for initialization
     void Awake() {
@@ -33,6 +37,7 @@ public class SoccerBall : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         particle_system = GetComponent<ParticleSystem>();
         ballrb = transform.GetChild(0).gameObject.GetComponent<Rigidbody>();
+        bgm = bgm_game_object.GetComponent<AudioSource>();
         goals = GameObject.FindGameObjectsWithTag("Goal");
         ball_in_play = true;
     }
@@ -74,7 +79,7 @@ public class SoccerBall : MonoBehaviour {
         if (!ball_in_play || !HUD.S.GameStarted) {
             return;
         } else if (transform.parent != null) {
-            Time.timeScale = 1f;
+            Time.timeScale = bgm.pitch = 1f;
             return;
         }
 
@@ -82,6 +87,7 @@ public class SoccerBall : MonoBehaviour {
         float slope = (1f - time_scale_min) / (Mathf.Pow(time_scale_max_dist, time_scale_exponent));
         float new_time_scale = slope * Mathf.Pow(goal_dist, time_scale_exponent) + time_scale_min;
         Time.timeScale = Mathf.Max(time_scale_min, Mathf.Min(1f, new_time_scale));
+        bgm.pitch = Time.timeScale + ((1f - Time.timeScale) * 0.5f);
 
         /*Time.timeScale = 1;
         float velocity = rb.velocity.magnitude;
