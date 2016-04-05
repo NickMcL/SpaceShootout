@@ -135,13 +135,11 @@ public class HUD : MonoBehaviour {
                 yield return new WaitForSeconds(Random.Range(SpawnPowerupIntervalMin, SpawnPowerupIntervalMax));
                 int rnjesus = Random.Range(0, PowerUps.Length);
                 Vector3 targetPos = new Vector3(Random.Range(-StageLengthX / 2f, StageLengthX / 2f), Random.Range(-StageLengthY / 2f, StageLengthY / 2f));
-                bool TooCloseToPlayers = PointIsNearPlayers(targetPos, 2f);
-
-
+                bool TooCloseToPlayers = PointIsNearPlayers(targetPos, 4f);
 
                 while (TooCloseToPlayers) {
                     targetPos = new Vector3(Random.Range(-StageLengthX / 2f, StageLengthX / 2f), Random.Range(-StageLengthY / 2f, StageLengthY / 2f));
-                    TooCloseToPlayers = PointIsNearPlayers(targetPos, 2f);
+                    TooCloseToPlayers = PointIsNearPlayers(targetPos, 4f);
                 }
 
                 powerupslam = Instantiate(PowerUps[rnjesus], targetPos, transform.rotation) as GameObject;

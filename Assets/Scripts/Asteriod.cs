@@ -25,7 +25,7 @@ public class Asteriod : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        ball = GameObject.FindGameObjectWithTag("Ball");
+        ball = SoccerBall.Ball;
         for (int i = 0; i < lerp_points.Length; ++i) {
             lerp_points[i] = new Vector3(
                 transform.position.x + UnityEngine.Random.Range(min_lerp_offset, max_lerp_offset),
