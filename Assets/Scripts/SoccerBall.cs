@@ -14,6 +14,7 @@ public class SoccerBall : MonoBehaviour {
     public int lastPlayerTouched;
 
     public Rigidbody2D parentrb;
+    Collider2D col;
 
     public HUD.Team ball_team = HUD.Team.NONE;
 
@@ -25,6 +26,9 @@ public class SoccerBall : MonoBehaviour {
     //public float slow_mo_dist = 5f;
 
     bool fade_particles = false;
+  public  bool hit_wall = false;
+    float hit_wall_cooldown = 0;
+    float hit_wall_delay = 0.03f;
     float emit;
     GameObject[] goals;
     ParticleSystem particle_system;
@@ -36,12 +40,34 @@ public class SoccerBall : MonoBehaviour {
     }
 
     void Start() {
+        col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
         particle_system = GetComponent<ParticleSystem>();
         ballrb = transform.GetChild(0).gameObject.GetComponent<Rigidbody>();
         bgm = bgm_game_object.GetComponent<AudioSource>();
         goals = GameObject.FindGameObjectsWithTag("Goal");
         ball_in_play = true;
+        StartCoroutine(RayCastEveryFrame());
+    }
+    public LayerMask goalLayer;
+    IEnumerator RayCastEveryFrame()
+    {
+        while (gameObject.active)
+        {
+            Vector3 prevloc = transform.position;
+
+            yield return new WaitForFixedUpdate();
+
+            RaycastHit2D[] hits = Physics2D.RaycastAll(prevloc, transform.position - prevloc, (transform.position - prevloc).magnitude, goalLayer);
+            for(int c = 0; c < hits.Length; ++c)
+            {
+                if (hits[c].collider.gameObject.CompareTag("Goal"))
+                {
+                    hits[c].collider.GetComponent<Goal>().OnTriggerEnter2D(col);
+
+                }
+            }
+        }
     }
 
     void FixedUpdate() {
@@ -65,10 +91,20 @@ public class SoccerBall : MonoBehaviour {
                 fade_particles = false;
             }
         }
+
+        if (hit_wall) {
+            
+            if (hit_wall_cooldown <= 0)
+                hit_wall = false;
+            hit_wall_cooldown -= Time.deltaTime;
+        }
+
+
     }
 
     // Update is called once per frame
     void Update() {
+
         timeDilation();
         if (transform.parent != null) {
             Statistics.S.timeControlStat(transform.parent.GetComponent<Player>().my_number);
@@ -154,6 +190,8 @@ public class SoccerBall : MonoBehaviour {
 
         if (coll.gameObject.tag == "LevelBounds") {
             HUD.S.PlaySound("boing", Random.Range(.5f, 1f));
+            hit_wall_cooldown = hit_wall_delay;
+            hit_wall = true;
         }
 
         if (coll.gameObject.tag == "AsteroidBreakable") {
@@ -161,6 +199,14 @@ public class SoccerBall : MonoBehaviour {
             if (rb.velocity.magnitude > 10f && transform.parent == null) {
                 coll.gameObject.GetComponent<Asteriod>().Destroy();
             }
+            hit_wall_cooldown = hit_wall_delay;
+            hit_wall = true;
         }
+        hit_wall_cooldown = hit_wall_delay;
+        hit_wall = true;
+    }
+    void OnCollisionStay2D() {
+        hit_wall_cooldown = hit_wall_delay;
+        hit_wall = true;
     }
 }
