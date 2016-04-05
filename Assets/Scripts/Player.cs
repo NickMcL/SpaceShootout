@@ -22,6 +22,8 @@ public class Player : MonoBehaviour {
     public float charge_shot_multiplier = 2f;
     public int charged_emit = 10;
     public float charged_speed = 10f;
+    float dribble_speed = 0.5f;
+    public float dribble_bad_speed = 0.01f;
     Vector2 current_ball_angle;
     GameObject teammate;
 
@@ -233,7 +235,18 @@ public class Player : MonoBehaviour {
             current_ball_angle = dribble_vector.normalized;
         }
         if (current_ball_angle != Vector2.zero) {
-            ball.transform.localPosition =  Vector3.Lerp(ball.transform.localPosition,current_ball_angle * ball_offset_scale, Time.deltaTime * 20f);
+            Vector3 ball_next_pos = current_ball_angle * ball_offset_scale;
+            Vector3 diff = ball_next_pos - ball.transform.localPosition;
+            float d_speed = dribble_speed;
+            if (ball.GetComponent<SoccerBall>().hit_wall) {
+                d_speed = dribble_bad_speed;
+            }
+            while (diff.magnitude > d_speed && diff.magnitude<0.65f) {
+                diff *= 0.99f;
+            }
+            ball_next_pos = ball.transform.localPosition + diff;
+        //    ball.transform.localPosition =  Vector3.Lerp(ball.transform.localPosition,current_ball_angle * ball_offset_scale, Time.deltaTime * 20f);
+            ball.transform.localPosition = Vector3.Lerp(ball.transform.localPosition, ball_next_pos, Time.deltaTime * 20f);
         }
     }
 

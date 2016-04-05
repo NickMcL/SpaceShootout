@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Replay : MonoBehaviour {
+   /*
     List<replay_object> moving_objects;
 
     public int current_time = 0;
@@ -103,7 +104,7 @@ public class Replay : MonoBehaviour {
                 moving_objects[i] = dupe; //it has to be
 
             }
-        }*/
+        }
     }
     void playBack() {
         if (replay_time == replay_stop) {
@@ -143,4 +144,5 @@ public class Replay : MonoBehaviour {
         Time.timeScale = 1;
 
     }
+*/
 }

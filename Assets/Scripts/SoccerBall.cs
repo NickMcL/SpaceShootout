@@ -20,6 +20,9 @@ public class SoccerBall : MonoBehaviour {
     //public float slow_mo_dist = 5f;
 
     bool fade_particles = false;
+  public  bool hit_wall = false;
+    float hit_wall_cooldown = 0;
+    float hit_wall_delay = 0.03f;
     float emit;
     GameObject[] goals;
     ParticleSystem particle_system;
@@ -54,6 +57,12 @@ public class SoccerBall : MonoBehaviour {
                 fade_particles = false;
             }
         }
+        if (hit_wall) {
+            
+            if (hit_wall_cooldown <= 0)
+                hit_wall = false;
+            hit_wall_cooldown -= Time.deltaTime;
+        }
 
     }
 
@@ -62,6 +71,7 @@ public class SoccerBall : MonoBehaviour {
         while (rb.velocity.magnitude > max_speed) {
             rb.velocity *= 0.99f;
         }
+    
         timeDilation();
     }
 
@@ -135,6 +145,8 @@ public class SoccerBall : MonoBehaviour {
 
         if (coll.gameObject.tag == "LevelBounds") {
             HUD.S.PlaySound("boing", Random.Range(.5f, 1f));
+            hit_wall_cooldown = hit_wall_delay;
+            hit_wall = true;
         }
 
         if (coll.gameObject.tag == "AsteroidBreakable") {
@@ -142,6 +154,14 @@ public class SoccerBall : MonoBehaviour {
             if (rb.velocity.magnitude > 10f && transform.parent == null) {
                 coll.gameObject.GetComponent<Asteriod>().Destroy();
             }
+            hit_wall_cooldown = hit_wall_delay;
+            hit_wall = true;
         }
+        hit_wall_cooldown = hit_wall_delay;
+        hit_wall = true;
+    }
+    void OnCollisionStay2D() {
+        hit_wall_cooldown = hit_wall_delay;
+        hit_wall = true;
     }
 }
