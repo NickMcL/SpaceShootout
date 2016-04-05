@@ -11,6 +11,8 @@ public class SoccerBall : MonoBehaviour {
     Vector3 WayToGo;
 
     public GameObject bgm_game_object;
+    public int lastPlayerTouched;
+
     public Rigidbody2D parentrb;
 
     public HUD.Team ball_team = HUD.Team.NONE;
@@ -68,6 +70,9 @@ public class SoccerBall : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         timeDilation();
+        if (transform.parent != null) {
+            Statistics.S.timeControlStat(transform.parent.GetComponent<Player>().my_number);
+        }
     }
 
     public void fadeParticles(float start_emit) {
@@ -115,7 +120,7 @@ public class SoccerBall : MonoBehaviour {
         Vector2 min_distance_vector = Vector2.one * int.MaxValue;
 
         foreach (GameObject goal in goals) {
-            temp = (Vector2) transform.position - (Vector2) goal.transform.position;
+            temp = (Vector2)transform.position - (Vector2)goal.transform.position;
             if (temp.magnitude < min_distance_vector.magnitude) {
                 min_distance_vector = temp;
             }
@@ -134,12 +139,14 @@ public class SoccerBall : MonoBehaviour {
             if (transform.parent != null) {
                 if (ball_team != HUD.Team.NONE && coll_player.team != ball_team) {
                     HUD.S.SuccessfulSteal();
+                    Statistics.S.stealStat(coll_player.my_number);
                     stolen = true;
                 }
                 transform.parent.gameObject.GetComponent<Player>().loseControlOfBall(stolen);
             }
 
             coll.gameObject.GetComponent<Player>().gainControlOfBall();
+            lastPlayerTouched = coll.gameObject.GetComponent<Player>().my_number;
             fade_particles = false;
             ball_team = coll_player.team;
             parentrb = coll.gameObject.GetComponent<Rigidbody2D>();
