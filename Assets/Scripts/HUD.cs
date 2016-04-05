@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class HUD : MonoBehaviour {
     List<string> BALL_STOLEN_STRINGS = new List<string>() {
-        "Stolen!", "Turnover!", "Robbed!", "Hijacked!", "Swiped!", "Snatched!", "Bamboozled!"
+        "Stolen!", "Turnover!", "Robbed!", "Hijacked!", "Swiped!", "Snatched!"
     };
 
     public Text middleText;
@@ -80,7 +80,7 @@ public class HUD : MonoBehaviour {
         player2red.transform.position = RedTeamStartPos2;
         player1blue.transform.position = BlueTeamStartPos1;
         player2blue.transform.position = BlueTeamStartPos2;
-        ball = GameObject.FindGameObjectWithTag("Ball");
+        ball = SoccerBall.Ball;
 
         GameObject[] gs = GameObject.FindGameObjectsWithTag("Goal");
         goals.Add(gs[0].GetComponent<Goal>());
@@ -320,9 +320,7 @@ public class HUD : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Tab)) {
-            ControlManager.use_controllers = !ControlManager.use_controllers;
-        }
+
     }
 
     public void SuccessfulSteal() {

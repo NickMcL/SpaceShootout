@@ -4,8 +4,11 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class TitleScreen : MonoBehaviour {
+    public static TitleScreen S;
+
     Color RED_COLOR = new Color(1f, 0.7f, 0.7f);
     Color BLUE_COLOR = new Color(0.7f, 0.7f, 1f);
+    Color NO_COLOR = new Color(0f, 0f, 0f, 0f);
 
     public Text P1CharName, P1CharDescrip, P2CharName, P2CharDescrip, TitleText, P3CharName, P3CharDescrip, P4CharName, P4CharDescrip;
     public Image flash;
@@ -20,98 +23,140 @@ public class TitleScreen : MonoBehaviour {
     public string nextSceneName;
 
     Color flashcolor;
+    public string HoveredChar = "";
+    public Image CONTROLS;
+    bool canPressStartToGo = false;
+    int selected_players;
+
+    bool[] character_chosen = new bool[ControlManager.TOTAL_PLAYERS];
+
+    void Awake() {
+        S = this;
+    }
+
     // Use this for initialization
     void Start() {
         PlaySound("Spacearray", 1f);
         inputModule2.SetActive(false);
-        Descriptions["Bear"] = "Bigger in size, better at bodyblocking.";
-        Descriptions["Fish"] = "Improved shooting speed.";
-        Descriptions["Hawk"] = "Higher speed.";
-        Descriptions["Baboon"] = "Tackles opponents harder.";
-        Descriptions["Fox"] = "Slightly immproved speed and shoot power.";
-        Descriptions["Dog"] = "No noticable abilities but has extremely high Luck.";
+        Descriptions["Bear"] = "Bigger in size; better at bodyblocking.";
+        Descriptions["Fish"] = "Fastest shot speed.";
+        Descriptions["Hawk"] = "Highest movement speed.";
+        Descriptions["Baboon"] = "Highest tackling power.";
+        Descriptions["Fox"] = "Slightly improved movement speed and shot power.";
+        Descriptions["Dog"] = "No noticable abilities but has extremely high luck.";
         flashcolor = flash.color;
         flashcolor.a = 0f;
         flash.color = flashcolor;
+        selected_players = 0;
+
+        for (int i = 0; i < character_chosen.Length; ++i) {
+            character_chosen[i] = false;
+        }
     }
 
-    public int PlayerSelecting = 1;
+    public void hoverOverCharacter(int player_num, string character) {
+        if (character_chosen[player_num]) {
+            return;
+        }
 
-    public string HoveredChar = "";
-
-    public void HoverOverCharacter(string Character) {
-        HoveredChar = Character;
-        if (PlayerSelecting == 1) {
-            P1CharName.text = Character;
-            P1CharDescrip.text = Descriptions[Character];
-            if (Character == "Bear") {
+        HoveredChar = character;
+        if (player_num == 0) {
+            P1CharName.text = character;
+            P1CharDescrip.text = Descriptions[character];
+            if (character == "Bear") {
                 spriteP1.sprite = bearsprite;
-            } else if (Character == "Fish") {
+            } else if (character == "Fish") {
                 spriteP1.sprite = fishprite;
-            } else if (Character == "Hawk") {
+            } else if (character == "Hawk") {
                 spriteP1.sprite = hawksprite;
-            } else if (Character == "Baboon") {
+            } else if (character == "Baboon") {
                 spriteP1.sprite = baboonsprite;
-            } else if (Character == "Fox") {
+            } else if (character == "Fox") {
                 spriteP1.sprite = foxsprite;
             } else {
                 spriteP1.sprite = dogsprite;
             }
             spriteP1.color = BLUE_COLOR;
-        } else if (PlayerSelecting == 2) {
-            P2CharName.text = Character;
-            P2CharDescrip.text = Descriptions[Character];
-            if (Character == "Bear") {
+        } else if (player_num == 1) {
+            P2CharName.text = character;
+            P2CharDescrip.text = Descriptions[character];
+            if (character == "Bear") {
                 spriteP2.sprite = bearsprite;
-            } else if (Character == "Fish") {
+            } else if (character == "Fish") {
                 spriteP2.sprite = fishprite;
-            } else if (Character == "Hawk") {
+            } else if (character == "Hawk") {
                 spriteP2.sprite = hawksprite;
-            } else if (Character == "Baboon") {
+            } else if (character == "Baboon") {
                 spriteP2.sprite = baboonsprite;
-            } else if (Character == "Fox") {
+            } else if (character == "Fox") {
                 spriteP2.sprite = foxsprite;
             } else {
                 spriteP2.sprite = dogsprite;
             }
             spriteP2.color = BLUE_COLOR;
-        } else if (PlayerSelecting == 3) {
+        } else if (player_num == 2) {
 
-            P3CharName.text = Character;
+            P3CharName.text = character;
 
             spriteP3.color = Color.white;
-            P3CharDescrip.text = Descriptions[Character]; if (Character == "Bear") {
+            P3CharDescrip.text = Descriptions[character];
+            if (character == "Bear") {
                 spriteP3.sprite = bearsprite;
-            } else if (Character == "Fish") {
+            } else if (character == "Fish") {
                 spriteP3.sprite = fishprite;
-            } else if (Character == "Hawk") {
+            } else if (character == "Hawk") {
                 spriteP3.sprite = hawksprite;
-            } else if (Character == "Baboon") {
+            } else if (character == "Baboon") {
                 spriteP3.sprite = baboonsprite;
-            } else if (Character == "Fox") {
+            } else if (character == "Fox") {
                 spriteP3.sprite = foxsprite;
             } else {
                 spriteP3.sprite = dogsprite;
             }
             spriteP3.color = RED_COLOR;
         } else {
-            P4CharName.text = Character;
+            P4CharName.text = character;
 
             spriteP4.color = Color.white;
-            P4CharDescrip.text = Descriptions[Character]; if (Character == "Bear") {
+            P4CharDescrip.text = Descriptions[character];
+            if (character == "Bear") {
                 spriteP4.sprite = bearsprite;
-            } else if (Character == "Fish") {
+            } else if (character == "Fish") {
                 spriteP4.sprite = fishprite;
-            } else if (Character == "Hawk") {
+            } else if (character == "Hawk") {
                 spriteP4.sprite = hawksprite;
-            } else if (Character == "Baboon") {
+            } else if (character == "Baboon") {
                 spriteP4.sprite = baboonsprite;
-            } else if (Character == "Fox") {
+            } else if (character == "Fox") {
                 spriteP4.sprite = foxsprite;
             } else {
                 spriteP4.sprite = dogsprite;
             }
             spriteP4.color = RED_COLOR;
+        }
+    }
+
+    public void stopHoverOverCharacter(int player_num) {
+        if (character_chosen[player_num]) {
+            return;
+        }
+
+        if (player_num == 0) {
+            P1CharName.text = "";
+            P1CharDescrip.text = "";
+            spriteP1.color = NO_COLOR;
+        } else if (player_num == 1) {
+            P2CharName.text = "";
+            P2CharDescrip.text = "";
+            spriteP2.color = NO_COLOR;
+        } else if (player_num == 2) {
+            P3CharName.text = "";
+            P3CharDescrip.text = "";
+            spriteP3.color = NO_COLOR;
+        } else if (player_num == 3) {
+            P4CharName.text = "";
+            P4CharDescrip.text = "";
+            spriteP4.color = NO_COLOR;
         }
     }
 
@@ -129,41 +174,44 @@ public class TitleScreen : MonoBehaviour {
         flashcolor.a = 0f;
         flash.color = flashcolor;
     }
-    public Image CONTROLS;
-    bool canPressStartToGo = false;
-    public void ChooseCharacter() {
-        HoverOverCharacter(HoveredChar);
+
+    public void chooseCharacter(int player_num) {
         StartCoroutine(Flash());
-        if (PlayerSelecting == 2) {
-            // blue second player
-            Global.S.BlueP2 = HoveredChar;
-            TitleText.text = "Player 3: Choose Your Character!";
-        } else if (PlayerSelecting == 1) {
-            // blue first player
+        if (player_num == 0) {
             Global.S.BlueP1 = HoveredChar;
-            TitleText.text = "Player 2: Choose Your Character!";
-        } else if (PlayerSelecting == 3) {
+        } else if (player_num == 1) {
+            Global.S.BlueP2 = HoveredChar;
+        } else if (player_num == 2) {
             Global.S.RedP1 = HoveredChar;
-            TitleText.text = "Player 4: Choose Your Character!";
-        } else if (PlayerSelecting == 4) {
+        } else if (player_num == 3) {
             Global.S.RedP2 = HoveredChar;
+        }
+
+        ++selected_players;
+        character_chosen[player_num] = true;
+        if (selected_players == ControlManager.TOTAL_PLAYERS) {
             TitleText.text = "Get ready for the game!";
             CONTROLS.raycastTarget = true;
             Invoke("ShowControls", 4.0f);
         }
-        ++PlayerSelecting;
     }
 
-    void ShowControls()
-    {
+    public void unchooseCharacter(int player_num) {
+        PlaySound("undo");
+        --selected_players;
+        character_chosen[player_num] = false;
+        stopHoverOverCharacter(player_num);
+    }
+
+    void ShowControls() {
         Color c = CONTROLS.color;
         c.a = 1f;
         CONTROLS.color = c;
-        Invoke("CanPressStart", 1f);
+        canPressStartToGo = true;
+        //Invoke("CanPressStart", 1f);
     }
 
-    void CanPressStart()
-    {
+    void CanPressStart() {
         canPressStartToGo = true;
     }
 
@@ -185,8 +233,7 @@ public class TitleScreen : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (canPressStartToGo && ControlManager.playerPressedStart())
-        {
+        if (canPressStartToGo && ControlManager.playerPressedStart()) {
             startGame();
         }
     }

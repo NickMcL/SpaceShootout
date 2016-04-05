@@ -16,11 +16,14 @@ public class Global : MonoBehaviour {
     void Awake() {
         S = this;
         DontDestroyOnLoad(this.gameObject);
+        ControlManager.initControllers();
     }
 
     // Update is called once per frame
     void Update() {
-
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            ControlManager.use_controllers = !ControlManager.use_controllers;
+        }
     }
 
     public float bearRadius = 0.4f;
