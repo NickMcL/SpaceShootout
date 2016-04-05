@@ -25,7 +25,7 @@ public class Player : MonoBehaviour {
     public float charge_shot_multiplier = 2f;
     public int charged_emit = 10;
     public float charged_speed = 10f;
-    float dribble_speed = 0.5f;
+    float dribble_speed = 0.8f;
     public float dribble_bad_speed = 0.01f;
     Vector2 current_ball_angle;
     GameObject teammate;
@@ -249,7 +249,7 @@ public class Player : MonoBehaviour {
             if (ball.GetComponent<SoccerBall>().hit_wall) {
                 d_speed = dribble_bad_speed;
             }
-            while (diff.magnitude > d_speed && diff.magnitude<0.65f) {
+            while (diff.magnitude > d_speed && diff.magnitude<0.63f) {
                 diff *= 0.99f;
             }
             ball_next_pos = ball.transform.localPosition + diff;
