@@ -1,2 +1,2 @@
-# SpaceShootout
-Shootout in space
+# Cosmic Furball
+Shootout in space with aminals an bdale
