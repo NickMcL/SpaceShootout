@@ -224,7 +224,7 @@ public class Player : MonoBehaviour {
             }
         }
 
-        if (ControlManager.boostButtonPressed(my_number) && dash_delay <= 0 && slowed < 3) {
+        if (ControlManager.boostButtonPressed(my_number) && dash_delay <= 0 && slowed < 1) {
             dash = true;
             dash_delay = dash_delay_time;
         } else if (dash_delay > 0) {
@@ -249,7 +249,7 @@ public class Player : MonoBehaviour {
             if (ball.GetComponent<SoccerBall>().hit_wall) {
                 d_speed = dribble_bad_speed;
             }
-            while (diff.magnitude > d_speed && diff.magnitude<0.63f) {
+            while (diff.magnitude > d_speed && diff.magnitude<0.6278453902f) {
                 diff *= 0.99f;
             }
             ball_next_pos = ball.transform.localPosition + diff;
