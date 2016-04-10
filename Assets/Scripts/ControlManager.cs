@@ -20,8 +20,12 @@ public class ControlManager : MonoBehaviour {
     static InputDevice[] players = new InputDevice[TOTAL_PLAYERS];
 
     static public void initControllers() {
-        for (int i = 0; i < InputManager.Devices.Count; ++i) {
-            players[i] = InputManager.Devices[i];
+        for (int i = 0; i < TOTAL_PLAYERS; ++i) {
+            if (i < InputManager.Devices.Count) {
+                players[i] = InputManager.Devices[i];
+            } else {
+                players[i] = null;
+            }
         }
     }
 

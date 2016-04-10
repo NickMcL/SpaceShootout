@@ -16,10 +16,8 @@ public class Player : MonoBehaviour {
 
     float max_speed = 5;
     public float acceleration = 30;
-    float dash_delay_time = 0.3f;
+    public float dash_delay_time = 0.3f;
     float dash_delay = 0;
-    float slow_delay_time = 1f;
-    float slow_delay = 0;
     public float shot_force = 1000f;
     public float charge_shot_delay = 1.5f;
     public float charge_shot_multiplier = 2f;
@@ -28,9 +26,9 @@ public class Player : MonoBehaviour {
     float dribble_speed = 0.8f;
     public float dribble_bad_speed = 0.01f;
     Vector2 current_ball_angle;
+    Vector2 current_move_vector;
     GameObject teammate;
 
-    int slowed = 0;
     float fatigue = 0;
     bool dash = false;
     bool shooting = false;
@@ -113,27 +111,12 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void FixedUpdate() {
-        //      Replay.replay_device.updateObject(gameObject);
-    }
-
     void Update() {
         if (!HUD.S.GameStarted) {
             return;
         }
         checkDash();
-        updateMovement();
-        /*
-        if (slowed == 0) {
-            GetComponent<Renderer>().material.color = default_color;
-        } else if(slowed == 1) {
-            GetComponent<Renderer>().material.color = Color.yellow;
-        } else if (slowed == 2) {
-            GetComponent<Renderer>().material.color = Color.yellow/2+Color.red/2;
-        }else if(slowed == 3) {
-            GetComponent<Renderer>().material.color = Color.red;
-        }
-        */
+        current_move_vector = ControlManager.getMovementVector(my_number);
 
         if (has_ball == true) {
             dribble();
@@ -147,6 +130,10 @@ public class Player : MonoBehaviour {
         if (ControlManager.passButtonPressed(my_number) && has_ball) {
             passToTeammate();
         }
+    }
+
+    void FixedUpdate() {
+        updateMovement();
     }
 
     void passToTeammate() {
@@ -164,8 +151,7 @@ public class Player : MonoBehaviour {
     }
 
     void updateMovement() {
-        Vector2 move_vector = ControlManager.getMovementVector(my_number);
-        move_vector *= acceleration;
+        Vector2 move_vector = current_move_vector * acceleration;
 
         if (dash == true) {
             HUD.S.PlaySound("woosh", Random.Range(.5f, 1f));
@@ -178,7 +164,7 @@ public class Player : MonoBehaviour {
         }
           */
         if (ball.GetComponent<SoccerBall>().ball_in_play) {
-            rigid.AddForce(move_vector / (1 + slowed * 0.75f));
+            rigid.AddForce(move_vector);
         }
         if (rigid.velocity.magnitude > max_speed && dash_delay < dash_delay_time * 0.8f) {
             rigid.velocity *= 0.97f;
@@ -197,42 +183,31 @@ public class Player : MonoBehaviour {
     }
 
     public void loseControlOfBall(bool stolen = false) {
-        if (ball.transform.parent == transform) {
-            HUD.S.stopLaserCharge();
-            ControlManager.rumble(my_number, true);
-            ball.transform.parent = null;
-            has_ball = false;
-            shooting = false;
-            if (HUD.S.GameStarted && stolen) {
-                Invoke("allowBallCollision", stolen_collision_delay);
-            } else if (HUD.S.GameStarted) {
-                Invoke("allowBallCollision", lose_ball_collision_delay);
-            } else {
-                Physics2D.IgnoreCollision(player_collider, ball_collider, false);
-            }
-            Physics2D.IgnoreCollision(ball.GetComponent<Collider2D>(), teammate.GetComponent<Collider2D>(), false);
+        if (ball.transform.parent != transform) {
+            return;
         }
+
+        HUD.S.stopLaserCharge();
+        ControlManager.rumble(my_number, true);
+        ball.transform.parent = null;
+        has_ball = false;
+        shooting = false;
+        if (HUD.S.GameStarted && stolen) {
+            Invoke("allowBallCollision", stolen_collision_delay);
+        } else if (HUD.S.GameStarted) {
+            Invoke("allowBallCollision", lose_ball_collision_delay);
+        } else {
+            Physics2D.IgnoreCollision(player_collider, ball_collider, false);
+        }
+        Physics2D.IgnoreCollision(ball.GetComponent<Collider2D>(), teammate.GetComponent<Collider2D>(), false);
     }
 
     void checkDash() {
-        if (slow_delay > 0) {
-            slow_delay -= Time.deltaTime;
-        } else if (slowed > 0) {
-            slowed--;
-            if (slowed > 0) {
-                slow_delay = slow_delay_time;
-            }
-        }
-
-        if (ControlManager.boostButtonPressed(my_number) && dash_delay <= 0 && slowed < 3) {
+        if (ControlManager.boostButtonPressed(my_number) && dash_delay <= 0) {
             dash = true;
             dash_delay = dash_delay_time;
         } else if (dash_delay > 0) {
             dash_delay -= Time.deltaTime;
-            if (dash_delay <= 0) {
-                slowed++;
-                slow_delay = slow_delay_time;
-            }
         }
     }
 
@@ -241,15 +216,16 @@ public class Player : MonoBehaviour {
         if (dribble_vector.magnitude > DRIBBLE_MAGNITUDE_THRESHOLD) {
             current_ball_angle = dribble_vector.normalized;
         }
-        if (current_ball_angle != Vector2.zero) {
 
+        if (current_ball_angle != Vector2.zero) {
             Vector3 ball_next_pos = current_ball_angle * ball_offset_scale;
             Vector3 diff = ball_next_pos - ball.transform.localPosition;
             float d_speed = dribble_speed;
             if (ball.GetComponent<SoccerBall>().hit_wall) {
                 d_speed = dribble_bad_speed;
             }
-            while (diff.magnitude > d_speed && diff.magnitude<0.63f) {
+
+            while (diff.magnitude > d_speed && diff.magnitude < 0.63f) {
                 diff *= 0.99f;
             }
             ball_next_pos = ball.transform.localPosition + diff;
@@ -293,14 +269,6 @@ public class Player : MonoBehaviour {
             actuallyShoot();
         } else {
             float charge_time = Time.time - shot_start_time;
-
-            while ((charge_time / 2) - 1 > slowed) {
-                if (slowed < (max_speed / 2)) {
-                    slowed++;
-                } else {
-                    break;
-                }
-            }
 
             if (charge_time > charge_shot_delay) {
                 ControlManager.rumble(my_number);
