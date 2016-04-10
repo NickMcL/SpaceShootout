@@ -163,7 +163,10 @@ public class SoccerBall : MonoBehaviour {
         }
         return min_distance_vector.magnitude;
     }
-
+    public void beingStolen() {
+        hit_wall = true;
+        hit_wall_cooldown = hit_wall_delay*2f;
+    }
     void OnCollisionEnter2D(Collision2D coll) {
         bool stolen = false;
 

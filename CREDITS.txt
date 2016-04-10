@@ -8,3 +8,15 @@ Character select undo sound: https://www.freesound.org/people/Udderdude/sounds/2
 Overtime music:
 Battle of Kings by Per Kiilstofte https://machinimasound.com/music/battle-of-kings/
 Licensed under Creative Commons Attribution 4.0 International (http://creativecommons.org/licenses/by/4.0/)
+
+Boundary sound: https://www.freesound.org/people/CGEffex/sounds/89539/
+Dash sound: https://www.freesound.org/people/toyoto/sounds/93758/
+Collision sound: https://www.freesound.org/people/korgchops/sounds/170635/
+Pickup ball sound: https://www.freesound.org/people/soundatADM/sounds/324246/
+Soccer ball sound: https://www.freesound.org/people/volivieri/sounds/37155/
+Soccer ball sound 2: https://www.freesound.org/people/volivieri/sounds/37156/
+UI select sound: http://opengameart.org/content/sci-fi-openclose-interface-sfx
+UI select sound 2: http://opengameart.org/content/sci-fi-selectdeselect-sfx
+
+Main game music: http://opengameart.org/content/neocrey-laser-millenium
+End game music: http://opengameart.org/content/steppin-up

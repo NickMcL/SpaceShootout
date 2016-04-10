@@ -17,9 +17,10 @@ public class Player : MonoBehaviour {
     float max_speed = 5;
     public float acceleration = 30;
     public float dash_delay_time = 0.3f;
-    float dash_delay = 0;
+    public float dash_delay = 0;
     float current_shot_multiplier = 0;
     public float shot_force = 1000f;
+    public float lose_control_force = 5f;
     public float charge_shot_delay = 1.5f;
     public float charge_shot_multiplier = 2f;
     public int charged_emit = 10;
@@ -33,6 +34,7 @@ public class Player : MonoBehaviour {
     float fatigue = 0;
     bool dash = false;
     bool shooting = false;
+    bool dash_button_released = true;
     float shot_start_time;
     public bool isDashingCurrently = false;
     public int doge_luck = 80;
@@ -57,6 +59,15 @@ public class Player : MonoBehaviour {
     public void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Player")) {
             Player p = collision.gameObject.GetComponent<Player>();
+            if (has_ball) {
+                if (collision.relativeVelocity.magnitude > 5) {
+                    loseControlOfBall();
+                    Vector2 shot = ball.transform.position - transform.position;
+                    Vector3.Normalize(shot);
+                    shot *= lose_control_force;
+                    ball.GetComponent<Rigidbody2D>().AddForce(shot);
+                }
+            }
             if ((p.team == HUD.Team.BLUE && team == HUD.Team.BLUE) || (p.team == HUD.Team.RED && team == HUD.Team.RED)) {
                 Physics2D.IgnoreCollision(player_collider, collision.gameObject.GetComponent<Collider2D>());
                 return;
@@ -120,10 +131,14 @@ public class Player : MonoBehaviour {
         checkDash();
         current_move_vector = ControlManager.getMovementVector(my_number);
 
+        if (!ControlManager.fireButtonPressed(my_number)) {
+            dash_button_released = true;
+        }
+
         if (has_ball == true) {
             dribble();
         }
-        if (ControlManager.fireButtonPressed(my_number) && has_ball && !shooting) {
+        if (ControlManager.fireButtonPressed(my_number) && has_ball && !shooting && dash_button_released) {
             startShot();
         }
         if (shooting && has_ball) {
@@ -131,6 +146,14 @@ public class Player : MonoBehaviour {
         }
         if (ControlManager.passButtonPressed(my_number) && has_ball) {
             passToTeammate();
+        }
+        if (team == HUD.Team.RED)
+        {
+            label.GetComponent<SpriteRenderer>().color = PLAYER_1_COLOR * (dash_delay + .75f);
+        }
+        else
+        {
+            label.GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR * (dash_delay + .75f);
         }
     }
 
@@ -205,8 +228,9 @@ public class Player : MonoBehaviour {
     }
 
     void checkDash() {
-        if (ControlManager.boostButtonPressed(my_number) && dash_delay <= 0) {
+        if (ControlManager.fireButtonPressed(my_number) && !has_ball && dash_delay <= 0 && dash_button_released) {
             dash = true;
+            dash_button_released = false;
             dash_delay = dash_delay_time;
         } else if (dash_delay > 0) {
             dash_delay -= Time.deltaTime;
@@ -231,7 +255,7 @@ public class Player : MonoBehaviour {
                 diff *= 0.99f;
             }
             ball_next_pos = ball.transform.localPosition + diff;
-        //    ball.transform.localPosition =  Vector3.Lerp(ball.transform.localPosition,current_ball_angle * ball_offset_scale, Time.deltaTime * 20f);
+            //    ball.transform.localPosition =  Vector3.Lerp(ball.transform.localPosition,current_ball_angle * ball_offset_scale, Time.deltaTime * 20f);
             ball.transform.localPosition = Vector3.Lerp(ball.transform.localPosition, ball_next_pos, Time.deltaTime * 20f);
 
         }
