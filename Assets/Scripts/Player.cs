@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
     public float acceleration = 30;
     public float dash_delay_time = 0.3f;
     float dash_delay = 0;
+    float current_shot_multiplier = 0;
     public float shot_force = 1000f;
     public float charge_shot_delay = 1.5f;
     public float charge_shot_multiplier = 2f;
@@ -96,6 +97,7 @@ public class Player : MonoBehaviour {
         player_collider = GetComponent<CircleCollider2D>();
         ball_collider = ball.GetComponent<CircleCollider2D>();
         rigid = gameObject.GetComponent<Rigidbody2D>();
+        current_shot_multiplier = charge_shot_multiplier;
 
         setTeammate();
         default_color = GetComponent<Renderer>().material.color;
@@ -269,6 +271,7 @@ public class Player : MonoBehaviour {
             actuallyShoot();
         } else {
             float charge_time = Time.time - shot_start_time;
+            current_shot_multiplier = Mathf.Lerp(1f, charge_shot_multiplier, charge_time / charge_shot_delay);
 
             if (charge_time > charge_shot_delay) {
                 ControlManager.rumble(my_number);
@@ -286,20 +289,20 @@ public class Player : MonoBehaviour {
         loseControlOfBall();
         Vector2 shot = ball.transform.position - transform.position;
         Vector3.Normalize(shot);
-        shot *= getShotForce();
+        shot *= getShotForce() * current_shot_multiplier;
         if (Time.time - shot_start_time > charge_shot_delay) {
-            shot *= charge_shot_multiplier;
             ball.GetComponent<SoccerBall>().fadeParticles(charged_emit);
             HUD.S.fireLaser();
         }
+        print(shot.magnitude);
         ball_rb.AddForce(shot);
         has_ball = false;
         shooting = false;
+        current_shot_multiplier = 1f;
     }
 
     float getShotForce() {
         if (isDoge && Random.Range(0, 100) < doge_luck) {
-
             HUD.S.PlaySound("lucky", 1f);
             CameraShaker.S.DoShake(0.1f, 0.15f);
             return shot_force * doge_shot_force_mult;
