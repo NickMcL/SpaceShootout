@@ -197,6 +197,7 @@ public class Player : MonoBehaviour {
     }
 
     public void gainControlOfBall() {
+        transform.GetChild(1).gameObject.SetActive(true);
         HUD.S.PlaySound("dribble", Random.Range(.5f, 1f));
         ball.transform.SetParent(transform);
         has_ball = true;
@@ -208,6 +209,7 @@ public class Player : MonoBehaviour {
     }
 
     public void loseControlOfBall(bool stolen = false) {
+        transform.GetChild(1).gameObject.SetActive(false);
         if (ball.transform.parent != transform) {
             return;
         }
