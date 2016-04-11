@@ -69,7 +69,7 @@ public class TitleScreen1 : MonoBehaviour
     public string destination = "Juice";
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (ControlManager.playerPressedStart())
         {
             SceneManager.LoadScene(destination);
         }
