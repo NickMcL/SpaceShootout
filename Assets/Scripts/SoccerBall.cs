@@ -113,7 +113,7 @@ public class SoccerBall : MonoBehaviour {
         }
 
         if (passing_target != null) {
-            rb.AddForce((passing_target.transform.position - transform.position).normalized * 10000 * Time.smoothDeltaTime);
+            // Put ball homing to teammate code here
         }
     }
 
