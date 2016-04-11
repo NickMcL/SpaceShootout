@@ -151,12 +151,9 @@ public class Player : MonoBehaviour {
         if (ControlManager.passButtonPressed(my_number) && has_ball) {
             passToTeammate();
         }
-        if (team == HUD.Team.RED)
-        {
+        if (team == HUD.Team.RED) {
             label.GetComponent<SpriteRenderer>().color = PLAYER_1_COLOR * (dash_delay + .75f);
-        }
-        else
-        {
+        } else {
             label.GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR * (dash_delay + .75f);
         }
     }
@@ -171,6 +168,7 @@ public class Player : MonoBehaviour {
         ball.transform.localPosition = current_ball_angle * ball_offset_scale;
         shot_start_time = int.MaxValue;
         actuallyShoot();
+        ball.GetComponent<SoccerBall>().setPassingTarget(teammate);
     }
 
     IEnumerator dashing() {

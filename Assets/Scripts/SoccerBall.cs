@@ -26,13 +26,14 @@ public class SoccerBall : MonoBehaviour {
     //public float slow_mo_dist = 5f;
 
     bool fade_particles = false;
-  public  bool hit_wall = false;
+    public bool hit_wall = false;
     float hit_wall_cooldown = 0;
     float hit_wall_delay = 0.03f;
     float emit;
     GameObject[] goals;
     ParticleSystem particle_system;
     AudioSource bgm;
+    GameObject passing_target = null;
 
     // Use this for initialization
     void Awake() {
@@ -50,19 +51,15 @@ public class SoccerBall : MonoBehaviour {
         StartCoroutine(RayCastEveryFrame());
     }
     public LayerMask goalLayer;
-    IEnumerator RayCastEveryFrame()
-    {
-        while (gameObject.active)
-        {
+    IEnumerator RayCastEveryFrame() {
+        while (gameObject.active) {
             Vector3 prevloc = transform.position;
 
             yield return new WaitForFixedUpdate();
 
             RaycastHit2D[] hits = Physics2D.RaycastAll(prevloc, transform.position - prevloc, (transform.position - prevloc).magnitude, goalLayer);
-            for(int c = 0; c < hits.Length; ++c)
-            {
-                if (hits[c].collider.gameObject.CompareTag("Goal"))
-                {
+            for (int c = 0; c < hits.Length; ++c) {
+                if (hits[c].collider.gameObject.CompareTag("Goal")) {
                     hits[c].collider.GetComponent<Goal>().OnTriggerEnter2D(col);
 
                 }
@@ -93,27 +90,30 @@ public class SoccerBall : MonoBehaviour {
         }
 
         if (hit_wall) {
-            
+
             if (hit_wall_cooldown <= 0)
                 hit_wall = false;
             hit_wall_cooldown -= Time.deltaTime;
         }
+    }
 
-
+    public void setPassingTarget(GameObject target) {
+        passing_target = target;
     }
 
     // Update is called once per frame
     void Update() {
-
         timeDilation();
         if (transform.parent != null) {
             transform.GetChild(1).gameObject.SetActive(false);
             Statistics.S.timeControlStat(transform.parent.GetComponent<Player>().my_number);
-        }
-        else
-        {
+            passing_target = null;
+        } else {
             transform.GetChild(1).gameObject.SetActive(true);
+        }
 
+        if (passing_target != null) {
+            rb.AddForce((passing_target.transform.position - transform.position).normalized * 10000 * Time.smoothDeltaTime);
         }
     }
 
@@ -171,7 +171,7 @@ public class SoccerBall : MonoBehaviour {
     }
     public void beingStolen() {
         hit_wall = true;
-        hit_wall_cooldown = hit_wall_delay*2f;
+        hit_wall_cooldown = hit_wall_delay * 2f;
     }
     void OnCollisionEnter2D(Collision2D coll) {
         bool stolen = false;
