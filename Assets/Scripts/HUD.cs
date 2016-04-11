@@ -412,15 +412,15 @@ public class HUD : MonoBehaviour {
             in_sudden_death = true;
             first_time = true;
 
+            bgm.Stop();
             bgm.clip = Resources.Load<AudioClip>("Sound/overtime_trim");
+            bgm.Play();
             middleText.text = "Time for SUDDEN DEATH!";
             PlaySound("sudden death", 1f);
             yield return new WaitForSeconds(2f);
             middleText.text = "Next goal wins!";
             PlaySound("next goal wins", 1f);
             yield return new WaitForSeconds(2f);
-            bgm.Stop();
-            bgm.Play();
             StartCoroutine(GameReset(Team.NONE));
         }
 
