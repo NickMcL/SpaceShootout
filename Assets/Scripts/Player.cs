@@ -205,7 +205,7 @@ public class Player : MonoBehaviour {
     }
 
     void checkDash() {
-        if (ControlManager.boostButtonPressed(my_number) && dash_delay <= 0) {
+        if (ControlManager.fireButtonPressed(my_number) && ball.transform.parent != transform && dash_delay <= 0) {
             dash = true;
             dash_delay = dash_delay_time;
         } else if (dash_delay > 0) {
