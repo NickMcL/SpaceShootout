@@ -17,7 +17,7 @@ public class Player : MonoBehaviour {
     float max_speed = 5;
     public float acceleration = 30;
     public float dash_delay_time = 0.3f;
-    float dash_delay = 0;
+    public float dash_delay = 0;
     float current_shot_multiplier = 0;
     public float shot_force = 1000f;
     public float charge_shot_delay = 1.5f;
@@ -136,6 +136,14 @@ public class Player : MonoBehaviour {
         }
         if (ControlManager.passButtonPressed(my_number) && has_ball) {
             passToTeammate();
+        }
+        if (team == HUD.Team.RED)
+        {
+            label.GetComponent<SpriteRenderer>().color = PLAYER_1_COLOR * (dash_delay + .75f);
+        }
+        else
+        {
+            label.GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR * (dash_delay + .75f);
         }
     }
 

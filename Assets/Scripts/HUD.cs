@@ -210,6 +210,7 @@ public class HUD : MonoBehaviour {
     }
 
     IEnumerator Count_Down() {
+        yield return new WaitForSeconds(0.5f);
         middleText.text = "3";
         PlaySound("close02", 1f);
         if (first_time) {
