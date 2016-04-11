@@ -28,7 +28,7 @@ public class Global : MonoBehaviour {
     public float bearRadius = 0.4f;
     public float fishBoost = 1.4f;
     public float hawkBoost = 1.4f;
-    public float foxBoost = 1.2f;
+    public float foxCDReduction = 0.4f;
     public float baboonBoost = 1.5f;
     public float bearHitModifier = 13f;
 
@@ -48,8 +48,7 @@ public class Global : MonoBehaviour {
         p.pushSpeed *= baboonBoost;
     }
     public void SetFoxAttributes(Player p) {
-        p.shot_force *= foxBoost;
-        p.acceleration *= foxBoost;
+        p.dash_delay_time *= foxCDReduction;
     }
     public void SetDogeAttributes(Player p) {
         p.isDoge = true;
