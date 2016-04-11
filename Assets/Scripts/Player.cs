@@ -96,8 +96,10 @@ public class Player : MonoBehaviour {
     void Awake() {
         if (my_number == 0 || my_number == 1) {
             team = HUD.Team.BLUE;
+            label.GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR;
         } else {
             team = HUD.Team.RED;
+            label.GetComponent<SpriteRenderer>().color = PLAYER_1_COLOR;
         }
     }
 
