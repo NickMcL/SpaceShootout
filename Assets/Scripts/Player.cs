@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     public float dash_delay = 0;
     float current_shot_multiplier = 0;
     public float shot_force = 1000f;
+    public float lose_control_force = 5f;
     public float charge_shot_delay = 1.5f;
     public float charge_shot_multiplier = 2f;
     public int charged_emit = 10;
@@ -58,6 +59,15 @@ public class Player : MonoBehaviour {
     public void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Player")) {
             Player p = collision.gameObject.GetComponent<Player>();
+            if (has_ball) {
+                if (collision.relativeVelocity.magnitude > 5) {
+                    loseControlOfBall();
+                    Vector2 shot = ball.transform.position - transform.position;
+                    Vector3.Normalize(shot);
+                    shot *= lose_control_force;
+                    ball.GetComponent<Rigidbody2D>().AddForce(shot);
+                }
+            }
             if ((p.team == HUD.Team.BLUE && team == HUD.Team.BLUE) || (p.team == HUD.Team.RED && team == HUD.Team.RED)) {
                 Physics2D.IgnoreCollision(player_collider, collision.gameObject.GetComponent<Collider2D>());
                 return;
@@ -245,7 +255,7 @@ public class Player : MonoBehaviour {
                 diff *= 0.99f;
             }
             ball_next_pos = ball.transform.localPosition + diff;
-        //    ball.transform.localPosition =  Vector3.Lerp(ball.transform.localPosition,current_ball_angle * ball_offset_scale, Time.deltaTime * 20f);
+            //    ball.transform.localPosition =  Vector3.Lerp(ball.transform.localPosition,current_ball_angle * ball_offset_scale, Time.deltaTime * 20f);
             ball.transform.localPosition = Vector3.Lerp(ball.transform.localPosition, ball_next_pos, Time.deltaTime * 20f);
 
         }
