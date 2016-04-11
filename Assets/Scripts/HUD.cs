@@ -304,7 +304,7 @@ public class HUD : MonoBehaviour {
 
     public void startLaserCharge() {
         laser_sound = new GameObject();
-        Invoke("playLaserCharge", 0.3f);
+        Invoke("playLaserCharge", 0.1f);
     }
 
     void playLaserCharge() {
