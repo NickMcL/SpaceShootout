@@ -31,10 +31,12 @@ public class Global : MonoBehaviour {
     public float hawkBoost = 1.4f;
     public float foxBoost = 1.2f;
     public float baboonBoost = 1.5f;
+    public float bearHitModifier = 13f;
 
 
     public void SetBearAttributes(Player p) {
         p.GetComponent<CircleCollider2D>().radius = bearRadius;
+        p.drop_ball_on_hit_mag = bearHitModifier;
     }
     public void SetFishAttributes(Player p) {
         p.shot_force *= fishBoost;
@@ -53,6 +55,7 @@ public class Global : MonoBehaviour {
     public void SetDogeAttributes(Player p) {
         p.isDoge = true;
     }
+
     public void loadSprites() {
         GameObject[] g = GameObject.FindGameObjectsWithTag("Player");
         for (int c = 0; c < g.Length; ++c) {

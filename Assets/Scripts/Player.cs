@@ -41,6 +41,7 @@ public class Player : MonoBehaviour {
     public float doge_shot_force_mult = 10f;
     public float stolen_collision_delay = 0.75f;
     public float lose_ball_collision_delay = 0.1f;
+    public float drop_ball_on_hit_mag = 5f;
 
     GameObject ball;
     Rigidbody2D ball_rb;
@@ -60,7 +61,8 @@ public class Player : MonoBehaviour {
         if (collision.gameObject.CompareTag("Player")) {
             Player p = collision.gameObject.GetComponent<Player>();
             if (has_ball) {
-                if (collision.relativeVelocity.magnitude > 5) {
+                print(collision.relativeVelocity.magnitude);
+                if (collision.relativeVelocity.magnitude > drop_ball_on_hit_mag) {
                     loseControlOfBall();
                     Vector2 shot = ball.transform.position - transform.position;
                     Vector3.Normalize(shot);
@@ -239,6 +241,10 @@ public class Player : MonoBehaviour {
         } else if (dash_delay > 0) {
             dash_delay -= Time.deltaTime;
         }
+    }
+
+    public void resetPlayer() {
+        dash_delay = 0;
     }
 
     void dribble() {

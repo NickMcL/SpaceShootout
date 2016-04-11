@@ -209,10 +209,10 @@ public class HUD : MonoBehaviour {
     }
 
     IEnumerator Count_Down() {
+        middleText.text = "3\n\n";
         if (!in_sudden_death) {
             yield return new WaitForSeconds(0.5f);
         }
-        middleText.text = "3\n\n";
         PlaySound("close02", 1f);
         if (first_time) {
             PlaySound("3", 1f);
@@ -251,6 +251,12 @@ public class HUD : MonoBehaviour {
         if (wait) {
             yield return new WaitForSeconds(1f);
         }
+
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Player")) {
+            go.GetComponent<Player>().resetPlayer();
+        }
+
+
         ResetObjects.S.Reset();
         player1red.transform.position = RedTeamStartPos1;
         player2red.transform.position = RedTeamStartPos2;

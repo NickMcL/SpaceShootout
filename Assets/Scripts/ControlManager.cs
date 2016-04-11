@@ -87,7 +87,7 @@ public class ControlManager : MonoBehaviour {
             if (stop) {
                 players[player_num].Vibrate(0f);
             } else {
-                players[player_num].Vibrate(0.4f);
+                players[player_num].Vibrate(0.6f);
             }
         }
     }
