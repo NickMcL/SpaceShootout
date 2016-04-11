@@ -17,7 +17,7 @@ public class HUD : MonoBehaviour {
 
     public Vector3 RedTeamStartPos1, RedTeamStartPos2;
     public Vector3 BlueTeamStartPos1, BlueTeamStartPos2;
-    public Vector3 BallStartPosBlueAdvantage, BallStartPosRedAdvantage;
+    public Vector3 BallStartPosBlueAdvantage, BallStartPosRedAdvantage, ballStartPosNoAdvantage;
 
     public Text countdown;
     public GameObject bgm_object;
@@ -44,10 +44,22 @@ public class HUD : MonoBehaviour {
     GameObject laser_sound;
     AudioSource bgm;
     bool first_time;
+    bool in_sudden_death = false;
+    public bool spawning_powerups = false;
+    bool left30 = false;
+    bool left10 = false;
 
     Dictionary<int, Player> playersAndNums = new Dictionary<int, Player>();
     List<Collider2D> asteroidboxes = new List<Collider2D>();
 
+    public GameObject[] PowerUps;
+    bool powerUpOut = false;
+    float StageLengthX = 14f;
+    float StageLengthY = 8f;
+    public float SpawnPowerupIntervalMax = 15f;
+    public float SpawnPowerupIntervalMin = 5f;
+
+    GameObject powerupslam;
 
     void Awake() {
         S = this;
@@ -103,13 +115,6 @@ public class HUD : MonoBehaviour {
         first_time = true;
     }
 
-    public GameObject[] PowerUps;
-    bool powerUpOut = false;
-    float StageLengthX = 14f;
-    float StageLengthY = 8f;
-
-    GameObject powerupslam;
-
     public bool PointIsNearPlayers(Vector3 point, float maxdist) {
         foreach (KeyValuePair<int, Player> entry in playersAndNums) {
             if ((entry.Value.transform.position - point).magnitude < maxdist) {
@@ -128,13 +133,9 @@ public class HUD : MonoBehaviour {
         return false;
     }
 
-    public float SpawnPowerupIntervalMax = 15f;
-    public float SpawnPowerupIntervalMin = 5f;
 
-    public bool SPAWNINGPOWERUPS = false;
     public IEnumerator SpawnPowerups() {
-        if (!SPAWNINGPOWERUPS)
-        {
+        if (!spawning_powerups) {
             yield break;
         }
         while (true) {
@@ -171,33 +172,31 @@ public class HUD : MonoBehaviour {
         ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
 
-    public void RedTeamScored() {
+    public void teamScored(Team team) {
         bgm.pitch = 1f;
         Time.timeScale = score_time_scale;
         GameStarted = false;
-        ++RedTeamScore;
-        middleText.text = "Red Team Scores!";
         EveryoneLoseControl();
-        StartCoroutine(erasetextin(1f));
-        UpdateScores();
-        player1red.burstRumble(1f);
-        player2red.burstRumble(1f);
-        StartCoroutine(GameReset(Team.RED));
-    }
 
-    public void BlueTeamScored() {
-        bgm.pitch = 1f;
-        Time.timeScale = score_time_scale;
-        GameStarted = false;
-        ++BlueTeamScore;
+        if (team == Team.RED) {
+            ++RedTeamScore;
+            middleText.text = "Red Team Scores!";
+            player1red.burstRumble(1f);
+            player2red.burstRumble(1f);
+        } else {
+            ++BlueTeamScore;
+            middleText.text = "Blue Team Scores!";
+            player1blue.burstRumble(1f);
+            player2blue.burstRumble(1f);
+        }
 
-        middleText.text = "Blue Team Scores!";
-        EveryoneLoseControl();
-        StartCoroutine(erasetextin(1f));
         UpdateScores();
-        player1blue.burstRumble(1f);
-        player2blue.burstRumble(1f);
-        StartCoroutine(GameReset(Team.BLUE));
+        if (in_sudden_death) {
+            StartCoroutine(GameEnded());
+        } else {
+            StartCoroutine(erasetextin(1f));
+            StartCoroutine(GameReset(team));
+        }
     }
 
     void erasetext() {
@@ -256,8 +255,10 @@ public class HUD : MonoBehaviour {
         ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         if (scoring_team == Team.RED) {
             ball.transform.position = BallStartPosRedAdvantage;
-        } else {
+        } else if (scoring_team == Team.BLUE) {
             ball.transform.position = BallStartPosBlueAdvantage;
+        } else {
+            ball.transform.position = ballStartPosNoAdvantage;
         }
         StartCoroutine(Count_Down());
     }
@@ -371,7 +372,6 @@ public class HUD : MonoBehaviour {
     }
 
     IEnumerator GameEnded() {
-        PlaySound("buzzer", 0.7f);
         GameStarted = false;
         if (powerupslam != null) {
             Destroy(powerupslam);
@@ -379,14 +379,18 @@ public class HUD : MonoBehaviour {
         }
         Time.timeScale = 1;
         ball.GetComponent<SoccerBall>().ball_in_play = false;
-        middleText.text = "Time's Up!";
         CameraShaker.S.DoShake(0.09f, 0.15f);
-        yield return new WaitForSeconds(1.5f);
-		for (int i = 0; i < 3; i++) {
-			ControlManager.rumble (i, true);
-		}
-        PlaySound("time is up", 1f);
+
+        if (!in_sudden_death) {
+            PlaySound("buzzer", 0.7f);
+            middleText.text = "Time's Up!";
+            yield return new WaitForSeconds(1.5f);
+            PlaySound("time is up", 1f);
+        } else {
+            middleText.text = "Sudden death over!";
+        }
         yield return new WaitForSeconds(1f);
+
         if (RedTeamScore > BlueTeamScore) {
             Global.S.REDISWINRAR = true;
             Global.S.TIE = false;
@@ -405,13 +409,26 @@ public class HUD : MonoBehaviour {
             yield return new WaitForSeconds(2f);
         } else {
             Global.S.TIE = true;
-            middleText.text = "Tie!";
+            in_sudden_death = true;
+            first_time = true;
 
+            bgm.clip = Resources.Load<AudioClip>("Sound/overtime_trim");
+            middleText.text = "Time for SUDDEN DEATH!";
+            PlaySound("sudden death", 1f);
             yield return new WaitForSeconds(2f);
+            middleText.text = "Next goal wins!";
+            PlaySound("next goal wins", 1f);
+            yield return new WaitForSeconds(2f);
+            bgm.Stop();
+            bgm.Play();
+            StartCoroutine(GameReset(Team.NONE));
         }
 
-        SceneManager.LoadScene("StatisticsScene");
+        if (!Global.S.TIE) {
+            SceneManager.LoadScene("StatisticsScene");
+        }
     }
+
     public Image overlay;
     IEnumerator FlashRed() {
         Color c = overlay.color;
@@ -438,10 +455,8 @@ public class HUD : MonoBehaviour {
 
     }
 
-    bool left30 = false;
-    bool left10 = false;
     void FixedUpdate() {
-        if (!GameStarted) {
+        if (!GameStarted || in_sudden_death) {
             return;
         }
 
