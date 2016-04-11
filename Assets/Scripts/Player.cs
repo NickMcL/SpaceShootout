@@ -33,6 +33,7 @@ public class Player : MonoBehaviour {
     float fatigue = 0;
     bool dash = false;
     bool shooting = false;
+    bool dash_button_released = true;
     float shot_start_time;
     public bool isDashingCurrently = false;
     public int doge_luck = 80;
@@ -120,10 +121,14 @@ public class Player : MonoBehaviour {
         checkDash();
         current_move_vector = ControlManager.getMovementVector(my_number);
 
+        if (!ControlManager.fireButtonPressed(my_number)) {
+            dash_button_released = true;
+        }
+
         if (has_ball == true) {
             dribble();
         }
-        if (ControlManager.fireButtonPressed(my_number) && has_ball && !shooting) {
+        if (ControlManager.fireButtonPressed(my_number) && has_ball && !shooting && dash_button_released) {
             startShot();
         }
         if (shooting && has_ball) {
@@ -205,8 +210,9 @@ public class Player : MonoBehaviour {
     }
 
     void checkDash() {
-        if (ControlManager.fireButtonPressed(my_number) && ball.transform.parent != transform && dash_delay <= 0) {
+        if (ControlManager.fireButtonPressed(my_number) && !has_ball && dash_delay <= 0 && dash_button_released) {
             dash = true;
+            dash_button_released = false;
             dash_delay = dash_delay_time;
         } else if (dash_delay > 0) {
             dash_delay -= Time.deltaTime;

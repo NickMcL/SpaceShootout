@@ -77,7 +77,7 @@ public class ControlManager : MonoBehaviour {
 
     static public bool passButtonPressed(int player_num) {
         if (use_controllers && players[player_num] != null) {
-            return players[player_num].RightBumper.IsPressed;
+            return players[player_num].LeftTrigger.IsPressed;
         }
         return Input.GetKey(player_key_map["special"][player_num]);
     }
