@@ -212,19 +212,19 @@ public class HUD : MonoBehaviour {
         if (!in_sudden_death) {
             yield return new WaitForSeconds(0.5f);
         }
-        middleText.text = "3";
+        middleText.text = "3\n\n";
         PlaySound("close02", 1f);
         if (first_time) {
             PlaySound("3", 1f);
         }
         yield return new WaitForSeconds(1f);
-        middleText.text = "2";
+        middleText.text = "2\n\n";
         PlaySound("close02", 1f);
         if (first_time) {
             PlaySound("2", 1f);
         }
         yield return new WaitForSeconds(1f);
-        middleText.text = "1";
+        middleText.text = "1\n\n";
         PlaySound("close02", 1f);
 
         if (first_time) {
@@ -233,7 +233,7 @@ public class HUD : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         CameraShaker.S.DoShake(0.05f, 0.15f);
         EveryoneLoseControl();
-        middleText.text = "Go!";
+        middleText.text = "Go!\n\n";
         if (first_time) {
             PlaySound("go", 0.5f);
         }
