@@ -63,7 +63,7 @@ public class ControlManager : MonoBehaviour {
 
     static public bool boostButtonPressed(int player_num) {
         if (use_controllers && players[player_num] != null) {
-            return players[player_num].LeftTrigger.IsPressed;
+            return players[player_num].RightBumper.IsPressed;
         }
         return Input.GetKey(player_key_map["boost"][player_num]);
     }
