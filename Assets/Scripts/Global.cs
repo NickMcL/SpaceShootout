@@ -16,7 +16,6 @@ public class Global : MonoBehaviour {
     void Awake() {
         S = this;
         DontDestroyOnLoad(this.gameObject);
-        ControlManager.initControllers();
     }
 
     // Update is called once per frame
