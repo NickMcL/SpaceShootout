@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
     float DRIBBLE_MAGNITUDE_THRESHOLD = 0.8f;
-    Color PLAYER_1_COLOR = new Color(1f, 0.7f, 0.7f);
-    Color PLAYER_2_COLOR = new Color(0.7f, 0.7f, 1f);
+    Color PLAYER_1_COLOR = new Color(1f, 0.8f, 0.8f);
+    Color PLAYER_2_COLOR = new Color(0.8f, 0.8f, 1f);
 
     static public List<Collider2D> ball_check_colliders = new List<Collider2D>();
 
@@ -320,7 +320,6 @@ public class Player : MonoBehaviour {
             ball.GetComponent<SoccerBall>().fadeParticles(charged_emit);
             HUD.S.fireLaser();
         }
-        print(shot.magnitude);
         ball_rb.AddForce(shot);
         has_ball = false;
         shooting = false;

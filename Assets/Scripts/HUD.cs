@@ -209,7 +209,9 @@ public class HUD : MonoBehaviour {
     }
 
     IEnumerator Count_Down() {
-        yield return new WaitForSeconds(0.5f);
+        if (!in_sudden_death) {
+            yield return new WaitForSeconds(0.5f);
+        }
         middleText.text = "3";
         PlaySound("close02", 1f);
         if (first_time) {
@@ -243,10 +245,12 @@ public class HUD : MonoBehaviour {
         first_time = false;
     }
 
-    IEnumerator GameReset(Team scoring_team) {
+    IEnumerator GameReset(Team scoring_team, bool wait = true) {
         Time.timeScale = 1f;
         GameStarted = false;
-        yield return new WaitForSeconds(1f);
+        if (wait) {
+            yield return new WaitForSeconds(1f);
+        }
         ResetObjects.S.Reset();
         player1red.transform.position = RedTeamStartPos1;
         player2red.transform.position = RedTeamStartPos2;
@@ -384,9 +388,10 @@ public class HUD : MonoBehaviour {
         if (!in_sudden_death) {
             PlaySound("buzzer", 0.7f);
             middleText.text = "Time's Up!";
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
             PlaySound("time is up", 1f);
         } else {
+            bgm.volume = 0.25f;
             middleText.text = "Sudden death over!";
         }
         yield return new WaitForSeconds(1f);
@@ -414,14 +419,16 @@ public class HUD : MonoBehaviour {
 
             bgm.Stop();
             bgm.clip = Resources.Load<AudioClip>("Sound/overtime_trim");
+            bgm.volume = 1f;
             bgm.Play();
-            middleText.text = "Time for SUDDEN DEATH!";
+            middleText.text = "SUDDEN DEATH!";
             PlaySound("sudden death", 1f);
             yield return new WaitForSeconds(2f);
             middleText.text = "Next goal wins!";
             PlaySound("next goal wins", 1f);
-            yield return new WaitForSeconds(2f);
-            StartCoroutine(GameReset(Team.NONE));
+            yield return new WaitForSeconds(1.5f);
+            countdown.text = "OVERTIME";
+            StartCoroutine(GameReset(Team.NONE, false));
         }
 
         if (!Global.S.TIE) {

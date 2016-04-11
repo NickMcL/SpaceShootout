@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Goal : MonoBehaviour {
     public static Goal S;
     public HUD.Team team;
+    public HUD.Team other_team;
 
     public float lerp_time;
     public GameObject[] lerp_points;
@@ -35,6 +36,12 @@ public class Goal : MonoBehaviour {
         original_point_order = new GameObject[lerp_points.Length];
         Array.Copy(lerp_points, original_point_order, lerp_points.Length);
         resetGoal();
+
+        if (team == HUD.Team.RED) {
+            other_team = HUD.Team.BLUE;
+        } else {
+            other_team = HUD.Team.RED;
+        }
     }
 
     // Update is called once per frame
@@ -75,7 +82,7 @@ public class Goal : MonoBehaviour {
 
             GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity) as GameObject;
             explodeAtPoint();
-            Global.S.score(team);
+            Global.S.score(other_team);
             Statistics.S.goalStat(coll.gameObject.GetComponent<SoccerBall>().lastPlayerTouched);
         }
     }

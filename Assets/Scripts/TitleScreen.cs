@@ -6,8 +6,8 @@ using System.Collections.Generic;
 public class TitleScreen : MonoBehaviour {
     public static TitleScreen S;
 
-    Color RED_COLOR = new Color(1f, 0.7f, 0.7f);
-    Color BLUE_COLOR = new Color(0.7f, 0.7f, 1f);
+    Color RED_COLOR = new Color(1f, 0.8f, 0.8f);
+    Color BLUE_COLOR = new Color(0.8f, 0.8f, 1f);
     Color NO_COLOR = new Color(0f, 0f, 0f, 0f);
 
     public Text P1CharName, P1CharDescrip, P2CharName, P2CharDescrip, TitleText, P3CharName, P3CharDescrip, P4CharName, P4CharDescrip;
