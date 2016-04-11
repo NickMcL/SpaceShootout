@@ -44,7 +44,7 @@ public class PlayerSelector : MonoBehaviour {
             Invoke("stopRumble", rumble_time);
         }
 
-        if (ControlManager.undoButtonPressed(player_num) && finished_selecting) {
+        if (ControlManager.undoButtonPressed(player_num) && finished_selecting && !TitleScreen.S.everyone_picked) {
             TitleScreen.S.unchooseCharacter(player_num);
             showPointer();
             finished_selecting = false;

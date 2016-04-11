@@ -21,6 +21,7 @@ public class TitleScreen : MonoBehaviour {
     public Sprite dogsprite, bearsprite, fishprite, hawksprite, baboonsprite, foxsprite;
 
     public string nextSceneName;
+    public bool everyone_picked = false;
 
     Color flashcolor;
     public Image CONTROLS;
@@ -209,6 +210,7 @@ public class TitleScreen : MonoBehaviour {
         if (selected_players == ControlManager.TOTAL_PLAYERS) {
             TitleText.text = "Get ready for the game!";
             CONTROLS.raycastTarget = true;
+            everyone_picked = true;
             Invoke("ShowControls", 3.0f);
         }
     }
