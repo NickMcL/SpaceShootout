@@ -61,8 +61,6 @@ public class Goal : MonoBehaviour {
         }
         last_pos = Util.lerp(lerp_points, u);
         this.transform.position = last_pos;
-
-
     }
 
     public void OnTriggerEnter2D(Collider2D coll) {
