@@ -107,7 +107,13 @@ public class SoccerBall : MonoBehaviour {
 
         timeDilation();
         if (transform.parent != null) {
+            transform.GetChild(1).gameObject.SetActive(false);
             Statistics.S.timeControlStat(transform.parent.GetComponent<Player>().my_number);
+        }
+        else
+        {
+            transform.GetChild(1).gameObject.SetActive(true);
+
         }
     }
 
