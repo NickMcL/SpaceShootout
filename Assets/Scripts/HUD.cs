@@ -131,7 +131,12 @@ public class HUD : MonoBehaviour {
     public float SpawnPowerupIntervalMax = 15f;
     public float SpawnPowerupIntervalMin = 5f;
 
+    public bool SPAWNINGPOWERUPS = false;
     public IEnumerator SpawnPowerups() {
+        if (!SPAWNINGPOWERUPS)
+        {
+            yield break;
+        }
         while (true) {
             if (!powerUpOut) {
                 yield return new WaitForSeconds(Random.Range(SpawnPowerupIntervalMin, SpawnPowerupIntervalMax));
