@@ -33,7 +33,9 @@ public class SoccerBall : MonoBehaviour {
     GameObject[] goals;
     ParticleSystem particle_system;
     AudioSource bgm;
-    GameObject passing_target = null;
+    public float max_homing_force = 30f; //if you set this too high things get silly
+
+    public GameObject passing_target = null;
 
     // Use this for initialization
     void Awake() {
@@ -95,6 +97,37 @@ public class SoccerBall : MonoBehaviour {
                 hit_wall = false;
             hit_wall_cooldown -= Time.deltaTime;
         }
+
+        if (passing_target != null) {
+            // Put ball homing to teammate code here
+            Vector3 to_target = passing_target.transform.position - transform.position;
+            Vector3 target_vel = passing_target.GetComponent<Rigidbody2D>().velocity;
+            Vector3 homing_target = to_target + target_vel;
+            Vector3 my_vel = rb.velocity;
+
+           //force should be applied perpendicular to velocity and should increase in power when closer to the target
+            my_vel = Quaternion.Euler(0, 0, -90) * my_vel;
+            Vector2 homing_force = Vector3.Project(homing_target, my_vel);
+            homing_force = homing_force * homing_force.magnitude * homing_force.magnitude / (1f + to_target.magnitude * to_target.magnitude / 6); 
+            
+            //prevent stupid dash bugs
+            if (homing_force.magnitude > max_homing_force) {
+                homing_force.Normalize();
+                homing_force *= max_homing_force;
+            }
+            //apply force
+            rb.AddForce(homing_force);
+            Vector3 debug_vec = homing_force;
+            Debug.DrawRay(transform.position, debug_vec, Color.yellow, 0.2f);
+
+            //ball stops homing if it overshoots the player
+            Vector3 diff = rb.velocity * 0.05f;
+            diff -= to_target;
+            if (to_target.magnitude < diff.magnitude) {
+                passing_target = null;
+            }
+            //complaints regarding formatting are invalid as c# isnt my native language
+        }
     }
 
     public void setPassingTarget(GameObject target) {
@@ -112,9 +145,6 @@ public class SoccerBall : MonoBehaviour {
             transform.GetChild(1).gameObject.SetActive(true);
         }
 
-        if (passing_target != null) {
-            // Put ball homing to teammate code here
-        }
     }
 
     public void fadeParticles(float start_emit) {
@@ -175,7 +205,7 @@ public class SoccerBall : MonoBehaviour {
     }
     void OnCollisionEnter2D(Collision2D coll) {
         bool stolen = false;
-
+        passing_target = null;
         if (coll.gameObject.tag == "Player" && HUD.S.GameStarted) {
             Player coll_player = coll.gameObject.GetComponent<Player>();
             if (transform.parent != null && coll_player.team == ball_team) {
