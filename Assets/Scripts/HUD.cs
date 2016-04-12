@@ -60,6 +60,7 @@ public class HUD : MonoBehaviour {
     public float SpawnPowerupIntervalMin = 5f;
 
     GameObject powerupslam;
+    AudioClip bgm_overtime;
 
     void Awake() {
         S = this;
@@ -112,6 +113,7 @@ public class HUD : MonoBehaviour {
 
         Global.S.loadSprites();
         bgm = bgm_object.GetComponent<AudioSource>();
+        bgm_overtime = Resources.Load<AudioClip>("Sound/overtime_trim");
         first_time = true;
     }
 
@@ -424,7 +426,7 @@ public class HUD : MonoBehaviour {
             first_time = true;
 
             bgm.Stop();
-            bgm.clip = Resources.Load<AudioClip>("Sound/overtime_trim");
+            bgm.clip = bgm_overtime;
             bgm.volume = 1f;
             bgm.Play();
             middleText.text = "SUDDEN DEATH!";
