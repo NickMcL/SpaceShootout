@@ -113,7 +113,7 @@ public class HUD : MonoBehaviour {
 
         Global.S.loadSprites();
         bgm = bgm_object.GetComponent<AudioSource>();
-        bgm_overtime = Resources.Load<AudioClip>("Sound/overtime_trim");
+        bgm_overtime = Resources.Load<AudioClip>("Sound/overtime_trim2");
         first_time = true;
     }
 
@@ -211,6 +211,12 @@ public class HUD : MonoBehaviour {
     }
 
     IEnumerator Count_Down() {
+        if (in_sudden_death) {
+            middleText.text = "Next goal wins!";
+            PlaySound("next goal wins", 1f);
+            yield return new WaitForSeconds(2.75f);
+        }
+
         middleText.text = "3\n\n";
         if (!in_sudden_death) {
             yield return new WaitForSeconds(0.5f);
@@ -431,10 +437,7 @@ public class HUD : MonoBehaviour {
             bgm.Play();
             middleText.text = "SUDDEN DEATH!";
             PlaySound("sudden death", 1f);
-            yield return new WaitForSeconds(2f);
-            middleText.text = "Next goal wins!";
-            PlaySound("next goal wins", 1f);
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2.5f);
             countdown.text = "OVERTIME";
             StartCoroutine(GameReset(Team.NONE, false));
         }

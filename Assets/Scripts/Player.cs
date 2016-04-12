@@ -18,7 +18,7 @@ public class Player : MonoBehaviour {
     public float acceleration = 30;
     public float dash_delay_time = 0.3f;
     public float dash_delay = 0;
-    float current_shot_multiplier = 0;
+    float current_shot_multiplier = 1f;
     public float shot_force = 1000f;
     public float lose_control_force = 5f;
     public float charge_shot_delay = 1.5f;
@@ -117,6 +117,7 @@ public class Player : MonoBehaviour {
         setTeammate();
         default_color = GetComponent<Renderer>().material.color;
         label.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("p" + (my_number + 1));
+        current_shot_multiplier = 1f;
     }
 
     void setTeammate() {

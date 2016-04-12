@@ -105,11 +105,11 @@ public class SoccerBall : MonoBehaviour {
             Vector3 homing_target = to_target + target_vel;
             Vector3 my_vel = rb.velocity;
 
-           //force should be applied perpendicular to velocity and should increase in power when closer to the target
+            //force should be applied perpendicular to velocity and should increase in power when closer to the target
             my_vel = Quaternion.Euler(0, 0, -90) * my_vel;
             Vector2 homing_force = Vector3.Project(homing_target, my_vel);
-            homing_force = homing_force * homing_force.magnitude * homing_force.magnitude / (1f + to_target.magnitude * to_target.magnitude / 6); 
-            
+            homing_force = homing_force * homing_force.magnitude * homing_force.magnitude / (1f + to_target.magnitude * to_target.magnitude / 6);
+
             //prevent stupid dash bugs
             if (homing_force.magnitude > max_homing_force) {
                 homing_force.Normalize();
