@@ -39,12 +39,12 @@ public class TitleScreen : MonoBehaviour {
     void Start() {
         PlaySound("Spacearray", 1f);
         inputModule2.SetActive(false);
-        Descriptions["Bear"] = "Bigger in size; better at bodyblocking.";
+        Descriptions["Bear"] = "Bigger in size; more resistant to being tackled.";
         Descriptions["Fish"] = "Fastest shot speed.";
         Descriptions["Hawk"] = "Highest movement speed.";
         Descriptions["Baboon"] = "Highest tackling power.";
-        Descriptions["Fox"] = "Slightly improved movement speed and shot power.";
-        Descriptions["Dog"] = "No noticable abilities but has extremely high luck.";
+        Descriptions["Fox"] = "Reduced dash cooldown.";
+        Descriptions["Dog"] = "Balanced stats with a chance to shoot extremely fast.";
         flashcolor = flash.color;
         flashcolor.a = 0f;
         flash.color = flashcolor;
