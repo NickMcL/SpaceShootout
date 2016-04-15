@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 
@@ -21,6 +22,12 @@ public class statUI : MonoBehaviour {
     public Text player4Steals;
     public Text player4Time;
 
+	public int MostGoalsScored;
+	public List<GameObject> MostGoalsWinners;
+	public int MostSteals;
+	public List<GameObject> MostStealsWinners;
+	public float MostTime;
+	public List<GameObject> MostTimeWinners;
 
     public Sprite bearWin, bearLose, fishWin, fishLose, baboonWin, baboonLose, hawkWin, hawkLose, dogeWin, dogeLose, foxWin, foxLose, bearTie, fishTie, baboonTie, hawkTie, dogeTie, foxTie;
     // blue p1, blue p2, red p1, red p2
@@ -44,7 +51,10 @@ public class statUI : MonoBehaviour {
         player4Steals = GameObject.Find("Player4Steals").GetComponent<Text>();
         player4Time = GameObject.Find("Player4Time").GetComponent<Text>();
 
-
+		//Animate statistic winners
+		FindMostGoals();
+		FindMostSteals ();
+		FindMostTime ();
 
         player1Goals.text += Statistics.goalsScored[0];
         player1Steals.text += Statistics.steals[0];
@@ -309,4 +319,58 @@ public class statUI : MonoBehaviour {
         adsrc.Play();
         Destroy(g, ac.length);
     }
+
+	void FindMostGoals(){
+		MostGoalsScored = 0;
+		for (int i = 0; i < 4; i++) {
+			if (Statistics.goalsScored [i] >= MostGoalsScored) {
+				if (Statistics.goalsScored [i] > MostGoalsScored) {
+					MostGoalsWinners.Clear ();
+					MostGoalsWinners.Add (GameObject.Find ("Player" + (i + 1).ToString () + "Goals"));
+				} else {
+					MostGoalsWinners.Add (GameObject.Find ("Player" + (i + 1).ToString () + "Goals"));
+				}
+				MostGoalsScored = Statistics.goalsScored [i];
+			}
+		}
+		foreach (GameObject obj in MostGoalsWinners) {
+			obj.GetComponent<Animator> ().Play ("TextWiggle");
+		}
+	}
+
+	void FindMostSteals(){
+		MostSteals = 0;
+		for (int i = 0; i < 4; i++) {
+			if (Statistics.steals [i] >= MostSteals) {
+				if (Statistics.steals [i] > MostSteals) {
+					MostStealsWinners.Clear ();
+					MostStealsWinners.Add (GameObject.Find ("Player" + (i + 1).ToString () + "Steals"));
+				} else {
+					MostStealsWinners.Add (GameObject.Find ("Player" + (i + 1).ToString () + "Steals"));
+				}
+				MostSteals = Statistics.steals [i];
+			}
+		}
+		foreach (GameObject obj in MostStealsWinners) {
+			obj.GetComponent<Animator> ().Play ("TextWiggle");
+		}
+	}
+
+	void FindMostTime(){
+		MostTime = 0;
+		for (int i = 0; i < 4; i++) {
+			if (Mathf.Floor(Statistics.timeControlled [i]) >= MostTime) {
+				if (Mathf.Floor(Statistics.timeControlled [i]) > MostTime) {
+					MostTimeWinners.Clear ();
+					MostTimeWinners.Add (GameObject.Find ("Player" + (i + 1).ToString () + "Time"));
+				} else {
+					MostTimeWinners.Add (GameObject.Find ("Player" + (i + 1).ToString () + "Time"));
+				}
+				MostTime = Mathf.Floor(Statistics.timeControlled [i]);
+			}
+		}
+		foreach (GameObject obj in MostTimeWinners) {
+			obj.GetComponent<Animator> ().Play ("TextWiggle");
+		}
+	}
 }
