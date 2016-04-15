@@ -138,11 +138,15 @@ public class SoccerBall : MonoBehaviour {
     void Update() {
         timeDilation();
         if (transform.parent != null) {
+			GetComponent<TrailRenderer> ().enabled = false;
+			transform.GetChild(0).GetComponent<TrailRenderer> ().enabled = false;
             transform.GetChild(1).gameObject.SetActive(false);
             Statistics.S.timeControlStat(transform.parent.GetComponent<Player>().my_number);
             passing_target = null;
         } else {
             transform.GetChild(1).gameObject.SetActive(true);
+			GetComponent<TrailRenderer> ().enabled = true;
+			transform.GetChild(0).GetComponent<TrailRenderer> ().enabled = true;
         }
 
     }
