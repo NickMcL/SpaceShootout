@@ -201,6 +201,8 @@ public class Player : MonoBehaviour {
     }
 
     public void gainControlOfBall() {
+        
+        ball.GetComponent<SoccerBall>().dogeParticles.SetActive(false);
         transform.GetChild(1).gameObject.SetActive(true);
         HUD.S.PlaySound("dribble", Random.Range(.5f, 1f));
         ball.transform.SetParent(transform);
