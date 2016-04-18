@@ -45,6 +45,15 @@ public class ResetObjects : MonoBehaviour
             astroid.transform.localScale = OriginalScales[i];
         }
 
+        GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
+        foreach(GameObject player in Players)
+        {
+            player.transform.GetChild(1).gameObject.SetActive(false);
+        }
+
+        GameObject ball = GameObject.FindGameObjectWithTag("Ball");
+        ball.transform.GetChild(1).gameObject.SetActive(true);
+
     }
 
 }
