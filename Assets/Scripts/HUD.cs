@@ -256,6 +256,7 @@ public class HUD : MonoBehaviour {
     IEnumerator GameReset(Team scoring_team, bool wait = true) {
         Time.timeScale = 1f;
         GameStarted = false;
+        EveryoneLoseControl();
         if (wait) {
             yield return new WaitForSeconds(1f);
         }

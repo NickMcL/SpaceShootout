@@ -130,12 +130,9 @@ public class Player : MonoBehaviour {
     }
 
     void Update() {
-        if (team == HUD.Team.RED)
-        {
+        if (team == HUD.Team.RED) {
             label.GetComponent<SpriteRenderer>().color = PLAYER_1_COLOR * (dash_delay + .75f);
-        }
-        else
-        {
+        } else {
             label.GetComponent<SpriteRenderer>().color = PLAYER_2_COLOR * (dash_delay + .75f);
         }
         if (!HUD.S.GameStarted) {
@@ -160,7 +157,7 @@ public class Player : MonoBehaviour {
         if (ControlManager.passButtonPressed(my_number) && has_ball) {
             passToTeammate();
         }
-        
+
     }
 
     void FixedUpdate() {
