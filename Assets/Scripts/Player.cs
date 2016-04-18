@@ -336,6 +336,7 @@ public class Player : MonoBehaviour {
 
     float getShotForce() {
         if (isDoge && Random.Range(0, 100) < doge_luck) {
+            StartCoroutine(ball.GetComponent<SoccerBall>().BECOMEDOGE());
             HUD.S.PlaySound("lucky", 1f);
             CameraShaker.S.DoShake(0.1f, 0.15f);
             return shot_force * doge_shot_force_mult;
