@@ -9,7 +9,7 @@ public class SoccerBall : MonoBehaviour {
     Rigidbody ballrb;
     float max_speed = 50f;
     Vector3 WayToGo;
-    public ParticleSystem dogeParticles;
+    public GameObject dogeParticles;
     public GameObject bgm_game_object;
     public int lastPlayerTouched;
 
@@ -19,9 +19,9 @@ public class SoccerBall : MonoBehaviour {
     public HUD.Team ball_team = HUD.Team.NONE;
     public IEnumerator BECOMEDOGE()
     {
-        dogeParticles.enableEmission = true;
+        dogeParticles.SetActive(true);
         yield return new WaitForSeconds(2f);
-        dogeParticles.enableEmission = false;
+        dogeParticles.SetActive(false);
     }
     public float emit_decay_rate;
     public float time_scale_exponent = 2f;
@@ -48,7 +48,6 @@ public class SoccerBall : MonoBehaviour {
     }
 
     void Start() {
-        dogeParticles.enableEmission = false;
         col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
         particle_system = GetComponent<ParticleSystem>();
