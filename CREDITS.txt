@@ -184,7 +184,7 @@ Space background (game):
 Copyright Twitterevolutions (http://www.twitterevolutions.com/space-twitter-background/)
 All Rights Reserved by Twitterrevolutions. Website states "Download for personal use".
 
-InControl used for controller managment:
+InControl used for controller management:
 Copyright Gallant Games
 Bought from Unity Asset Store (https://www.assetstore.unity3d.com/en/#!/content/14695)
 
