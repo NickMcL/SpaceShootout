@@ -1,188 +1,191 @@
 Goal sprite:
-Copyright looneybits (http://opengameart.org/content/supergoalkeeper-soccer)
+Created by OpenGameArt user looneybits (http://opengameart.org/content/supergoalkeeper-soccer)
 Public domain
 
 Character selector sprites:
-Copyright yd (http://opengameart.org/content/pointers)
+Created by OpenGameArt user  yd (http://opengameart.org/content/pointers)
 Public domain
 
 Astroid sprite:
-Copyright immersivegamer (http://opengameart.org/content/space-shooter-assets)
+Created by OpenGameArt user  immersivegamer (http://opengameart.org/content/space-shooter-assets)
 Public domain
 
 Goal explosion sound:
-Copyright harpoyume (https://www.freesound.org/people/harpoyume/sounds/86026/)
+Created by FreeSound user harpoyume (https://www.freesound.org/people/harpoyume/sounds/86026/)
 Licensed under Creative Commons Attribution Noncommercial
 
 Character select undo sound:
-Copyright Udderdude (https://www.freesound.org/people/Udderdude/sounds/257574/)
+Created by FreeSound user (https://www.freesound.org/people/Udderdude/sounds/257574/)
 Licensed under Creative Commons 0
 
 Boundary sound:
-Copyright CGEffex (https://www.freesound.org/people/CGEffex/sounds/89539/)
+Created by FreeSound user (https://www.freesound.org/people/CGEffex/sounds/89539/)
 Licensed under Creative Commons Attribution
 
 Dash sound:
-Copyright toyoto (https://www.freesound.org/people/toyoto/sounds/93758/)
+Created by FreeSound user (https://www.freesound.org/people/toyoto/sounds/93758/)
 Licensed under Creative Commons Attribution
 
 Collision sound:
-Copyright korgchops (https://www.freesound.org/people/korgchops/sounds/170635/)
-Lincensed under Creative Commons 0
+Created by FreeSound user (https://www.freesound.org/people/korgchops/sounds/170635/)
+Licensed under Creative Commons 0
 
 Pickup ball sound:
-Copyright soundatADM (https://www.freesound.org/people/soundatADM/sounds/324246/)
-Lincensed under Creative Commons 0
+Created by FreeSound user (https://www.freesound.org/people/soundatADM/sounds/324246/)
+Licensed under Creative Commons 0
 
 Soccer ball sound:
-Copyright volivieri (https://www.freesound.org/people/volivieri/sounds/37155/)
-Lincensed under Creative Commons 0
+Created by FreeSound user volivieri (https://www.freesound.org/people/volivieri/sounds/37155/)
+Licensed under Creative Commons 0
 
 Soccer ball sound 2:
-Copyright volivieri (https://www.freesound.org/people/volivieri/sounds/37156/)
-Lincensed under Creative Commons 0
+Created by FreeSound user volivieri (https://www.freesound.org/people/volivieri/sounds/37156/)
+Licensed under Creative Commons 0
 
 End game buzzer sound:
 Copyright City Lights Sound Effects (https://www.youtube.com/watch?v=y-YKmjxm31U)
-Lincensed under Standard YouTube License
+Licensed under Standard YouTube License
 
 UI select sound:
-Copyright Triki Minut (http://opengameart.org/content/sci-fi-openclose-interface-
-Lincensed under Creative Commons Attribution 3.0 Unported
+Created by OpenGameArt user Triki Minut (http://opengameart.org/content/sci-fi-openclose-interface-
+Licensed under Creative Commons Attribution 3.0 Unported
 
 UI select sound 2:
-Copyright Triki Minut (http://opengameart.org/content/sci-fi-selectdeselect-sfx)
-Lincensed under Creative Commons Attribution 3.0 Unported
+Created by OpenGameArt user Triki Minut (http://opengameart.org/content/sci-fi-selectdeselect-sfx)
+Licensed under Creative Commons Attribution 3.0 Unported
 
 Main game music:
-Laser Millenium by neocrey (http://opengameart.org/content/neocrey-laser-millenium)
-Lincensed under Creative Commons Attribution-ShareAlike 3.0 Unported
+Laser Millenium by OpenGameArt userneocrey (http://opengameart.org/content/neocrey-laser-millenium)
+Licensed under Creative Commons Attribution-ShareAlike 3.0 Unported
 
 End game music:
-Steppin up! by Macro (http://opengameart.org/content/steppin-up)
-Lincensed under Creative Commons Attribution 3.0 Unported
+Steppin up! by OpenGameArt user Macro (http://opengameart.org/content/steppin-up)
+Licensed under Creative Commons Attribution 3.0 Unported
 
 Overtime music:
 Battle of Kings by Per Kiilstofte (https://machinimasound.com/music/battle-of-kings/)
 Licensed under Creative Commons Attribution 4.0 International
 
-Soccer Ball Model: http://tf3dm.com/3d-model/football-ball--64059.html
-Copyright tredectstudios
-Licensed under Commercial Use license (free to use in educational setting)
+Soccer Ball Model:
+Created by TF3DM user tredectstudios (http://tf3dm.com/3d-model/football-ball--64059.html)
+Licensed under Commercial Use license
 
-black hole: rebuildtheuniverse.com/images/pres2.png
-copyright Rebuild The Universe
-free to use in educational setting
+Black hole image: 
+Found on the Rebuild The Universe website (rebuildtheuniverse.com/images/pres2.png)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by Rebuild The Universe
 
-Baboon image: https://www.geeksaresexy.net/2012/04/17/baboon-word-skills-cause-linguistics-rethink/
-copyright bigstockphoto
+Baboon image:
+Copyright Geeks are Sexy Technology News (https://www.geeksaresexy.net/2012/04/17/baboon-word-skills-cause-linguistics-rethink/)
 No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
 
-Space helmet: http://clubpenguin.wikia.com/wiki/Space_Helmet
-copyright club penguin
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Space helmet:
+Copyright Club Penguin (http://clubpenguin.wikia.com/wiki/Space_Helmet)
+Licensed under Creative Commons Attribution-ShareAlike 2.0 Generic
 
-baboon head: http://www.dreamstime.com/royalty-free-stock-photo-close-up-baboon-s-head-simia-hamadryas-image9332725
-copyright dreamstime
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Baboon head:
+Copyright Dreamstime user Isselee (http://www.dreamstime.com/royalty-free-stock-photo-close-up-baboon-s-head-simia-hamadryas-image9332725)
+Listed as a royalty-free stock photo
 
-bear: http://www.mirror.co.uk/news/world-news/well-hi-bear-brown-bear-801687
-copyright barcroft
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Bear:
+Copyright Barcroft (http://www.mirror.co.uk/news/world-news/well-hi-bear-brown-bear-801687)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by Barcroft
 
-bear head: http://www.amazon.com/Grizzly-Bear-Head-Mount-Statue/dp/images/B0032JQFOG
-copyright amazon
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Bear head:
+Found on Amazon.com website (http://www.amazon.com/Grizzly-Bear-Head-Mount-Statue/dp/images/B0032JQFOG)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by Amazon.com
 
-hawk: https://www.allaboutbirds.org/guide/Red-tailed_Hawk/id
-copyright allaboutbirds
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Hawk:
+Copyright Steve Neitzel (https://www.allaboutbirds.org/guide/Red-tailed_Hawk/id)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by Steve Neitzel
 
-hawk head: https://commons.wikimedia.org/wiki/File:Harris_Hawk_Head_(3863001310).jpg
-copyright wikimedia commons
-creative commons
+Hawk head:
+Photo taken by Tony Hisgett (https://commons.wikimedia.org/wiki/File:Harris_Hawk_Head_(3863001310).jpg)
+Lincensed under Creative Commons Attribution 2.0 Generic
 
-doge original: http://kabosu112.exblog.jp/9944144/
-copyright kabosu
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
-character select doge image is from https://i.ytimg.com/vi/8M7Qie4Aowk/hqdefault.jpg (some youtube image) but original is from http://kabosu112.exblog.jp/
+Dog:
+Copyright kabosu112 (http://kabosu112.exblog.jp/9944144/)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by kabosu112
 
-happy doge: https://www.npmjs.com/package/grunt-dogescript
-copyright kabosu
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Character select dog:
+Copyright Youtube user dogezone (https://i.ytimg.com/vi/8M7Qie4Aowk/hqdefault.jpg)
+Standard Youtube License
 
-fish: http://zeenews.india.com/news/eco-news/iconic-indian-fish-on-verge-of-extinction-study_1595637.html
-copyright stock images (uncredited by ste.india.com)
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Happy dog:
+Copyright Doge Door (http://www.dogedoor.net/about/)
+All Rights Reserved by Doge Door
 
-gold fish: http://www.petsmart.com/live-pet/live-fish/cat-36-catid-700002
-copyright petsmart
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Fish:
+Copyright Zee Media Corporation Ltd (http://zeenews.india.com/news/eco-news/iconic-indian-fish-on-verge-of-extinction-study_1595637.html)
+All Rights Reserved by Zee Media Corporation Ltd
 
-fox: http://weknowyourdreamz.com/fox.html
-copyright weknowyourdreams
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Gold fish:
+Copyright PetSmart Store Support Group, Inc (http://www.petsmart.com/live-pet/live-fish/cat-36-catid-700002)
+All Rights Reserved by PetSmart Store Support Group, Inc
 
-fox head: http://dreamatico.com/fox.html
-copyright dreamtico
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Fox:
+Copyright We known all about Dreams (http://weknowyourdreamz.com/fox.html)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by We known all about Dreams
 
-milky way: http://spaceaim.com/hundreds-of-hidden-galaxies-found-behind-milky-way/
-copyright spaceanim
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Fox head:
+Copyright Dreamtico (http://dreamatico.com/fox.html)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by Dreamtico
 
-soccer ball in title screen: http://www.clipartpanda.com/categories/soccer-ball-clipart
-copyright clipartpanda
-"Permission is granted to temporarily download one copy of the materials (information or software) on Clipart Panda's web site for personal, non-commercial transitory viewing only."
+Milky Way image:
+Copyright Space Aim.com (http://spaceaim.com/hundreds-of-hidden-galaxies-found-behind-milky-way/)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by Space Aim.com
 
-baboon lose: http://skitterphoto.com/?portfolio=angry-baboon
-copyright skitterphoto
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Soccer ball in title screen:
+Copyright ClipartPanda.com (http://www.clipartpanda.com/categories/soccer-ball-clipart)
+No particular license was listed, but the images were listed as "free images for your websites, art projects, reports, and Powerpoint presentations!"
 
-bear lose: https://www.pinterest.com/pin/326370304220596600/
-copyright bigfootevedince.blogstop.se
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Baboon lose:
+Copyright Skitterphoto (http://skitterphoto.com/?portfolio=angry-baboon)
+No particular license was listed, but the website stated "To the extent possible under law, Skitterphoto has waived all copyright and related or neighboring rights to Angry baboon."
 
-fox lose: https://www.flickr.com/photos/asbimages-/6272199088
-copyright asbimages.co.uk
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Bear lose:
+Pintrest user Tat-Tat-Tatted Up listed the image as being from bigfootevedince.blogstop.se (https://www.pinterest.com/pin/326370304220596600/)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by bigfootevedince.blogstop.se
 
-fish lose: https://bensonkua.wordpress.com/tag/fish/
-copyright benson kua
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Fox lose:
+Copyright asbimages.co.uk (https://www.flickr.com/photos/asbimages-/6272199088)
+All Rights Reserved by asbimages.co.uk
 
-hawk lose: http://www.shutterstock.com/pic-25265404/stock-photo-angry-harris-hawk.html
-copyright gregg williams
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Fish lose:
+Copyright Benson Kua (https://bensonkua.wordpress.com/tag/fish/)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by Benson Kua
 
-baboon win: https://plus.google.com/116507421257536862881/posts
-copyright robert winslow
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Hawk lose:
+Copyright Gregg Williams (http://www.shutterstock.com/pic-25265404/stock-photo-angry-harris-hawk.html)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by Gregg Williams
 
-bear win: http://wallpaperswa.com/Animals/Bears/happy_bears_1440x900_wallpaper_26941
-unattributed
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Baboon win:
+Copyright Robert Winslow (https://plus.google.com/116507421257536862881/posts)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by Robert Winslow
 
-fox win: http://alexxaandraa.deviantart.com/art/Majestic-Fox-129329403
-copyright alexandra persson
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Bear win: http://wallpaperswa.com/Animals/Bears/happy_bears_1440x900_wallpaper_26941
+Image from video uploaded by Youtube user Thediggler141 (https://www.youtube.com/watch?v=xifRP_vocSs)
+Standard Youtube License
 
-fish win: https://www.pinterest.com/tatter00/freshwater-parrot-fish/
-copyright photograph from curiousphotos.blogstop.com michaela wallace
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Fox win:
+copyright Alexandra Persson (http://alexxaandraa.deviantart.com/art/Majestic-Fox-129329403)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by Alexandra Persson
 
-hawk win: https://www.pinterest.com/pin/442900944574909759/
-copyright melanie riley
-No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved
+Fish win:
+Photo taken from curiousphotos.blogspot.com and posted by Pintrest user Michaela Wallace (https://www.pinterest.com/tatter00/freshwater-parrot-fish/)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by curiousphotos.blogspot.com
 
-space background (game): http://www.twitterevolutions.com/space-twitter-background/
-copyright twitterevolutions
-free to use in educational non profit setting and free to download / install (twitter theme)
+Hawk win:
+Photo posted by Pintrest user Melanie Riley (https://www.pinterest.com/pin/442900944574909759/)
+No licensing info was listed, so our assumption is that it is licensed with All Rights Reserved by Melanie Riley
 
-InControl - Unity Asset Store - https://www.assetstore.unity3d.com/en/#!/content/14695
-copyright Gallant Games
-bought from unity asset store
+Space background (game):
+Copyright Twitterevolutions (http://www.twitterevolutions.com/space-twitter-background/)
+All Rights Reserved by Twitterrevolutions. Website states "Download for personal use".
 
-Title screen control stick / bumpers - http://castlewiki.castlecrashers.com/Category:Xbox_360_Controller_buttons
-copyright Castle Crashers
-All Rights Reserved
+InControl used for controller managment:
+Copyright Gallant Games
+Bought from Unity Asset Store (https://www.assetstore.unity3d.com/en/#!/content/14695)
+
+Title screen control stick / bumpers:
+Taken from Castlepedia (http://castlewiki.castlecrashers.com/Category:Xbox_360_Controller_buttons)
+Public domain images
