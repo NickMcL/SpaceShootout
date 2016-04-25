@@ -1,3 +1,5 @@
+Credits for Cosmic Furball
+
 Goal sprite:
 Created by OpenGameArt user looneybits (http://opengameart.org/content/supergoalkeeper-soccer)
 Public domain
@@ -189,3 +191,5 @@ Bought from Unity Asset Store (https://www.assetstore.unity3d.com/en/#!/content/
 Title screen control stick / bumpers:
 Taken from Castlepedia (http://castlewiki.castlecrashers.com/Category:Xbox_360_Controller_buttons)
 Public domain images
+
+The remaining assets used in the game were created by the Cosmic Furball team of Nick McLaughlin, Stali Stalev, Alan Jaramillo, and Wesley Howell.
