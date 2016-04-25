@@ -3,11 +3,11 @@ Created by OpenGameArt user looneybits (http://opengameart.org/content/supergoal
 Public domain
 
 Character selector sprites:
-Created by OpenGameArt user  yd (http://opengameart.org/content/pointers)
+Created by OpenGameArt user yd (http://opengameart.org/content/pointers)
 Public domain
 
 Astroid sprite:
-Created by OpenGameArt user  immersivegamer (http://opengameart.org/content/space-shooter-assets)
+Created by OpenGameArt user immersivegamer (http://opengameart.org/content/space-shooter-assets)
 Public domain
 
 Goal explosion sound:
@@ -15,23 +15,27 @@ Created by FreeSound user harpoyume (https://www.freesound.org/people/harpoyume/
 Licensed under Creative Commons Attribution Noncommercial
 
 Character select undo sound:
-Created by FreeSound user (https://www.freesound.org/people/Udderdude/sounds/257574/)
+Created by FreeSound user Udderdude (https://www.freesound.org/people/Udderdude/sounds/257574/)
+Licensed under Creative Commons 0
+
+Shot charge sound:
+Created by FreeSound user LegoLunatic (https://www.freesound.org/people/LegoLunatic/sounds/151243/)
 Licensed under Creative Commons 0
 
 Boundary sound:
-Created by FreeSound user (https://www.freesound.org/people/CGEffex/sounds/89539/)
+Created by FreeSound user CGEffex (https://www.freesound.org/people/CGEffex/sounds/89539/)
 Licensed under Creative Commons Attribution
 
 Dash sound:
-Created by FreeSound user (https://www.freesound.org/people/toyoto/sounds/93758/)
+Created by FreeSound user toyoto (https://www.freesound.org/people/toyoto/sounds/93758/)
 Licensed under Creative Commons Attribution
 
 Collision sound:
-Created by FreeSound user (https://www.freesound.org/people/korgchops/sounds/170635/)
+Created by FreeSound user korgchops (https://www.freesound.org/people/korgchops/sounds/170635/)
 Licensed under Creative Commons 0
 
 Pickup ball sound:
-Created by FreeSound user (https://www.freesound.org/people/soundatADM/sounds/324246/)
+Created by FreeSound user soundatADM (https://www.freesound.org/people/soundatADM/sounds/324246/)
 Licensed under Creative Commons 0
 
 Soccer ball sound:
