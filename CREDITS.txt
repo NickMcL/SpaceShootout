@@ -183,3 +183,6 @@ InControl - Unity Asset Store - https://www.assetstore.unity3d.com/en/#!/content
 copyright Gallant Games
 bought from unity asset store
 
+Title screen control stick / bumpers - http://castlewiki.castlecrashers.com/Category:Xbox_360_Controller_buttons
+copyright Castle Crashers
+free to use in educational non profit setting - all rights reserved
