@@ -1,33 +1,78 @@
-Goal sprite: http://opengameart.org/content/supergoalkeeper-soccer
-Character selector sprites: http://opengameart.org/content/pointers
-Astroid sprite: http://opengameart.org/content/space-shooter-assets
-End game buzzer sound: https://www.youtube.com/watch?v=y-YKmjxm31U
-Goal explosion sound: https://www.freesound.org/people/harpoyume/sounds/86026/
-Character select undo sound: https://www.freesound.org/people/Udderdude/sounds/257574/
+Goal sprite:
+Copyright looneybits (http://opengameart.org/content/supergoalkeeper-soccer)
+Public domain
+
+Character selector sprites:
+Copyright yd (http://opengameart.org/content/pointers)
+Public domain
+
+Astroid sprite:
+Copyright immersivegamer (http://opengameart.org/content/space-shooter-assets)
+Public domain
+
+Goal explosion sound:
+Copyright harpoyume (https://www.freesound.org/people/harpoyume/sounds/86026/)
+Licensed under Creative Commons Attribution Noncommercial
+
+Character select undo sound:
+Copyright Udderdude (https://www.freesound.org/people/Udderdude/sounds/257574/)
+Licensed under Creative Commons 0
+
+Boundary sound:
+Copyright CGEffex (https://www.freesound.org/people/CGEffex/sounds/89539/)
+Licensed under Creative Commons Attribution
+
+Dash sound:
+Copyright toyoto (https://www.freesound.org/people/toyoto/sounds/93758/)
+Licensed under Creative Commons Attribution
+
+Collision sound:
+Copyright korgchops (https://www.freesound.org/people/korgchops/sounds/170635/)
+Lincensed under Creative Commons 0
+
+Pickup ball sound:
+Copyright soundatADM (https://www.freesound.org/people/soundatADM/sounds/324246/)
+Lincensed under Creative Commons 0
+
+Soccer ball sound:
+Copyright volivieri (https://www.freesound.org/people/volivieri/sounds/37155/)
+Lincensed under Creative Commons 0
+
+Soccer ball sound 2:
+Copyright volivieri (https://www.freesound.org/people/volivieri/sounds/37156/)
+Lincensed under Creative Commons 0
+
+End game buzzer sound:
+Copyright City Lights Sound Effects (https://www.youtube.com/watch?v=y-YKmjxm31U)
+Lincensed under Standard YouTube License
+
+UI select sound:
+Copyright Triki Minut (http://opengameart.org/content/sci-fi-openclose-interface-
+Lincensed under Creative Commons Attribution 3.0 Unported
+
+UI select sound 2:
+Copyright Triki Minut (http://opengameart.org/content/sci-fi-selectdeselect-sfx)
+Lincensed under Creative Commons Attribution 3.0 Unported
+
+Main game music:
+Laser Millenium by neocrey (http://opengameart.org/content/neocrey-laser-millenium)
+Lincensed under Creative Commons Attribution-ShareAlike 3.0 Unported
+
+End game music:
+Steppin up! by Macro (http://opengameart.org/content/steppin-up)
+Lincensed under Creative Commons Attribution 3.0 Unported
 
 Overtime music:
-Battle of Kings by Per Kiilstofte https://machinimasound.com/music/battle-of-kings/
-Licensed under Creative Commons Attribution 4.0 International (http://creativecommons.org/licenses/by/4.0/)
-
-Boundary sound: https://www.freesound.org/people/CGEffex/sounds/89539/
-Dash sound: https://www.freesound.org/people/toyoto/sounds/93758/
-Collision sound: https://www.freesound.org/people/korgchops/sounds/170635/
-Pickup ball sound: https://www.freesound.org/people/soundatADM/sounds/324246/
-Soccer ball sound: https://www.freesound.org/people/volivieri/sounds/37155/
-Soccer ball sound 2: https://www.freesound.org/people/volivieri/sounds/37156/
-UI select sound: http://opengameart.org/content/sci-fi-openclose-interface-sfx
-UI select sound 2: http://opengameart.org/content/sci-fi-selectdeselect-sfx
-
-Main game music: http://opengameart.org/content/neocrey-laser-millenium
-End game music: http://opengameart.org/content/steppin-up
+Battle of Kings by Per Kiilstofte (https://machinimasound.com/music/battle-of-kings/)
+Licensed under Creative Commons Attribution 4.0 International
 
 Soccer Ball Model: http://tf3dm.com/3d-model/football-ball--64059.html
 Copyright tredectstudios
-commercial use license (free to use in educational setting)
+Licensed under Commercial Use license (free to use in educational setting)
 
 black hole: rebuildtheuniverse.com/images/pres2.png
 copyright Rebuild The Universe
-free to use in educational setting https://scratch.mit.edu/projects/29149172/
+free to use in educational setting
 
 Baboon image: https://www.geeksaresexy.net/2012/04/17/baboon-word-skills-cause-linguistics-rethink/
 copyright bigstockphoto
